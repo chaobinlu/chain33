@@ -126,7 +126,7 @@ make pullpush name=libangzhu b=chain33-p2p-listenPort
 ```
 
 
-## License
+### License
 
 ```
 BSD 2-Clause License
