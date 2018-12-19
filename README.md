@@ -97,6 +97,9 @@ Then coding peers can access your updated code with `pull request`
 git clone https://github.com/vipwzw/chain33.git $GOPATH/src/github.com/33cn/chain33
 ```
 Notice: Here you will need to clone to `$GOPATH/src/github.com/33cn/chain33` ,or Go-lang package can't find the path.
+```
+make addupstream
+```
 
 #### Development
 * you need to name the branch for yourself
