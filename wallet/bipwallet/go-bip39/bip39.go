@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package bip39 A golang implementation of the BIP0039 spec for mnemonic seeds
+>>>>>>> upstream/master
 package bip39
 
 import (
@@ -25,6 +29,10 @@ var (
 	BigTwo                  = big.NewInt(2)
 )
 
+<<<<<<< HEAD
+=======
+// NewEntropy 新建
+>>>>>>> upstream/master
 func NewEntropy(bitSize int) ([]byte, error) {
 	err := validateEntropyBitSize(bitSize)
 	if err != nil {
@@ -36,7 +44,11 @@ func NewEntropy(bitSize int) ([]byte, error) {
 	return entropy, err
 }
 
+<<<<<<< HEAD
 //lang=0 english word lang=1 chinese word
+=======
+// NewMnemonic lang=0 english word lang=1 chinese word
+>>>>>>> upstream/master
 func NewMnemonic(entropy []byte, lang int32) (string, error) {
 	// Compute some lengths for convenience
 	entropyBitLength := len(entropy) * 8
@@ -75,9 +87,15 @@ func NewMnemonic(entropy []byte, lang int32) (string, error) {
 
 		// Convert bytes to an index and add that word to the list
 		if lang == 0 {
+<<<<<<< HEAD
 			words[i] = WordList[binary.BigEndian.Uint16(wordBytes)]
 		} else {
 			words[i] = WordListCHN[binary.BigEndian.Uint16(wordBytes)]
+=======
+			words[i] = wordList[binary.BigEndian.Uint16(wordBytes)]
+		} else {
+			words[i] = wordListCHN[binary.BigEndian.Uint16(wordBytes)]
+>>>>>>> upstream/master
 		}
 
 	}
@@ -85,6 +103,10 @@ func NewMnemonic(entropy []byte, lang int32) (string, error) {
 	return strings.Join(words, " "), nil
 }
 
+<<<<<<< HEAD
+=======
+// MnemonicToByteArray 转换
+>>>>>>> upstream/master
 func MnemonicToByteArray(mnemonic string) ([]byte, error) {
 	//	if IsMnemonicValid(mnemonic) == false {
 	//		return nil, fmt.Errorf("Invalid mnemonic")
@@ -92,7 +114,11 @@ func MnemonicToByteArray(mnemonic string) ([]byte, error) {
 	mnemonicSlice := strings.Split(mnemonic, " ")
 	//lang=0 english word lang=1 chinese word
 	var lang int32
+<<<<<<< HEAD
 	if _, found := ReverseWordMap[mnemonicSlice[0]]; !found {
+=======
+	if _, found := reverseWordMap[mnemonicSlice[0]]; !found {
+>>>>>>> upstream/master
 		lang = 1
 	}
 
@@ -109,12 +135,20 @@ func MnemonicToByteArray(mnemonic string) ([]byte, error) {
 		var index int
 		var found bool
 		if lang == 0 {
+<<<<<<< HEAD
 			index, found = ReverseWordMap[v]
+=======
+			index, found = reverseWordMap[v]
+>>>>>>> upstream/master
 			if !found {
 				return nil, fmt.Errorf("Word `%v` not found in reverse map", v)
 			}
 		} else {
+<<<<<<< HEAD
 			index, found = ReverseWordMapCHN[v]
+=======
+			index, found = reverseWordMapCHN[v]
+>>>>>>> upstream/master
 			if !found {
 				return nil, fmt.Errorf("Word `%v` not found in reverse map", v)
 			}
@@ -169,6 +203,10 @@ func padHexToSize(hex []byte, size int) []byte {
 	return hex
 }
 
+<<<<<<< HEAD
+=======
+// NewSeedWithErrorChecking 带有错误检查的创建Seed
+>>>>>>> upstream/master
 func NewSeedWithErrorChecking(mnemonic string, password string) ([]byte, error) {
 	_, err := MnemonicToByteArray(mnemonic)
 	if err != nil {
@@ -177,6 +215,10 @@ func NewSeedWithErrorChecking(mnemonic string, password string) ([]byte, error) 
 	return NewSeed(mnemonic, password), nil
 }
 
+<<<<<<< HEAD
+=======
+// NewSeed 新建Seed
+>>>>>>> upstream/master
 func NewSeed(mnemonic string, password string) []byte {
 	return pbkdf2.Key([]byte(mnemonic), []byte("mnemonic"+password), 2048, 64, sha512.New)
 }
@@ -229,6 +271,10 @@ func validateEntropyWithChecksumBitSize(bitSize int) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// IsMnemonicValid 检测有效性
+>>>>>>> upstream/master
 func IsMnemonicValid(mnemonic string) bool {
 	// Create a list of all the words in the mnemonic sentence
 	words := strings.Fields(mnemonic)
@@ -243,7 +289,11 @@ func IsMnemonicValid(mnemonic string) bool {
 
 	// Check if all words belong in the wordlist
 	for i := 0; i < numOfWords; i++ {
+<<<<<<< HEAD
 		if !contains(WordList, words[i]) {
+=======
+		if !contains(wordList, words[i]) {
+>>>>>>> upstream/master
 			return false
 		}
 	}

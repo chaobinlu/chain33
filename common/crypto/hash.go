@@ -11,18 +11,30 @@ import (
 	"golang.org/x/crypto/ripemd160"
 )
 
+<<<<<<< HEAD
+=======
+//Sha256 加密算法
+>>>>>>> upstream/master
 func Sha256(bytes []byte) []byte {
 	hasher := sha256.New()
 	hasher.Write(bytes)
 	return hasher.Sum(nil)
 }
 
+<<<<<<< HEAD
+=======
+//Ripemd160 加密算法
+>>>>>>> upstream/master
 func Ripemd160(bytes []byte) []byte {
 	hasher := ripemd160.New()
 	hasher.Write(bytes)
 	return hasher.Sum(nil)
 }
 
+<<<<<<< HEAD
+=======
+//Sm3Hash 加密算法
+>>>>>>> upstream/master
 func Sm3Hash(msg []byte) []byte {
 	c := sm3.New()
 	c.Write(msg)

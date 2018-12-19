@@ -4,6 +4,10 @@
 
 package p2p
 
+<<<<<<< HEAD
+=======
+// VERSION number
+>>>>>>> upstream/master
 var VERSION int32 = 119
 
 //更新内容：

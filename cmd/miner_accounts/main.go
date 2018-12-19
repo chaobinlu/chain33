@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package main 挖矿监控
+>>>>>>> upstream/master
 package main
 
 import (
@@ -16,9 +20,15 @@ import (
 	"path/filepath"
 	"strings"
 
+<<<<<<< HEAD
 	tml "github.com/BurntSushi/toml"
 	"github.com/rs/cors"
 	l "github.com/33cn/chain33/common/log/log15"
+=======
+	l "github.com/33cn/chain33/common/log/log15"
+	tml "github.com/BurntSushi/toml"
+	"github.com/rs/cors"
+>>>>>>> upstream/master
 
 	"github.com/33cn/chain33/cmd/miner_accounts/accounts"
 )
@@ -28,6 +38,10 @@ var (
 	configPath = flag.String("f", "miner_accounts.toml", "configfile")
 )
 
+<<<<<<< HEAD
+=======
+//HTTPConn http连接
+>>>>>>> upstream/master
 type HTTPConn struct {
 	in  io.Reader
 	out io.Writer
@@ -35,7 +49,13 @@ type HTTPConn struct {
 
 func (c *HTTPConn) Read(p []byte) (n int, err error)  { return c.in.Read(p) }
 func (c *HTTPConn) Write(d []byte) (n int, err error) { return c.out.Write(d) }
+<<<<<<< HEAD
 func (c *HTTPConn) Close() error                      { return nil }
+=======
+
+//Close 关闭连接
+func (c *HTTPConn) Close() error { return nil }
+>>>>>>> upstream/master
 
 func main() {
 	d, _ := os.Getwd()
@@ -95,6 +115,10 @@ func main() {
 
 }
 
+<<<<<<< HEAD
+=======
+//InitCfg 初始化cfg
+>>>>>>> upstream/master
 func InitCfg(path string) *accounts.Config {
 	var cfg accounts.Config
 	if _, err := tml.DecodeFile(path, &cfg); err != nil {
@@ -105,6 +129,10 @@ func InitCfg(path string) *accounts.Config {
 	return &cfg
 }
 
+<<<<<<< HEAD
+=======
+//InitWhiteList 初始化白名单
+>>>>>>> upstream/master
 func InitWhiteList(cfg *accounts.Config) map[string]bool {
 	whitelist := map[string]bool{}
 	if len(cfg.Whitelist) == 1 && cfg.Whitelist[0] == "*" {

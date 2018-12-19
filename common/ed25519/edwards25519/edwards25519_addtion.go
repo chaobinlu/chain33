@@ -2,8 +2,13 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
 /**
 将edwards25519中的差异代码移动到本处进行差异化管理
+=======
+/*
+Package edwards25519 将edwards25519中的差异代码移动到本处进行差异化管理
+>>>>>>> upstream/master
 */
 package edwards25519
 
@@ -26,8 +31,15 @@ var (
 	feFFFB4 = FieldElement{-21786234, -12173074, 21573800, 4524538, -4645904, 16204591, 8012863, -8444712, 3212926, 6885324}
 )
 
+<<<<<<< HEAD
 type DsmPreCompGroupElement [8]CachedGroupElement
 
+=======
+//DsmPreCompGroupElement ...
+type DsmPreCompGroupElement [8]CachedGroupElement
+
+//FromCompletedGroupElement ...
+>>>>>>> upstream/master
 func (e *ExtendedGroupElement) FromCompletedGroupElement(p *CompletedGroupElement) {
 	FeMul(&e.X, &p.X, &p.T)
 	FeMul(&e.Y, &p.Y, &p.Z)
@@ -35,6 +47,10 @@ func (e *ExtendedGroupElement) FromCompletedGroupElement(p *CompletedGroupElemen
 	FeMul(&e.T, &p.X, &p.Y)
 }
 
+<<<<<<< HEAD
+=======
+//Zero 0
+>>>>>>> upstream/master
 func (c *CachedGroupElement) Zero() {
 	FeOne(&c.yPlusX)
 	FeOne(&c.yMinusX)
@@ -42,6 +58,10 @@ func (c *CachedGroupElement) Zero() {
 	FeZero(&c.T2d)
 }
 
+<<<<<<< HEAD
+=======
+//FeToBytesV1 ...
+>>>>>>> upstream/master
 func FeToBytesV1(s *[32]byte, h *FieldElement) {
 	var q int32
 	h0 := h[0]
@@ -133,12 +153,20 @@ func FeToBytesV1(s *[32]byte, h *FieldElement) {
 	s[31] = byte(h9 >> 18)
 }
 
+<<<<<<< HEAD
+=======
+//FeIsNegativeV1 是否为负
+>>>>>>> upstream/master
 func FeIsNegativeV1(f *FieldElement) byte {
 	var s [32]byte
 	FeToBytesV1(&s, f)
 	return s[0] & 1
 }
 
+<<<<<<< HEAD
+=======
+//FeIsNonZeroV1 是否非0
+>>>>>>> upstream/master
 func FeIsNonZeroV1(f *FieldElement) int32 {
 	var s [32]byte
 	FeToBytesV1(&s, f)
@@ -152,6 +180,10 @@ func FeIsNonZeroV1(f *FieldElement) int32 {
 	return int32(x & 1)
 }
 
+<<<<<<< HEAD
+=======
+//GeDoubleScalarmultPrecompVartime ...
+>>>>>>> upstream/master
 func GeDoubleScalarmultPrecompVartime(r *ProjectiveGroupElement, a *[32]byte, A *ExtendedGroupElement, b *[32]byte, Bi *DsmPreCompGroupElement) {
 	var aslide, bslide [256]int8
 	var Ai DsmPreCompGroupElement // A,3A,5A,7A,9A,11A,13A,15A
@@ -207,15 +239,25 @@ func checkFieldElement(x, y, w *FieldElement, r *ProjectiveGroupElement) int {
 		FeAdd(y, w, x)
 		if FeIsNonZeroV1(y) != 0 {
 			return 1
+<<<<<<< HEAD
 		} else {
 			FeMul(&r.X, &r.X, &feFFFB1)
 		}
+=======
+		}
+		FeMul(&r.X, &r.X, &feFFFB1)
+
+>>>>>>> upstream/master
 	} else {
 		FeMul(&r.X, &r.X, &feFFFB2)
 	}
 	return 0
 }
 
+<<<<<<< HEAD
+=======
+//FeDivPowm1 ...
+>>>>>>> upstream/master
 func FeDivPowm1(r, u, v *FieldElement) {
 	var v3, uv7, t0, t1, t2 FieldElement
 	var i int
@@ -327,6 +369,10 @@ func geFromfeFrombytesVartime(r *ProjectiveGroupElement, s *[32]byte) {
 	FeMul(&r.X, &r.X, &r.Z)
 }
 
+<<<<<<< HEAD
+=======
+//HashToEc ...
+>>>>>>> upstream/master
 func HashToEc(key []byte, res *ExtendedGroupElement) {
 	var point ProjectiveGroupElement
 	var point2 CompletedGroupElement
@@ -336,6 +382,10 @@ func HashToEc(key []byte, res *ExtendedGroupElement) {
 	point2.ToExtended(res)
 }
 
+<<<<<<< HEAD
+=======
+//CachedGroupElementCMove ...
+>>>>>>> upstream/master
 func CachedGroupElementCMove(t, u *CachedGroupElement, b int32) {
 	FeCMove(&t.yPlusX, &u.yPlusX, b)
 	FeCMove(&t.yMinusX, &u.yMinusX, b)
@@ -349,7 +399,11 @@ func negative8(b int8) byte {
 	return byte(x)
 }
 
+<<<<<<< HEAD
 // Preconditions:
+=======
+//GeScalarMult Preconditions:
+>>>>>>> upstream/master
 //   a[31] <= 127
 func GeScalarMult(r *ProjectiveGroupElement, a *[32]byte, A *ExtendedGroupElement) {
 	var e [64]int8
@@ -406,6 +460,10 @@ func GeScalarMult(r *ProjectiveGroupElement, a *[32]byte, A *ExtendedGroupElemen
 	}
 }
 
+<<<<<<< HEAD
+=======
+//ScIsNonZero ...
+>>>>>>> upstream/master
 func ScIsNonZero(s *[32]byte) int32 {
 	var x uint8
 	for _, b := range s {
@@ -417,6 +475,10 @@ func ScIsNonZero(s *[32]byte) int32 {
 	return int32(x & 1)
 }
 
+<<<<<<< HEAD
+=======
+//GeFromBytesVartime ...
+>>>>>>> upstream/master
 func GeFromBytesVartime(p *ExtendedGroupElement, s *[32]byte) bool {
 	var u, v, vxx, check FieldElement
 
@@ -508,6 +570,10 @@ func GeFromBytesVartime(p *ExtendedGroupElement, s *[32]byte) bool {
 	return true
 }
 
+<<<<<<< HEAD
+=======
+//GeDsmPrecomp ...
+>>>>>>> upstream/master
 func GeDsmPrecomp(r *DsmPreCompGroupElement, s *ExtendedGroupElement) {
 	var t CompletedGroupElement
 	var s2, u ExtendedGroupElement

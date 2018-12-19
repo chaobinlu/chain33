@@ -6,12 +6,22 @@ package types
 
 import (
 	"encoding/json"
+<<<<<<< HEAD
 	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/33cn/chain33/common"
 	"github.com/33cn/chain33/types/jsonpb"
+=======
+	"fmt"
+	"reflect"
+	"testing"
+
+	"github.com/33cn/chain33/common"
+	"github.com/33cn/chain33/types/jsonpb"
+	"github.com/stretchr/testify/assert"
+>>>>>>> upstream/master
 )
 
 func TestAllowExecName(t *testing.T) {
@@ -45,6 +55,15 @@ func TestAllowExecName(t *testing.T) {
 
 	isok = IsAllowExecName([]byte("coins"), []byte("user.p.guodun.user.coins"))
 	assert.Equal(t, isok, true)
+<<<<<<< HEAD
+=======
+
+	isok = IsAllowExecName([]byte("#coins"), []byte("user.p.guodun.user.coins"))
+	assert.Equal(t, isok, false)
+
+	isok = IsAllowExecName([]byte("coins-"), []byte("user.p.guodun.user.coins"))
+	assert.Equal(t, isok, false)
+>>>>>>> upstream/master
 }
 
 func BenchmarkExecName(b *testing.B) {
@@ -176,3 +195,200 @@ func TestGetRealExecName(t *testing.T) {
 		assert.Equal(t, string(GetRealExecName([]byte(v.key))), v.realkey)
 	}
 }
+<<<<<<< HEAD
+=======
+
+func genPrefixEdge(prefix []byte) (r []byte) {
+	for j := 0; j < len(prefix); j++ {
+		r = append(r, prefix[j])
+	}
+
+	i := len(prefix) - 1
+	for i >= 0 {
+		if r[i] < 0xff {
+			r[i]++
+			break
+		} else {
+			i--
+		}
+	}
+
+	return r
+}
+
+func (t *StoreListReply) IterateCallBack(key, value []byte) bool {
+	if t.Mode == 1 { //[start, end)
+		if t.Num >= t.Count {
+			t.NextKey = key
+			return true
+		}
+		t.Num++
+		t.Keys = append(t.Keys, cloneByte(key))
+		t.Values = append(t.Values, cloneByte(value))
+		return false
+	} else if t.Mode == 2 { //prefix + suffix
+		if len(key) > len(t.Suffix) {
+			if string(key[len(key)-len(t.Suffix):]) == string(t.Suffix) {
+				t.Num++
+				t.Keys = append(t.Keys, cloneByte(key))
+				t.Values = append(t.Values, cloneByte(value))
+				if t.Num >= t.Count {
+					t.NextKey = key
+					return true
+				}
+			}
+			return false
+		}
+		return false
+	} else {
+		fmt.Println("StoreListReply.IterateCallBack unsupported mode", "mode", t.Mode)
+		return true
+	}
+}
+
+func cloneByte(v []byte) []byte {
+	value := make([]byte, len(v))
+	copy(value, v)
+	return value
+}
+
+func TestIterateCallBack_PrefixWithoutExecAddr(t *testing.T) {
+	key := "mavl-coins-bty-exec-16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:1JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+	//prefix1 := "mavl-coins-bty-exec-16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:"
+	prefix2 := "mavl-coins-bty-exec-"
+	//execAddr := "16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp"
+	addr := "1JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+
+	var reply = &StoreListReply{
+		Start:  []byte(prefix2),
+		End:    genPrefixEdge([]byte(prefix2)),
+		Suffix: []byte(addr),
+		Mode:   int64(2),
+		Count:  int64(100),
+	}
+
+	var acc = &Account{
+		Currency: 0,
+		Balance:  1,
+		Frozen:   1,
+		Addr:     addr,
+	}
+
+	value := Encode(acc)
+
+	fmt.Println("TestIterateCallBack_PrefixWithoutExecAddr--test case 1---")
+	bRet := reply.IterateCallBack([]byte(key), value)
+	assert.Equal(t, false, bRet)
+	assert.Equal(t, 1, len(reply.Keys))
+	assert.Equal(t, 1, len(reply.Values))
+	assert.Equal(t, int64(1), reply.Num)
+	assert.Equal(t, 0, len(reply.NextKey))
+
+	fmt.Println("TestIterateCallBack_PrefixWithoutExecAddr--test case 2---")
+	bRet = reply.IterateCallBack([]byte(key), value)
+	assert.Equal(t, false, bRet)
+	assert.Equal(t, 2, len(reply.Keys))
+	assert.Equal(t, 2, len(reply.Values))
+	assert.Equal(t, int64(2), reply.Num)
+	assert.Equal(t, 0, len(reply.NextKey))
+
+	fmt.Println("TestIterateCallBack_PrefixWithoutExecAddr--test case 3---")
+	key2 := "mavl-coins-bty-exec-16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:2JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+	bRet = reply.IterateCallBack([]byte(key2), value)
+	assert.Equal(t, false, bRet)
+	assert.Equal(t, 2, len(reply.Keys))
+	assert.Equal(t, 2, len(reply.Values))
+	assert.Equal(t, int64(2), reply.Num)
+	assert.Equal(t, 0, len(reply.NextKey))
+
+	fmt.Println("TestIterateCallBack_PrefixWithoutExecAddr--test case 4---")
+	key3 := "mavl-coins-bty-exec-26htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:1JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+	bRet = reply.IterateCallBack([]byte(key3), value)
+	assert.Equal(t, false, bRet)
+	assert.Equal(t, 3, len(reply.Keys))
+	assert.Equal(t, 3, len(reply.Values))
+	assert.Equal(t, int64(3), reply.Num)
+	assert.Equal(t, 0, len(reply.NextKey))
+
+	fmt.Println("TestIterateCallBack_PrefixWithoutExecAddr--test case 5---")
+	reply.Count = int64(4)
+
+	bRet = reply.IterateCallBack([]byte(key3), value)
+	assert.Equal(t, true, bRet)
+	assert.Equal(t, 4, len(reply.Keys))
+	assert.Equal(t, 4, len(reply.Values))
+	assert.Equal(t, int64(4), reply.Num)
+	assert.Equal(t, string(key3), string(reply.NextKey))
+	fmt.Println(string(reply.NextKey))
+}
+
+func TestIterateCallBack_PrefixWithExecAddr(t *testing.T) {
+	key := "mavl-coins-bty-exec-16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:1JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+	prefix1 := "mavl-coins-bty-exec-16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:"
+	//execAddr := "16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp"
+	addr := "1JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+
+	var reply = &StoreListReply{
+		Start:  []byte(prefix1),
+		End:    genPrefixEdge([]byte(prefix1)),
+		Suffix: []byte(addr),
+		Mode:   int64(2),
+		Count:  int64(1),
+	}
+
+	var acc = &Account{
+		Currency: 0,
+		Balance:  1,
+		Frozen:   1,
+		Addr:     addr,
+	}
+
+	value := Encode(acc)
+
+	fmt.Println("TestIterateCallBack_PrefixWithExecAddr--test case 1---")
+	key2 := "mavl-coins-bty-exec-16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:2JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+	bRet := reply.IterateCallBack([]byte(key2), value)
+	assert.Equal(t, false, bRet)
+	assert.Equal(t, 0, len(reply.Keys))
+	assert.Equal(t, 0, len(reply.Values))
+	assert.Equal(t, int64(0), reply.Num)
+	assert.Equal(t, 0, len(reply.NextKey))
+
+	fmt.Println("TestIterateCallBack_PrefixWithExecAddr--test case 2---")
+	bRet = reply.IterateCallBack([]byte(key), value)
+	assert.Equal(t, true, bRet)
+	assert.Equal(t, 1, len(reply.Keys))
+	assert.Equal(t, 1, len(reply.Values))
+	assert.Equal(t, int64(1), reply.Num)
+	assert.Equal(t, len(key), len(reply.NextKey))
+
+	fmt.Println("TestIterateCallBack_PrefixWithExecAddr--test case 3---")
+	//key2 := "mavl-coins-bty-exec-16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:2JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+	reply.NextKey = nil
+	reply.Count = int64(2)
+	bRet = reply.IterateCallBack([]byte(key2), value)
+	assert.Equal(t, false, bRet)
+	assert.Equal(t, 1, len(reply.Keys))
+	assert.Equal(t, 1, len(reply.Values))
+	assert.Equal(t, int64(1), reply.Num)
+	assert.Equal(t, 0, len(reply.NextKey))
+
+	fmt.Println("TestIterateCallBack_PrefixWithExecAddr--test case 4---")
+	reply.NextKey = nil
+	key3 := "mavl-coins-bty-exec-26htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp:1JmFaA6unrCFYEWPGRi7uuXY1KthTJxJEP"
+	bRet = reply.IterateCallBack([]byte(key3), value)
+	assert.Equal(t, true, bRet)
+	assert.Equal(t, 2, len(reply.Keys))
+	assert.Equal(t, 2, len(reply.Values))
+	assert.Equal(t, int64(2), reply.Num)
+	assert.Equal(t, len(key3), len(reply.NextKey))
+
+	fmt.Println("TestIterateCallBack_PrefixWithExecAddr--test case 5---")
+	bRet = reply.IterateCallBack([]byte(key), value)
+	assert.Equal(t, true, bRet)
+	assert.Equal(t, 3, len(reply.Keys))
+	assert.Equal(t, 3, len(reply.Values))
+	assert.Equal(t, int64(3), reply.Num)
+	assert.Equal(t, len(key), len(reply.NextKey))
+}
+>>>>>>> upstream/master

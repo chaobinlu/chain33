@@ -5,10 +5,18 @@
 package account
 
 import (
+<<<<<<< HEAD
 	"github.com/golang/protobuf/proto"
 	"github.com/33cn/chain33/types"
 )
 
+=======
+	"github.com/33cn/chain33/types"
+	"github.com/golang/protobuf/proto"
+)
+
+// GenesisInit 生成创世地址账户收据
+>>>>>>> upstream/master
 func (acc *DB) GenesisInit(addr string, amount int64) (*types.Receipt, error) {
 	accTo := acc.LoadAccount(addr)
 	copyto := *accTo
@@ -22,6 +30,10 @@ func (acc *DB) GenesisInit(addr string, amount int64) (*types.Receipt, error) {
 	return receipt, nil
 }
 
+<<<<<<< HEAD
+=======
+// GenesisInitExec 生成创世地址执行器账户收据
+>>>>>>> upstream/master
 func (acc *DB) GenesisInitExec(addr string, amount int64, execaddr string) (*types.Receipt, error) {
 	accTo := acc.LoadAccount(execaddr)
 	copyto := *accTo

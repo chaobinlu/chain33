@@ -7,8 +7,13 @@ package account
 import (
 	"testing"
 	//"fmt"
+<<<<<<< HEAD
 	"github.com/stretchr/testify/require"
 	"github.com/33cn/chain33/common/address"
+=======
+	"github.com/33cn/chain33/common/address"
+	"github.com/stretchr/testify/require"
+>>>>>>> upstream/master
 )
 
 func TestGenesisInit(t *testing.T) {

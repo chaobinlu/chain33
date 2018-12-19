@@ -10,8 +10,14 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
 func (acc *DB) LoadExecAccount(addr, execaddr string) *types.Account {
 	value, err := acc.db.Get(acc.ExecAccountKey(addr, execaddr))
+=======
+// LoadExecAccount Load exec account from address and exec
+func (acc *DB) LoadExecAccount(addr, execaddr string) *types.Account {
+	value, err := acc.db.Get(acc.execAccountKey(addr, execaddr))
+>>>>>>> upstream/master
 	if err != nil {
 		return &types.Account{Addr: addr}
 	}
@@ -23,6 +29,10 @@ func (acc *DB) LoadExecAccount(addr, execaddr string) *types.Account {
 	return &acc1
 }
 
+<<<<<<< HEAD
+=======
+// LoadExecAccountQueue load exec account from statedb
+>>>>>>> upstream/master
 func (acc *DB) LoadExecAccountQueue(api client.QueueProtocolAPI, addr, execaddr string) (*types.Account, error) {
 	header, err := api.GetLastHeader()
 	if err != nil {
@@ -31,6 +41,10 @@ func (acc *DB) LoadExecAccountQueue(api client.QueueProtocolAPI, addr, execaddr 
 	return acc.LoadExecAccountHistoryQueue(api, addr, execaddr, header.GetStateHash())
 }
 
+<<<<<<< HEAD
+=======
+// SaveExecAccount save exec account data to db
+>>>>>>> upstream/master
 func (acc *DB) SaveExecAccount(execaddr string, acc1 *types.Account) {
 	set := acc.GetExecKVSet(execaddr, acc1)
 	for i := 0; i < len(set); i++ {
@@ -38,16 +52,28 @@ func (acc *DB) SaveExecAccount(execaddr string, acc1 *types.Account) {
 	}
 }
 
+<<<<<<< HEAD
 func (acc *DB) GetExecKVSet(execaddr string, acc1 *types.Account) (kvset []*types.KeyValue) {
 	value := types.Encode(acc1)
 	kvset = append(kvset, &types.KeyValue{
 		Key:   acc.ExecAccountKey(acc1.Addr, execaddr),
+=======
+// GetExecKVSet 将执行账户数据转为数据库存储kv
+func (acc *DB) GetExecKVSet(execaddr string, acc1 *types.Account) (kvset []*types.KeyValue) {
+	value := types.Encode(acc1)
+	kvset = append(kvset, &types.KeyValue{
+		Key:   acc.execAccountKey(acc1.Addr, execaddr),
+>>>>>>> upstream/master
 		Value: value,
 	})
 	return kvset
 }
 
+<<<<<<< HEAD
 func (acc *DB) ExecAccountKey(address, execaddr string) (key []byte) {
+=======
+func (acc *DB) execAccountKey(address, execaddr string) (key []byte) {
+>>>>>>> upstream/master
 	key = append(key, acc.execAccountKeyPerfix...)
 	key = append(key, []byte(execaddr)...)
 	key = append(key, []byte(":")...)
@@ -55,6 +81,10 @@ func (acc *DB) ExecAccountKey(address, execaddr string) (key []byte) {
 	return key
 }
 
+<<<<<<< HEAD
+=======
+// TransferToExec transfer coins from address to exec address
+>>>>>>> upstream/master
 func (acc *DB) TransferToExec(from, to string, amount int64) (*types.Receipt, error) {
 	receipt, err := acc.Transfer(from, to, amount)
 	if err != nil {
@@ -68,6 +98,10 @@ func (acc *DB) TransferToExec(from, to string, amount int64) (*types.Receipt, er
 	return acc.mergeReceipt(receipt, receipt2), nil
 }
 
+<<<<<<< HEAD
+=======
+// TransferWithdraw 撤回转帐
+>>>>>>> upstream/master
 func (acc *DB) TransferWithdraw(from, to string, amount int64) (*types.Receipt, error) {
 	//先判断可以取款
 	if err := acc.CheckTransfer(to, from, amount); err != nil {
@@ -85,7 +119,11 @@ func (acc *DB) TransferWithdraw(from, to string, amount int64) (*types.Receipt, 
 	return acc.mergeReceipt(receipt, receipt2), nil
 }
 
+<<<<<<< HEAD
 //四个操作中 Deposit 自动完成，不需要模块外的函数来调用
+=======
+//ExecFrozen 执行冻结资金，四个操作中 Deposit 自动完成，不需要模块外的函数来调用
+>>>>>>> upstream/master
 func (acc *DB) ExecFrozen(addr, execaddr string, amount int64) (*types.Receipt, error) {
 	if addr == execaddr {
 		return nil, types.ErrSendSameToRecv
@@ -111,6 +149,10 @@ func (acc *DB) ExecFrozen(addr, execaddr string, amount int64) (*types.Receipt, 
 	return acc.execReceipt(ty, acc1, receiptBalance), nil
 }
 
+<<<<<<< HEAD
+=======
+// ExecActive 执行激活资金
+>>>>>>> upstream/master
 func (acc *DB) ExecActive(addr, execaddr string, amount int64) (*types.Receipt, error) {
 	if addr == execaddr {
 		return nil, types.ErrSendSameToRecv
@@ -135,6 +177,10 @@ func (acc *DB) ExecActive(addr, execaddr string, amount int64) (*types.Receipt, 
 	return acc.execReceipt(ty, acc1, receiptBalance), nil
 }
 
+<<<<<<< HEAD
+=======
+// ExecTransfer 执行转帐
+>>>>>>> upstream/master
 func (acc *DB) ExecTransfer(from, to, execaddr string, amount int64) (*types.Receipt, error) {
 	if from == to {
 		return nil, types.ErrSendSameToRecv
@@ -170,7 +216,11 @@ func (acc *DB) ExecTransfer(from, to, execaddr string, amount int64) (*types.Rec
 	return acc.execReceipt2(accFrom, accTo, receiptBalanceFrom, receiptBalanceTo), nil
 }
 
+<<<<<<< HEAD
 //从自己冻结的钱里面扣除，转移到别人的活动钱包里面去
+=======
+// ExecTransferFrozen 从自己冻结的钱里面扣除，转移到别人的活动钱包里面去
+>>>>>>> upstream/master
 func (acc *DB) ExecTransferFrozen(from, to, execaddr string, amount int64) (*types.Receipt, error) {
 	if from == to {
 		return nil, types.ErrSendSameToRecv
@@ -206,10 +256,18 @@ func (acc *DB) ExecTransferFrozen(from, to, execaddr string, amount int64) (*typ
 	return acc.execReceipt2(accFrom, accTo, receiptBalanceFrom, receiptBalanceTo), nil
 }
 
+<<<<<<< HEAD
+=======
+// ExecAddress 根据执行器名称获取执行器地址
+>>>>>>> upstream/master
 func (acc *DB) ExecAddress(name string) string {
 	return address.ExecAddress(name)
 }
 
+<<<<<<< HEAD
+=======
+// ExecDepositFrozen 执行
+>>>>>>> upstream/master
 func (acc *DB) ExecDepositFrozen(addr, execaddr string, amount int64) (*types.Receipt, error) {
 	if addr == execaddr {
 		return nil, types.ErrSendSameToRecv
@@ -257,6 +315,10 @@ func (acc *DB) execDepositFrozen(addr, execaddr string, amount int64) (*types.Re
 	return acc.execReceipt(ty, acc1, receiptBalance), nil
 }
 
+<<<<<<< HEAD
+=======
+// ExecDeposit  在当前addr的execaddr地址中存款
+>>>>>>> upstream/master
 func (acc *DB) ExecDeposit(addr, execaddr string, amount int64) (*types.Receipt, error) {
 	if addr == execaddr {
 		return nil, types.ErrSendSameToRecv
@@ -278,6 +340,10 @@ func (acc *DB) ExecDeposit(addr, execaddr string, amount int64) (*types.Receipt,
 	return acc.execReceipt(ty, acc1, receiptBalance), nil
 }
 
+<<<<<<< HEAD
+=======
+// ExecWithdraw 执行撤回转帐
+>>>>>>> upstream/master
 func (acc *DB) ExecWithdraw(execaddr, addr string, amount int64) (*types.Receipt, error) {
 	if addr == execaddr {
 		return nil, types.ErrSendSameToRecv
@@ -339,9 +405,16 @@ func (acc *DB) mergeReceipt(receipt, receipt2 *types.Receipt) *types.Receipt {
 	return receipt
 }
 
+<<<<<<< HEAD
 func (acc *DB) LoadExecAccountHistoryQueue(api client.QueueProtocolAPI, addr, execaddr string, stateHash []byte) (*types.Account, error) {
 	get := types.StoreGet{StateHash: stateHash}
 	get.Keys = append(get.Keys, acc.ExecAccountKey(addr, execaddr))
+=======
+// LoadExecAccountHistoryQueue  载入当前statehash,载入执行账户数据
+func (acc *DB) LoadExecAccountHistoryQueue(api client.QueueProtocolAPI, addr, execaddr string, stateHash []byte) (*types.Account, error) {
+	get := types.StoreGet{StateHash: stateHash}
+	get.Keys = append(get.Keys, acc.execAccountKey(addr, execaddr))
+>>>>>>> upstream/master
 	values, err := api.StoreGet(&get)
 	if err != nil {
 		return nil, err

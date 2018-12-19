@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package executor 实现执行器模块基类功能
+>>>>>>> upstream/master
 package executor
 
 //store package store the world - state data
@@ -24,20 +28,32 @@ import (
 var elog = log.New("module", "execs")
 var coinsAccount = account.NewCoinsAccount()
 
+<<<<<<< HEAD
 const (
 	FlagInit        = int64(0)
 	FlagFromZero    = int64(1)
 	FlagNotFromZero = int64(2)
 )
 
+=======
+// SetLogLevel set log level
+>>>>>>> upstream/master
 func SetLogLevel(level string) {
 	clog.SetLogLevel(level)
 }
 
+<<<<<<< HEAD
+=======
+// DisableLog disable log
+>>>>>>> upstream/master
 func DisableLog() {
 	elog.SetHandler(log.DiscardHandler())
 }
 
+<<<<<<< HEAD
+=======
+// Executor executor struct
+>>>>>>> upstream/master
 type Executor struct {
 	client       queue.Client
 	qclient      client.QueueProtocolAPI
@@ -51,6 +67,10 @@ func execInit(sub map[string][]byte) {
 
 var runonce sync.Once
 
+<<<<<<< HEAD
+=======
+// New new executor
+>>>>>>> upstream/master
 func New(cfg *types.Exec, sub map[string][]byte) *Executor {
 	// init executor
 	runonce.Do(func() {
@@ -90,6 +110,13 @@ func New(cfg *types.Exec, sub map[string][]byte) *Executor {
 	return exec
 }
 
+<<<<<<< HEAD
+=======
+//Wait Executor ready
+func (exec *Executor) Wait() {}
+
+// SetQueueClient set client queue, for recv msg
+>>>>>>> upstream/master
 func (exec *Executor) SetQueueClient(qcli queue.Client) {
 	exec.client = qcli
 	exec.client.Sub("execs")
@@ -139,6 +166,10 @@ func (exec *Executor) procExecQuery(msg queue.Message) {
 	db := NewStateDB(exec.client, data.StateHash, localdb, opt)
 	db.(*StateDB).enableMVCC()
 	driver.SetStateDB(db)
+<<<<<<< HEAD
+=======
+	driver.SetAPI(exec.qclient)
+>>>>>>> upstream/master
 
 	//查询的情况下下，执行器不做严格校验，allow，尽可能的加载执行器，并且做查询
 
@@ -222,7 +253,11 @@ func (exec *Executor) procExecTxList(msg queue.Message) {
 		index += int(tx.GroupCount)
 	}
 	msg.Reply(exec.client.NewMessage("", types.EventReceipts,
+<<<<<<< HEAD
 		&types.Receipts{receipts}))
+=======
+		&types.Receipts{Receipts: receipts}))
+>>>>>>> upstream/master
 }
 
 func (exec *Executor) procExecAddBlock(msg queue.Message) {
@@ -341,6 +376,10 @@ func (exec *Executor) checkPrefix(execer []byte, kvs []*types.KeyValue) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// Close close executor
+>>>>>>> upstream/master
 func (exec *Executor) Close() {
 	elog.Info("exec module closed")
 }

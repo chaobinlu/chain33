@@ -13,14 +13,23 @@ import (
 	"sync"
 	"time"
 
+<<<<<<< HEAD
 	tml "github.com/BurntSushi/toml"
 	"github.com/33cn/chain33/types/chaincfg"
+=======
+	"github.com/33cn/chain33/types/chaincfg"
+	tml "github.com/BurntSushi/toml"
+>>>>>>> upstream/master
 )
 
 //区块链共识相关的参数，重要参数不要随便修改
 var (
 	AllowUserExec = [][]byte{ExecerNone}
+<<<<<<< HEAD
 	//这里又限制了一次，因为挖矿的合约不会太多，所以这里配置死了，如果要扩展，需要改这里的代码
+=======
+	//AllowDepositExec 这里又限制了一次，因为挖矿的合约不会太多，所以这里配置死了，如果要扩展，需要改这里的代码
+>>>>>>> upstream/master
 	AllowDepositExec = [][]byte{[]byte("ticket")}
 	EmptyValue       = []byte("FFFFFFFFemptyBVBiCj5jvE15pEiwro8TQRGnJSNsJF") //这字符串表示数据库中的空值
 	title            string
@@ -57,6 +66,10 @@ func init() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// ChainParam 结构体
+>>>>>>> upstream/master
 type ChainParam struct {
 	CoinDevFund              int64
 	CoinReward               int64
@@ -72,6 +85,10 @@ type ChainParam struct {
 	RetargetAdjustmentFactor int64
 }
 
+<<<<<<< HEAD
+=======
+// GetP 获取ChainParam
+>>>>>>> upstream/master
 func GetP(height int64) *ChainParam {
 	conf := Conf("mver.consensus")
 	c := &ChainParam{}
@@ -90,6 +107,10 @@ func GetP(height int64) *ChainParam {
 	return c
 }
 
+<<<<<<< HEAD
+=======
+// GetFundAddr 获取基金账户地址
+>>>>>>> upstream/master
 func GetFundAddr() string {
 	return MGStr("mver.consensus.fundKeyAddr", 0)
 }
@@ -107,12 +128,20 @@ func getChainConfig(key string) (value interface{}, err error) {
 	return nil, ErrNotFound
 }
 
+<<<<<<< HEAD
+=======
+// G 获取ChainConfig中的配置
+>>>>>>> upstream/master
 func G(key string) (value interface{}, err error) {
 	mu.Lock()
 	defer mu.Unlock()
 	return getChainConfig(key)
 }
 
+<<<<<<< HEAD
+=======
+// MG 获取mver config中的配置
+>>>>>>> upstream/master
 func MG(key string, height int64) (value interface{}, err error) {
 	mu.Lock()
 	defer mu.Unlock()
@@ -124,6 +153,10 @@ func MG(key string, height int64) (value interface{}, err error) {
 	return mymver.Get(key, height)
 }
 
+<<<<<<< HEAD
+=======
+// GStr 获取ChainConfig中的字符串格式
+>>>>>>> upstream/master
 func GStr(name string) string {
 	value, err := G(name)
 	if err != nil {
@@ -135,6 +168,10 @@ func GStr(name string) string {
 	return ""
 }
 
+<<<<<<< HEAD
+=======
+// MGStr 获取mver config 中的字符串格式
+>>>>>>> upstream/master
 func MGStr(name string, height int64) string {
 	value, err := MG(name, height)
 	if err != nil {
@@ -161,6 +198,10 @@ func parseInt(value interface{}) int64 {
 	return 0
 }
 
+<<<<<<< HEAD
+=======
+// GInt 解析ChainConfig配置
+>>>>>>> upstream/master
 func GInt(name string) int64 {
 	value, err := G(name)
 	if err != nil {
@@ -169,6 +210,10 @@ func GInt(name string) int64 {
 	return parseInt(value)
 }
 
+<<<<<<< HEAD
+=======
+// MGInt 解析mver config 配置
+>>>>>>> upstream/master
 func MGInt(name string, height int64) int64 {
 	value, err := MG(name, height)
 	if err != nil {
@@ -177,6 +222,10 @@ func MGInt(name string, height int64) int64 {
 	return parseInt(value)
 }
 
+<<<<<<< HEAD
+=======
+// IsEnable 解析ChainConfig配置
+>>>>>>> upstream/master
 func IsEnable(name string) bool {
 	isenable, err := G(name)
 	if err == nil && isenable.(bool) {
@@ -185,6 +234,10 @@ func IsEnable(name string) bool {
 	return false
 }
 
+<<<<<<< HEAD
+=======
+// MIsEnable 解析mver config 配置
+>>>>>>> upstream/master
 func MIsEnable(name string, height int64) bool {
 	isenable, err := MG(name, height)
 	if err == nil && isenable.(bool) {
@@ -193,6 +246,10 @@ func MIsEnable(name string, height int64) bool {
 	return false
 }
 
+<<<<<<< HEAD
+=======
+// HasConf 解析chainConfig配置
+>>>>>>> upstream/master
 func HasConf(key string) bool {
 	mu.Lock()
 	defer mu.Unlock()
@@ -200,6 +257,10 @@ func HasConf(key string) bool {
 	return ok
 }
 
+<<<<<<< HEAD
+=======
+// S 设置chainConfig配置
+>>>>>>> upstream/master
 func S(key string, value interface{}) {
 	mu.Lock()
 	defer mu.Unlock()
@@ -212,6 +273,17 @@ func S(key string, value interface{}) {
 	setChainConfig(key, value)
 }
 
+<<<<<<< HEAD
+=======
+//SetTitleOnlyForTest set title only for test use
+func SetTitleOnlyForTest(ti string) {
+	mu.Lock()
+	defer mu.Unlock()
+	title = ti
+}
+
+// Init 初始化
+>>>>>>> upstream/master
 func Init(t string, cfg *Config) {
 	mu.Lock()
 	defer mu.Unlock()
@@ -229,7 +301,11 @@ func Init(t string, cfg *Config) {
 		} else {
 			setTestNet(cfg.TestNet)
 		}
+<<<<<<< HEAD
 		if cfg.Exec.MinExecFee > cfg.MemPool.MinTxFee || cfg.MemPool.MinTxFee > cfg.Wallet.MinFee {
+=======
+		if cfg.Exec.MinExecFee > cfg.Mempool.MinTxFee || cfg.Mempool.MinTxFee > cfg.Wallet.MinFee {
+>>>>>>> upstream/master
 			panic("config must meet: wallet.minFee >= mempool.minTxFee >= exec.minExecFee")
 		}
 		setMinFee(cfg.Exec.MinExecFee)
@@ -263,6 +339,10 @@ func Init(t string, cfg *Config) {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// GetTitle 获取title
+>>>>>>> upstream/master
 func GetTitle() string {
 	mu.Lock()
 	defer mu.Unlock()
@@ -273,12 +353,20 @@ func isLocal() bool {
 	return title == "local"
 }
 
+<<<<<<< HEAD
+=======
+// IsLocal 是否locak title
+>>>>>>> upstream/master
 func IsLocal() bool {
 	mu.Lock()
 	defer mu.Unlock()
 	return isLocal()
 }
 
+<<<<<<< HEAD
+=======
+// SetMinFee 设置最小费用
+>>>>>>> upstream/master
 func SetMinFee(fee int64) {
 	mu.Lock()
 	defer mu.Unlock()
@@ -286,18 +374,36 @@ func SetMinFee(fee int64) {
 }
 
 func isPara() bool {
+<<<<<<< HEAD
 	//user.p.guodun.
 	return strings.Count(title, ".") == 3 && strings.HasPrefix(title, ParaKeyX)
 }
 
+=======
+	return strings.Count(title, ".") == 3 && strings.HasPrefix(title, ParaKeyX)
+}
+
+// IsPara 是否平行链
+>>>>>>> upstream/master
 func IsPara() bool {
 	mu.Lock()
 	defer mu.Unlock()
 	return isPara()
 }
 
+<<<<<<< HEAD
 func IsParaExecName(name string) bool {
 	return strings.HasPrefix(name, ParaKeyX)
+=======
+// IsParaExecName 是否平行链执行器
+func IsParaExecName(exec string) bool {
+	return strings.HasPrefix(exec, ParaKeyX)
+}
+
+//IsMyParaExecName 是否是我的para链的执行器
+func IsMyParaExecName(exec string) bool {
+	return IsParaExecName(exec) && strings.HasPrefix(exec, GetTitle())
+>>>>>>> upstream/master
 }
 
 func setTestNet(isTestNet bool) {
@@ -309,6 +415,10 @@ func setTestNet(isTestNet bool) {
 	//const 初始化TestNet 的初始化参数
 }
 
+<<<<<<< HEAD
+=======
+// IsTestNet 是否测试链
+>>>>>>> upstream/master
 func IsTestNet() bool {
 	return IsEnable("TestNet")
 }
@@ -321,6 +431,10 @@ func setMinFee(fee int64) {
 	setChainConfig("MinBalanceTransfer", fee*10)
 }
 
+<<<<<<< HEAD
+=======
+// GetParaName 获取平行链name
+>>>>>>> upstream/master
 func GetParaName() string {
 	if IsPara() {
 		return GetTitle()
@@ -328,10 +442,18 @@ func GetParaName() string {
 	return ""
 }
 
+<<<<<<< HEAD
+=======
+// FlagKV 获取kv对
+>>>>>>> upstream/master
 func FlagKV(key []byte, value int64) *KeyValue {
 	return &KeyValue{Key: key, Value: Encode(&Int64{Data: value})}
 }
 
+<<<<<<< HEAD
+=======
+// MergeConfig Merge配置
+>>>>>>> upstream/master
 func MergeConfig(conf map[string]interface{}, def map[string]interface{}) string {
 	errstr := checkConfig("", conf, def)
 	if errstr != "" {
@@ -420,7 +542,11 @@ func mergeCfgString(cfgstring, cfgdefault string) string {
 		panic(errstr)
 	}
 	buf := new(bytes.Buffer)
+<<<<<<< HEAD
 	err = tml.NewEncoder(buf).Encode(conf)
+=======
+	tml.NewEncoder(buf).Encode(conf)
+>>>>>>> upstream/master
 	return buf.String()
 }
 
@@ -432,6 +558,10 @@ func initCfgString(cfgstring string) (*Config, error) {
 	return &cfg, nil
 }
 
+<<<<<<< HEAD
+=======
+// InitCfg 初始化配置
+>>>>>>> upstream/master
 func InitCfg(path string) (*Config, *ConfigSubModule) {
 	return InitCfgString(readFile(path))
 }
@@ -460,6 +590,10 @@ func flatConfig(key string, conf map[string]interface{}, flat map[string]interfa
 	}
 }
 
+<<<<<<< HEAD
+=======
+// FlatConfig Flat配置
+>>>>>>> upstream/master
 func FlatConfig(conf map[string]interface{}) map[string]interface{} {
 	flat := make(map[string]interface{})
 	flatConfig("", conf, flat)
@@ -472,6 +606,10 @@ func setMver(title string, cfgstring string) {
 	mver[title] = newMversion(title, cfgstring)
 }
 
+<<<<<<< HEAD
+=======
+// InitCfgString 初始化配置
+>>>>>>> upstream/master
 func InitCfgString(cfgstring string) (*Config, *ConfigSubModule) {
 	cfgstring = mergeCfg(cfgstring)
 	setFlatConfig(cfgstring)
@@ -487,11 +625,19 @@ func InitCfgString(cfgstring string) (*Config, *ConfigSubModule) {
 	return cfg, sub
 }
 
+<<<<<<< HEAD
+=======
+// subModule 子模块结构体
+>>>>>>> upstream/master
 type subModule struct {
 	Store     map[string]interface{}
 	Exec      map[string]interface{}
 	Consensus map[string]interface{}
 	Wallet    map[string]interface{}
+<<<<<<< HEAD
+=======
+	Mempool   map[string]interface{}
+>>>>>>> upstream/master
 }
 
 func readFile(path string) string {
@@ -516,6 +662,10 @@ func parseSubModule(cfg *subModule) (*ConfigSubModule, error) {
 	subcfg.Exec = parseItem(cfg.Exec)
 	subcfg.Consensus = parseItem(cfg.Consensus)
 	subcfg.Wallet = parseItem(cfg.Wallet)
+<<<<<<< HEAD
+=======
+	subcfg.Mempool = parseItem(cfg.Mempool)
+>>>>>>> upstream/master
 	return &subcfg, nil
 }
 
@@ -535,10 +685,18 @@ func parseItem(data map[string]interface{}) map[string][]byte {
 	return subconfig
 }
 
+<<<<<<< HEAD
+=======
+// ConfQuery 结构体
+>>>>>>> upstream/master
 type ConfQuery struct {
 	prefix string
 }
 
+<<<<<<< HEAD
+=======
+// Conf 配置
+>>>>>>> upstream/master
 func Conf(prefix string) *ConfQuery {
 	if prefix == "" || (!strings.HasPrefix(prefix, "config.") && !strings.HasPrefix(prefix, "mver.")) {
 		panic("ConfQuery must init buy prefix config. or mver.")
@@ -546,10 +704,18 @@ func Conf(prefix string) *ConfQuery {
 	return &ConfQuery{prefix}
 }
 
+<<<<<<< HEAD
+=======
+// ConfSub 子模块配置
+>>>>>>> upstream/master
 func ConfSub(name string) *ConfQuery {
 	return Conf("config.exec.sub." + name)
 }
 
+<<<<<<< HEAD
+=======
+// G 获取指定key的配置信息
+>>>>>>> upstream/master
 func (query *ConfQuery) G(key string) (interface{}, error) {
 	return G(getkey(query.prefix, key))
 }
@@ -567,6 +733,10 @@ func parseStrList(data interface{}) []string {
 	return list
 }
 
+<<<<<<< HEAD
+=======
+// GStrList 解析字符串列表
+>>>>>>> upstream/master
 func (query *ConfQuery) GStrList(key string) []string {
 	data, err := query.G(key)
 	if err == nil {
@@ -575,30 +745,58 @@ func (query *ConfQuery) GStrList(key string) []string {
 	return []string{}
 }
 
+<<<<<<< HEAD
+=======
+// GInt 解析int类型
+>>>>>>> upstream/master
 func (query *ConfQuery) GInt(key string) int64 {
 	return GInt(getkey(query.prefix, key))
 }
 
+<<<<<<< HEAD
+=======
+// GStr 解析string类型
+>>>>>>> upstream/master
 func (query *ConfQuery) GStr(key string) string {
 	return GStr(getkey(query.prefix, key))
 }
 
+<<<<<<< HEAD
+=======
+// IsEnable 解析bool类型
+>>>>>>> upstream/master
 func (query *ConfQuery) IsEnable(key string) bool {
 	return IsEnable(getkey(query.prefix, key))
 }
 
+<<<<<<< HEAD
+=======
+// MG 解析mversion
+>>>>>>> upstream/master
 func (query *ConfQuery) MG(key string, height int64) (interface{}, error) {
 	return MG(getkey(query.prefix, key), height)
 }
 
+<<<<<<< HEAD
+=======
+// MGInt 解析mversion int类型配置
+>>>>>>> upstream/master
 func (query *ConfQuery) MGInt(key string, height int64) int64 {
 	return MGInt(getkey(query.prefix, key), height)
 }
 
+<<<<<<< HEAD
+=======
+// MGStr 解析mversion string类型配置
+>>>>>>> upstream/master
 func (query *ConfQuery) MGStr(key string, height int64) string {
 	return MGStr(getkey(query.prefix, key), height)
 }
 
+<<<<<<< HEAD
+=======
+// MGStrList 解析mversion string list类型配置
+>>>>>>> upstream/master
 func (query *ConfQuery) MGStrList(key string, height int64) []string {
 	data, err := query.MG(key, height)
 	if err == nil {
@@ -607,6 +805,10 @@ func (query *ConfQuery) MGStrList(key string, height int64) []string {
 	return []string{}
 }
 
+<<<<<<< HEAD
+=======
+// MIsEnable 解析mversion bool类型配置
+>>>>>>> upstream/master
 func (query *ConfQuery) MIsEnable(key string, height int64) bool {
 	return MIsEnable(getkey(query.prefix, key), height)
 }

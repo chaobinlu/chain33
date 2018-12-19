@@ -2,25 +2,46 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
 package version
 
 const version = "5.3.0"
 
+=======
+// Package version 软件版本号
+package version
+
+const version = "6.0.2"
+
+//var
+>>>>>>> upstream/master
 var (
 	WalletVerKey     = []byte("WalletVerKey")
 	BlockChainVerKey = []byte("BlockChainVerKey")
 	LocalDBMeta      = []byte("LocalDBMeta")
 	MavlTreeVerKey   = []byte("MavlTreeVerKey")
 	localversion     = "1.0.0"
+<<<<<<< HEAD
 	GitCommit        string
 )
 
+=======
+	appversion       = "1.0.0"
+	GitCommit        string
+)
+
+//GetLocalDBKeyList 获取本地key列表
+>>>>>>> upstream/master
 func GetLocalDBKeyList() [][]byte {
 	return [][]byte{
 		WalletVerKey, BlockChainVerKey, LocalDBMeta, MavlTreeVerKey,
 	}
 }
 
+<<<<<<< HEAD
+=======
+//GetVersion 获取版本信息
+>>>>>>> upstream/master
 func GetVersion() string {
 	if GitCommit != "" {
 		return version + "-" + GitCommit
@@ -37,10 +58,30 @@ func GetLocalDBVersion() string {
 	return localversion
 }
 
+<<<<<<< HEAD
 //SetLocalDBVersion only used for test
 //通过设置版本号，强制重建数据库
 func SetLocalDBVersion(version string) {
 	localversion = version
+=======
+//SetLocalDBVersion 通过设置版本号，强制重建数据库
+func SetLocalDBVersion(version string) {
+	if version != "" {
+		localversion = version
+	}
+}
+
+//GetAppVersion 获取应用 app 的版本
+func GetAppVersion() string {
+	return appversion
+}
+
+//SetAppVersion 设置饮用的版本
+func SetAppVersion(version string) {
+	if version != "" {
+		appversion = version
+	}
+>>>>>>> upstream/master
 }
 
 //v0.1.2
@@ -59,7 +100,11 @@ func SetLocalDBVersion(version string) {
 // blcokchain db
 //	ver=1:增加地址参与交易量的记录，
 // wallet db:
+<<<<<<< HEAD
 //	ver=1:增加rescan的功能，自动将wallet账户相关的tx交易信息重新扫描从blockchian模块
+=======
+//	ver=1:增加rescan的功能，自动将wallet账户相关的tx交易信息重新扫描从blockchain模块
+>>>>>>> upstream/master
 // state mavltree db
 
 //v5.3.0

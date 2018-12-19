@@ -12,6 +12,10 @@ func GenerateKey(rand io.Reader) (*ecdsa.PrivateKey, error) {
 	return ecdsa.GenerateKey(Secp256k1(), rand)
 }
 
+<<<<<<< HEAD
+=======
+// KeysEqual check key equal
+>>>>>>> upstream/master
 func KeysEqual(a, b *ecdsa.PublicKey) bool {
 	return a.X.Cmp(b.X) == 0 && a.Y.Cmp(b.Y) == 0
 }

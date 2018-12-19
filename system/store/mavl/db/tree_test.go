@@ -15,12 +15,20 @@ import (
 
 	"os"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+=======
+>>>>>>> upstream/master
 	. "github.com/33cn/chain33/common"
 	"github.com/33cn/chain33/common/db"
 	"github.com/33cn/chain33/common/log"
 	"github.com/33cn/chain33/types"
+<<<<<<< HEAD
+=======
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+>>>>>>> upstream/master
 )
 
 func init() {
@@ -408,7 +416,11 @@ func kindsSet(t *Tree, mvccdb *db.MVCCHelper, key []byte, value []byte, version 
 		if mvccdb != nil {
 			err := mvccdb.SetV(key, value, version)
 			if err != nil {
+<<<<<<< HEAD
 				panic(fmt.Errorf("mvccdb cant setv", err))
+=======
+				panic(fmt.Errorf("mvccdb cant setv %s", err.Error()))
+>>>>>>> upstream/master
 			}
 		}
 	}
@@ -661,7 +673,10 @@ func TestGetAndVerifyKVPairProof(t *testing.T) {
 	storeSet.StateHash = emptyRoot[:]
 	newhash, err := SetKVPair(db, &storeSet, true)
 	assert.Nil(t, err)
+<<<<<<< HEAD
 	i = 0
+=======
+>>>>>>> upstream/master
 	for i = 0; i < total; i++ {
 		var keyvalue types.KeyValue
 

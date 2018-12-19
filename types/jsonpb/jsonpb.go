@@ -55,8 +55,13 @@ import (
 	"strings"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/golang/protobuf/proto"
 	"github.com/33cn/chain33/common"
+=======
+	"github.com/33cn/chain33/common"
+	"github.com/golang/protobuf/proto"
+>>>>>>> upstream/master
 
 	stpb "github.com/golang/protobuf/ptypes/struct"
 )
@@ -91,12 +96,21 @@ type Marshaler struct {
 // AnyResolver takes a type URL, present in an Any message, and resolves it into
 // an instance of the associated message.
 type AnyResolver interface {
+<<<<<<< HEAD
 	Resolve(typeUrl string) (proto.Message, error)
 }
 
 func defaultResolveAny(typeUrl string) (proto.Message, error) {
 	// Only the part of typeUrl after the last slash is relevant.
 	mname := typeUrl
+=======
+	Resolve(typeURL string) (proto.Message, error)
+}
+
+func defaultResolveAny(typeURL string) (proto.Message, error) {
+	// Only the part of typeUrl after the last slash is relevant.
+	mname := typeURL
+>>>>>>> upstream/master
 	if slash := strings.LastIndex(mname, "/"); slash >= 0 {
 		mname = mname[slash+1:]
 	}
@@ -107,25 +121,41 @@ func defaultResolveAny(typeUrl string) (proto.Message, error) {
 	return reflect.New(mt.Elem()).Interface().(proto.Message), nil
 }
 
+<<<<<<< HEAD
 // JSONPBMarshaler is implemented by protobuf messages that customize the
+=======
+// JSONPBmarshaler is implemented by protobuf messages that customize the
+>>>>>>> upstream/master
 // way they are marshaled to JSON. Messages that implement this should
 // also implement JSONPBUnmarshaler so that the custom format can be
 // parsed.
 //
 // The JSON marshaling must follow the proto to JSON specification:
 //	https://developers.google.com/protocol-buffers/docs/proto3#json
+<<<<<<< HEAD
 type JSONPBMarshaler interface {
 	MarshalJSONPB(*Marshaler) ([]byte, error)
 }
 
 // JSONPBUnmarshaler is implemented by protobuf messages that customize
+=======
+type JSONPBmarshaler interface {
+	MarshalJSONPB(*Marshaler) ([]byte, error)
+}
+
+// JSONPBunmarshaler is implemented by protobuf messages that customize
+>>>>>>> upstream/master
 // the way they are unmarshaled from JSON. Messages that implement this
 // should also implement JSONPBMarshaler so that the custom format can be
 // produced.
 //
 // The JSON unmarshaling must follow the JSON to proto specification:
 //	https://developers.google.com/protocol-buffers/docs/proto3#json
+<<<<<<< HEAD
 type JSONPBUnmarshaler interface {
+=======
+type JSONPBunmarshaler interface {
+>>>>>>> upstream/master
 	UnmarshalJSONPB(*Unmarshaler, []byte) error
 }
 
@@ -171,7 +201,11 @@ type wkt interface {
 
 // marshalObject writes a struct to the Writer.
 func (m *Marshaler) marshalObject(out *errWriter, v proto.Message, indent, typeURL string) error {
+<<<<<<< HEAD
 	if jsm, ok := v.(JSONPBMarshaler); ok {
+=======
+	if jsm, ok := v.(JSONPBmarshaler); ok {
+>>>>>>> upstream/master
 		b, err := jsm.MarshalJSONPB(m)
 		if err != nil {
 			return err
@@ -727,7 +761,11 @@ func (u *Unmarshaler) unmarshalValue(target reflect.Value, inputValue json.RawMe
 	if targetType.Kind() == reflect.Ptr {
 		// If input value is "null" and target is a pointer type, then the field should be treated as not set
 		// UNLESS the target is structpb.Value, in which case it should be set to structpb.NullValue.
+<<<<<<< HEAD
 		_, isJSONPBUnmarshaler := target.Interface().(JSONPBUnmarshaler)
+=======
+		_, isJSONPBUnmarshaler := target.Interface().(JSONPBunmarshaler)
+>>>>>>> upstream/master
 		if string(inputValue) == "null" && targetType != reflect.TypeOf(&stpb.Value{}) && !isJSONPBUnmarshaler {
 			return nil
 		}
@@ -736,7 +774,11 @@ func (u *Unmarshaler) unmarshalValue(target reflect.Value, inputValue json.RawMe
 		return u.unmarshalValue(target.Elem(), inputValue, prop)
 	}
 
+<<<<<<< HEAD
 	if jsu, ok := target.Addr().Interface().(JSONPBUnmarshaler); ok {
+=======
+	if jsu, ok := target.Addr().Interface().(JSONPBunmarshaler); ok {
+>>>>>>> upstream/master
 		return jsu.UnmarshalJSONPB(u, []byte(inputValue))
 	}
 
@@ -869,6 +911,7 @@ func (u *Unmarshaler) unmarshalValue(target reflect.Value, inputValue json.RawMe
 			if ivStr == "null" {
 				target.Field(0).Set(reflect.ValueOf(&stpb.Value_NullValue{}))
 			} else if v, err := strconv.ParseFloat(ivStr, 0); err == nil {
+<<<<<<< HEAD
 				target.Field(0).Set(reflect.ValueOf(&stpb.Value_NumberValue{v}))
 			} else if v, err := unquote(ivStr); err == nil {
 				target.Field(0).Set(reflect.ValueOf(&stpb.Value_StringValue{v}))
@@ -881,6 +924,20 @@ func (u *Unmarshaler) unmarshalValue(target reflect.Value, inputValue json.RawMe
 			} else if err := json.Unmarshal(inputValue, &map[string]json.RawMessage{}); err == nil {
 				sv := &stpb.Struct{}
 				target.Field(0).Set(reflect.ValueOf(&stpb.Value_StructValue{sv}))
+=======
+				target.Field(0).Set(reflect.ValueOf(&stpb.Value_NumberValue{NumberValue: v}))
+			} else if v, err := unquote(ivStr); err == nil {
+				target.Field(0).Set(reflect.ValueOf(&stpb.Value_StringValue{StringValue: v}))
+			} else if v, err := strconv.ParseBool(ivStr); err == nil {
+				target.Field(0).Set(reflect.ValueOf(&stpb.Value_BoolValue{BoolValue: v}))
+			} else if err := json.Unmarshal(inputValue, &[]json.RawMessage{}); err == nil {
+				lv := &stpb.ListValue{}
+				target.Field(0).Set(reflect.ValueOf(&stpb.Value_ListValue{ListValue: lv}))
+				return u.unmarshalValue(reflect.ValueOf(lv).Elem(), inputValue, prop)
+			} else if err := json.Unmarshal(inputValue, &map[string]json.RawMessage{}); err == nil {
+				sv := &stpb.Struct{}
+				target.Field(0).Set(reflect.ValueOf(&stpb.Value_StructValue{StructValue: sv}))
+>>>>>>> upstream/master
 				return u.unmarshalValue(reflect.ValueOf(sv).Elem(), inputValue, prop)
 			} else {
 				return fmt.Errorf("unrecognized type for Value %q", ivStr)

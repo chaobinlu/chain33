@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package p2p 实现了chain33网络协议
+>>>>>>> upstream/master
 package p2p
 
 import (
@@ -21,6 +25,10 @@ var (
 	log = l.New("module", "p2p")
 )
 
+<<<<<<< HEAD
+=======
+// P2p interface
+>>>>>>> upstream/master
 type P2p struct {
 	client       queue.Client
 	node         *Node
@@ -31,10 +39,15 @@ type P2p struct {
 	closed       int32
 }
 
+<<<<<<< HEAD
+=======
+// New produce a p2p object
+>>>>>>> upstream/master
 func New(cfg *types.P2P) *P2p {
 	if cfg.Version == 0 {
 		if types.IsTestNet() {
 			cfg.Version = 119
+<<<<<<< HEAD
 			cfg.VerMix = 118
 			cfg.VerMax = 128
 		} else {
@@ -43,6 +56,23 @@ func New(cfg *types.P2P) *P2p {
 			cfg.VerMax = 11000
 		}
 	}
+=======
+			cfg.VerMin = 118
+			cfg.VerMax = 128
+		} else {
+			cfg.Version = 10020
+			cfg.VerMin = 10020
+			cfg.VerMax = 11000
+		}
+	}
+	if cfg.VerMin == 0 {
+		cfg.VerMin = cfg.Version
+	}
+
+	if cfg.VerMax == 0 {
+		cfg.VerMax = cfg.VerMin + 1
+	}
+>>>>>>> upstream/master
 
 	VERSION = cfg.Version
 	log.Info("p2p", "Version", VERSION)
@@ -66,10 +96,20 @@ func New(cfg *types.P2P) *P2p {
 	return p2p
 }
 
+<<<<<<< HEAD
+=======
+//Wait wait for ready
+func (network *P2p) Wait() {}
+
+>>>>>>> upstream/master
 func (network *P2p) isClose() bool {
 	return atomic.LoadInt32(&network.closed) == 1
 }
 
+<<<<<<< HEAD
+=======
+// Close network client
+>>>>>>> upstream/master
 func (network *P2p) Close() {
 	atomic.StoreInt32(&network.closed, 1)
 	log.Debug("close", "network", "ShowTaskCapcity done")
@@ -81,6 +121,10 @@ func (network *P2p) Close() {
 	network.node.pubsub.Shutdown()
 }
 
+<<<<<<< HEAD
+=======
+// SetQueueClient set the queue
+>>>>>>> upstream/master
 func (network *P2p) SetQueueClient(client queue.Client) {
 	network.client = client
 	network.node.SetQueueClient(client)
@@ -213,7 +257,11 @@ func (network *P2p) subP2pMsg() {
 				go network.p2pCli.GetNetInfo(msg, taskIndex)
 			default:
 				log.Warn("unknown msgtype", "msg", msg)
+<<<<<<< HEAD
 				msg.Reply(network.client.NewMessage("", msg.Ty, types.Reply{false, []byte("unknown msgtype")}))
+=======
+				msg.Reply(network.client.NewMessage("", msg.Ty, types.Reply{Msg: []byte("unknown msgtype")}))
+>>>>>>> upstream/master
 				<-network.otherFactory
 				continue
 			}

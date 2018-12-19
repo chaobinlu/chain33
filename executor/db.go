@@ -12,6 +12,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+// StateDB state db for store mavl
+>>>>>>> upstream/master
 type StateDB struct {
 	cache     map[string][]byte
 	txcache   map[string][]byte
@@ -25,11 +29,19 @@ type StateDB struct {
 	opt       *StateDBOption
 }
 
+<<<<<<< HEAD
+=======
+// StateDBOption state db option enable mvcc
+>>>>>>> upstream/master
 type StateDBOption struct {
 	EnableMVCC bool
 	Height     int64
 }
 
+<<<<<<< HEAD
+=======
+// NewStateDB new state db
+>>>>>>> upstream/master
 func NewStateDB(client queue.Client, stateHash []byte, localdb db.KVDB, opt *StateDBOption) db.KV {
 	if opt == nil {
 		opt = &StateDBOption{}
@@ -61,6 +73,10 @@ func (s *StateDB) enableMVCC() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// Begin 开启内存事务处理
+>>>>>>> upstream/master
 func (s *StateDB) Begin() {
 	s.intx = true
 	s.keys = nil
@@ -69,10 +85,18 @@ func (s *StateDB) Begin() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// Rollback reset tx
+>>>>>>> upstream/master
 func (s *StateDB) Rollback() {
 	s.resetTx()
 }
 
+<<<<<<< HEAD
+=======
+// Commit canche tx
+>>>>>>> upstream/master
 func (s *StateDB) Commit() {
 	for k, v := range s.txcache {
 		s.cache[k] = v
@@ -90,6 +114,10 @@ func (s *StateDB) resetTx() {
 	s.keys = nil
 }
 
+<<<<<<< HEAD
+=======
+// Get get value from state db
+>>>>>>> upstream/master
 func (s *StateDB) Get(key []byte) ([]byte, error) {
 	v, err := s.get(key)
 	debugAccount("==get==", key, v)
@@ -115,7 +143,11 @@ func (s *StateDB) get(key []byte) ([]byte, error) {
 	if s.client == nil {
 		return nil, types.ErrNotFound
 	}
+<<<<<<< HEAD
 	query := &types.StoreGet{s.stateHash, [][]byte{key}}
+=======
+	query := &types.StoreGet{StateHash: s.stateHash, Keys: [][]byte{key}}
+>>>>>>> upstream/master
 	msg := s.client.NewMessage("store", types.EventStoreGet, query)
 	s.client.Send(msg, true)
 	resp, err := s.client.Wait(msg)
@@ -149,14 +181,26 @@ func debugAccount(prefix string, key []byte, value []byte) {
 	*/
 }
 
+<<<<<<< HEAD
+=======
+// StartTx reset state db keys
+>>>>>>> upstream/master
 func (s *StateDB) StartTx() {
 	s.keys = nil
 }
 
+<<<<<<< HEAD
+=======
+// GetSetKeys  get state db set keys
+>>>>>>> upstream/master
 func (s *StateDB) GetSetKeys() (keys []string) {
 	return s.keys
 }
 
+<<<<<<< HEAD
+=======
+// Set set key value to state db
+>>>>>>> upstream/master
 func (s *StateDB) Set(key []byte, value []byte) error {
 	debugAccount("==set==", key, value)
 	skey := string(key)
@@ -180,9 +224,16 @@ func setmap(data map[string][]byte, key string, value []byte) {
 	data[key] = value
 }
 
+<<<<<<< HEAD
 func (db *StateDB) BatchGet(keys [][]byte) (values [][]byte, err error) {
 	for _, key := range keys {
 		v, err := db.Get(key)
+=======
+// BatchGet batch get keys from state db
+func (s *StateDB) BatchGet(keys [][]byte) (values [][]byte, err error) {
+	for _, key := range keys {
+		v, err := s.Get(key)
+>>>>>>> upstream/master
 		if err != nil && err != types.ErrNotFound {
 			return nil, err
 		}
@@ -191,16 +242,28 @@ func (db *StateDB) BatchGet(keys [][]byte) (values [][]byte, err error) {
 	return values, nil
 }
 
+<<<<<<< HEAD
+=======
+// LocalDB local db for store key value in local
+>>>>>>> upstream/master
 type LocalDB struct {
 	db.TransactionDB
 	cache  map[string][]byte
 	client queue.Client
 }
 
+<<<<<<< HEAD
+=======
+// NewLocalDB new local db
+>>>>>>> upstream/master
 func NewLocalDB(client queue.Client) db.KVDB {
 	return &LocalDB{cache: make(map[string][]byte), client: client}
 }
 
+<<<<<<< HEAD
+=======
+// Get get value from local db
+>>>>>>> upstream/master
 func (l *LocalDB) Get(key []byte) ([]byte, error) {
 	value, err := l.get(key)
 	debugAccount("==lget==", key, value)
@@ -211,7 +274,14 @@ func (l *LocalDB) get(key []byte) ([]byte, error) {
 	if value, ok := l.cache[string(key)]; ok {
 		return value, nil
 	}
+<<<<<<< HEAD
 	query := &types.LocalDBGet{[][]byte{key}}
+=======
+	if l.client == nil {
+		return nil, types.ErrNotFound
+	}
+	query := &types.LocalDBGet{Keys: [][]byte{key}}
+>>>>>>> upstream/master
 	msg := l.client.NewMessage("blockchain", types.EventLocalGet, query)
 	l.client.Send(msg, true)
 	resp, err := l.client.Wait(msg)
@@ -231,15 +301,26 @@ func (l *LocalDB) get(key []byte) ([]byte, error) {
 	return value, nil
 }
 
+<<<<<<< HEAD
+=======
+// Set set key value to local db
+>>>>>>> upstream/master
 func (l *LocalDB) Set(key []byte, value []byte) error {
 	debugAccount("==lset==", key, value)
 	setmap(l.cache, string(key), value)
 	return nil
 }
 
+<<<<<<< HEAD
 func (db *LocalDB) BatchGet(keys [][]byte) (values [][]byte, err error) {
 	for _, key := range keys {
 		v, err := db.Get(key)
+=======
+// BatchGet batch get values from local db
+func (l *LocalDB) BatchGet(keys [][]byte) (values [][]byte, err error) {
+	for _, key := range keys {
+		v, err := l.Get(key)
+>>>>>>> upstream/master
 		if err != nil && err != types.ErrNotFound {
 			return nil, err
 		}
@@ -248,8 +329,16 @@ func (db *LocalDB) BatchGet(keys [][]byte) (values [][]byte, err error) {
 	return values, nil
 }
 
+<<<<<<< HEAD
 //从数据库中查询数据列表，set 中的cache 更新不会影响这个list
 func (l *LocalDB) List(prefix, key []byte, count, direction int32) ([][]byte, error) {
+=======
+// List 从数据库中查询数据列表，set 中的cache 更新不会影响这个list
+func (l *LocalDB) List(prefix, key []byte, count, direction int32) ([][]byte, error) {
+	if l.client == nil {
+		return nil, types.ErrNotFound
+	}
+>>>>>>> upstream/master
 	query := &types.LocalDBList{Prefix: prefix, Key: key, Count: count, Direction: direction}
 	msg := l.client.NewMessage("blockchain", types.EventLocalList, query)
 	l.client.Send(msg, true)
@@ -265,8 +354,16 @@ func (l *LocalDB) List(prefix, key []byte, count, direction int32) ([][]byte, er
 	return values, nil
 }
 
+<<<<<<< HEAD
 //从数据库中查询指定前缀的key的数量
 func (l *LocalDB) PrefixCount(prefix []byte) (count int64) {
+=======
+// PrefixCount 从数据库中查询指定前缀的key的数量
+func (l *LocalDB) PrefixCount(prefix []byte) (count int64) {
+	if l.client == nil {
+		return 0
+	}
+>>>>>>> upstream/master
 	query := &types.ReqKey{Key: prefix}
 	msg := l.client.NewMessage("blockchain", types.EventLocalPrefixCount, query)
 	l.client.Send(msg, true)

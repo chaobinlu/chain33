@@ -8,11 +8,20 @@ import (
 	"runtime"
 	"sync"
 
+<<<<<<< HEAD
 	"github.com/golang/protobuf/proto"
 	"github.com/33cn/chain33/common"
 	"github.com/33cn/chain33/common/crypto"
 )
 
+=======
+	"github.com/33cn/chain33/common"
+	"github.com/33cn/chain33/common/crypto"
+	"github.com/golang/protobuf/proto"
+)
+
+// Hash 获取block的hash值
+>>>>>>> upstream/master
 func (block *Block) Hash() []byte {
 	data, err := proto.Marshal(block.GetHeader())
 	if err != nil {
@@ -21,10 +30,18 @@ func (block *Block) Hash() []byte {
 	return common.Sha256(data)
 }
 
+<<<<<<< HEAD
+=======
+// Size 获取block的Size
+>>>>>>> upstream/master
 func (block *Block) Size() int {
 	return Size(block)
 }
 
+<<<<<<< HEAD
+=======
+// GetHeader 获取block的Header信息
+>>>>>>> upstream/master
 func (block *Block) GetHeader() *Header {
 	head := &Header{}
 	head.Version = block.Version
@@ -40,6 +57,10 @@ func (block *Block) GetHeader() *Header {
 	return head
 }
 
+<<<<<<< HEAD
+=======
+// CheckSign 检测block的签名
+>>>>>>> upstream/master
 func (block *Block) CheckSign() bool {
 	//检查区块的签名
 	if block.Signature != nil {
@@ -119,6 +140,10 @@ func checkAll(task []*Transaction, n int) bool {
 	return true
 }
 
+<<<<<<< HEAD
+=======
+// CheckSign 检测签名
+>>>>>>> upstream/master
 func CheckSign(data []byte, execer string, sign *Signature) bool {
 	//GetDefaultSign: 系统内置钱包，非插件中的签名
 	c, err := crypto.New(GetSignName(execer, int(sign.Ty)))

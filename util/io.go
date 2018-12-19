@@ -12,6 +12,10 @@ import (
 	"os"
 )
 
+<<<<<<< HEAD
+=======
+//ReadFile : read file
+>>>>>>> upstream/master
 func ReadFile(file string) ([]byte, error) {
 	fileCont, err := ioutil.ReadFile(file)
 	if err != nil {
@@ -21,6 +25,10 @@ func ReadFile(file string) ([]byte, error) {
 	return fileCont, nil
 }
 
+<<<<<<< HEAD
+=======
+//CheckFileIsExist : check whether the file exists or not
+>>>>>>> upstream/master
 func CheckFileIsExist(filename string) bool {
 	var exist = true
 	if _, err := os.Stat(filename); os.IsNotExist(err) {
@@ -29,6 +37,10 @@ func CheckFileIsExist(filename string) bool {
 	return exist
 }
 
+<<<<<<< HEAD
+=======
+//WriteStringToFile : write content to file
+>>>>>>> upstream/master
 func WriteStringToFile(file, content string) (writeLen int, err error) {
 	var f *os.File
 	if err = MakeDir(file); err != nil {
@@ -50,6 +62,10 @@ func WriteStringToFile(file, content string) (writeLen int, err error) {
 	return
 }
 
+<<<<<<< HEAD
+=======
+//CopyFile : copy file
+>>>>>>> upstream/master
 func CopyFile(srcFile, dstFile string) (written int64, err error) {
 	src, err := os.Open(srcFile)
 	if err != nil {

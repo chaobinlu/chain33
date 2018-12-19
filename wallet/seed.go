@@ -18,9 +18,15 @@ import (
 	//	"math/big"
 	"strings"
 
+<<<<<<< HEAD
 	sccrypto "github.com/NebulousLabs/Sia/crypto"
 	"github.com/NebulousLabs/Sia/modules"
 	log "github.com/33cn/chain33/common/log/log15"
+=======
+	log "github.com/33cn/chain33/common/log/log15"
+	sccrypto "github.com/NebulousLabs/Sia/crypto"
+	"github.com/NebulousLabs/Sia/modules"
+>>>>>>> upstream/master
 
 	//	"github.com/piotrnar/gocoin/lib/btc"
 	"github.com/33cn/chain33/common"
@@ -29,6 +35,7 @@ import (
 )
 
 var (
+<<<<<<< HEAD
 	SeedLong     = 15
 	SaveSeedLong = 12
 
@@ -42,6 +49,27 @@ var (
 const BACKUPKEYINDEX = "backupkeyindex"
 
 //通过指定语言类型生成seed种子，传入语言类型以及
+=======
+	// SeedLong 随机种子的长度
+	SeedLong = 15
+	// SaveSeedLong 保存的随机种子个数
+	SaveSeedLong = 12
+
+	// WalletSeed 钱包种子前缀
+	WalletSeed = []byte("walletseed")
+	seedlog    = log.New("module", "wallet")
+
+	// ChineseSeedCache 中文种子缓存映射
+	ChineseSeedCache = make(map[string]string)
+	// EnglishSeedCache 英文种子缓存映射
+	EnglishSeedCache = make(map[string]string)
+)
+
+// BACKUPKEYINDEX 备份索引Key值
+const BACKUPKEYINDEX = "backupkeyindex"
+
+// CreateSeed 通过指定语言类型生成seed种子，传入语言类型以及
+>>>>>>> upstream/master
 //lang = 0 通过英语单词生成种子
 //lang = 1 通过中文生成种子
 //bitsize=128 返回12个单词或者汉子，bitsize+32=160  返回15个单词或者汉子，bitszie=256 返回24个单词或者汉子
@@ -54,7 +82,11 @@ func CreateSeed(folderpath string, lang int32) (string, error) {
 	return mnem, nil
 }
 
+<<<<<<< HEAD
 //初始化seed标准库的单词到map中，方便seed单词的校验
+=======
+// InitSeedLibrary 初始化seed标准库的单词到map中，方便seed单词的校验
+>>>>>>> upstream/master
 func InitSeedLibrary() {
 	//首先将标准seed库转换成字符串数组
 	englieshstrs := strings.Split(englishText, " ")
@@ -70,7 +102,11 @@ func InitSeedLibrary() {
 	}
 }
 
+<<<<<<< HEAD
 //校验输入的seed字符串数是否合法，通过助记词能否生成钱包来判断合法性
+=======
+// VerifySeed 校验输入的seed字符串数是否合法，通过助记词能否生成钱包来判断合法性
+>>>>>>> upstream/master
 func VerifySeed(seed string) (bool, error) {
 
 	_, err := bipwallet.NewWalletFromMnemonic(bipwallet.TypeBty, seed)
@@ -81,7 +117,11 @@ func VerifySeed(seed string) (bool, error) {
 	return true, nil
 }
 
+<<<<<<< HEAD
 //使用password加密seed存储到db中
+=======
+// SaveSeed 使用password加密seed存储到db中
+>>>>>>> upstream/master
 func SaveSeed(db dbm.DB, seed string, password string) (bool, error) {
 	if len(seed) == 0 || len(password) == 0 {
 		return false, types.ErrInvalidParam
@@ -99,6 +139,10 @@ func SaveSeed(db dbm.DB, seed string, password string) (bool, error) {
 	return true, nil
 }
 
+<<<<<<< HEAD
+=======
+// SaveSeedInBatch 保存种子数据到数据库
+>>>>>>> upstream/master
 func SaveSeedInBatch(db dbm.DB, seed string, password string, batch dbm.Batch) (bool, error) {
 	if len(seed) == 0 || len(password) == 0 {
 		return false, types.ErrInvalidParam
@@ -114,7 +158,11 @@ func SaveSeedInBatch(db dbm.DB, seed string, password string, batch dbm.Batch) (
 	return true, nil
 }
 
+<<<<<<< HEAD
 //使用password解密seed上报给上层
+=======
+//GetSeed 使用password解密seed上报给上层
+>>>>>>> upstream/master
 func GetSeed(db dbm.DB, password string) (string, error) {
 	if len(password) == 0 {
 		return "", types.ErrInvalidParam
@@ -128,12 +176,21 @@ func GetSeed(db dbm.DB, password string) (string, error) {
 	}
 	seed, err := AesgcmDecrypter([]byte(password), Encryptedseed)
 	if err != nil {
+<<<<<<< HEAD
 		return "", err
+=======
+		seedlog.Error("GetSeed", "AesgcmDecrypter err", err)
+		return "", types.ErrInputPassword
+>>>>>>> upstream/master
 	}
 	return string(seed), nil
 }
 
+<<<<<<< HEAD
 //通过seed生成子私钥十六进制字符串
+=======
+//GetPrivkeyBySeed 通过seed生成子私钥十六进制字符串
+>>>>>>> upstream/master
 func GetPrivkeyBySeed(db dbm.DB, seed string) (string, error) {
 	var backupindex uint32
 	var Hexsubprivkey string
@@ -149,7 +206,13 @@ func GetPrivkeyBySeed(db dbm.DB, seed string) (string, error) {
 		}
 		index = backupindex + 1
 	}
+<<<<<<< HEAD
 
+=======
+	if SignType != 1 && SignType != 2 {
+		return "", types.ErrNotSupport
+	}
+>>>>>>> upstream/master
 	//secp256k1
 	if SignType == 1 {
 
@@ -197,10 +260,13 @@ func GetPrivkeyBySeed(db dbm.DB, seed string) (string, error) {
 		//seedlog.Error("GetPrivkeyBySeed", "index", index, "secretKey", secretKey, "publicKey", publicKey)
 
 		Hexsubprivkey = secretKey
+<<<<<<< HEAD
 	} else if SignType == 3 { //sm2
 		return "", types.ErrNotSupport
 	} else {
 		return "", types.ErrNotSupport
+=======
+>>>>>>> upstream/master
 	}
 	// back up index in db
 	var pubkeyindex []byte
@@ -215,7 +281,11 @@ func GetPrivkeyBySeed(db dbm.DB, seed string) (string, error) {
 	return Hexsubprivkey, nil
 }
 
+<<<<<<< HEAD
 //使用钱包的password对seed进行aesgcm加密,返回加密后的seed
+=======
+//AesgcmEncrypter 使用钱包的password对seed进行aesgcm加密,返回加密后的seed
+>>>>>>> upstream/master
 func AesgcmEncrypter(password []byte, seed []byte) ([]byte, error) {
 	key := make([]byte, 32)
 	if len(password) > 32 {
@@ -240,7 +310,11 @@ func AesgcmEncrypter(password []byte, seed []byte) ([]byte, error) {
 	return Encrypted, nil
 }
 
+<<<<<<< HEAD
 //使用钱包的password对seed进行aesgcm解密,返回解密后的seed
+=======
+//AesgcmDecrypter 使用钱包的password对seed进行aesgcm解密,返回解密后的seed
+>>>>>>> upstream/master
 func AesgcmDecrypter(password []byte, seed []byte) ([]byte, error) {
 	key := make([]byte, 32)
 	if len(password) > 32 {

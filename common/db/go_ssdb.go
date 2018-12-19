@@ -7,8 +7,13 @@ package db
 import (
 	"bytes"
 
+<<<<<<< HEAD
 	"github.com/syndtr/goleveldb/leveldb/util"
 	log "github.com/33cn/chain33/common/log/log15"
+=======
+	log "github.com/33cn/chain33/common/log/log15"
+	"github.com/syndtr/goleveldb/leveldb/util"
+>>>>>>> upstream/master
 
 	"fmt"
 	"strconv"
@@ -28,6 +33,10 @@ func init() {
 	registerDBCreator(ssDBBackendStr, dbCreator, false)
 }
 
+<<<<<<< HEAD
+=======
+//SsdbBench ...
+>>>>>>> upstream/master
 type SsdbBench struct {
 	// 写次数
 	writeCount int
@@ -39,10 +48,20 @@ type SsdbBench struct {
 	readNum   int
 	readTime  time.Duration
 }
+<<<<<<< HEAD
+=======
+
+//SsdbNode 节点
+>>>>>>> upstream/master
 type SsdbNode struct {
 	ip   string
 	port int
 }
+<<<<<<< HEAD
+=======
+
+//GoSSDB db
+>>>>>>> upstream/master
 type GoSSDB struct {
 	TransactionDB
 	pool  *SDBPool
@@ -98,6 +117,10 @@ func parseSsdbNode(url string) (nodes []*SsdbNode) {
 	return nodes
 }
 
+<<<<<<< HEAD
+=======
+//NewGoSSDB new
+>>>>>>> upstream/master
 func NewGoSSDB(name string, dir string, cache int) (*GoSSDB, error) {
 	database := &GoSSDB{}
 	database.nodes = parseSsdbNode(dir)
@@ -118,6 +141,10 @@ func NewGoSSDB(name string, dir string, cache int) (*GoSSDB, error) {
 	return database, nil
 }
 
+<<<<<<< HEAD
+=======
+//Get get
+>>>>>>> upstream/master
 func (db *GoSSDB) Get(key []byte) ([]byte, error) {
 	start := time.Now()
 
@@ -134,6 +161,10 @@ func (db *GoSSDB) Get(key []byte) ([]byte, error) {
 	return value.Bytes(), nil
 }
 
+<<<<<<< HEAD
+=======
+//BatchGet 批量获取
+>>>>>>> upstream/master
 func (db *GoSSDB) BatchGet(keys [][]byte) (values [][]byte, err error) {
 	start := time.Now()
 	var keylist = []string{}
@@ -156,6 +187,10 @@ func (db *GoSSDB) BatchGet(keys [][]byte) (values [][]byte, err error) {
 	return values, nil
 }
 
+<<<<<<< HEAD
+=======
+//Set 设置
+>>>>>>> upstream/master
 func (db *GoSSDB) Set(key []byte, value []byte) error {
 	start := time.Now()
 
@@ -168,10 +203,18 @@ func (db *GoSSDB) Set(key []byte, value []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//SetSync 同步
+>>>>>>> upstream/master
 func (db *GoSSDB) SetSync(key []byte, value []byte) error {
 	return db.Set(key, value)
 }
 
+<<<<<<< HEAD
+=======
+//Delete 删除
+>>>>>>> upstream/master
 func (db *GoSSDB) Delete(key []byte) error {
 	start := time.Now()
 
@@ -184,21 +227,41 @@ func (db *GoSSDB) Delete(key []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//DeleteSync 删除同步
+>>>>>>> upstream/master
 func (db *GoSSDB) DeleteSync(key []byte) error {
 	return db.Delete(key)
 }
 
+<<<<<<< HEAD
+=======
+//Close 关闭
+>>>>>>> upstream/master
 func (db *GoSSDB) Close() {
 	db.pool.close()
 }
 
+<<<<<<< HEAD
 func (db *GoSSDB) Print() {
 }
 
+=======
+//Print 打印
+func (db *GoSSDB) Print() {
+}
+
+//Stats ...
+>>>>>>> upstream/master
 func (db *GoSSDB) Stats() map[string]string {
 	return make(map[string]string)
 }
 
+<<<<<<< HEAD
+=======
+//Iterator 迭代器
+>>>>>>> upstream/master
 func (db *GoSSDB) Iterator(itbeg []byte, itend []byte, reverse bool) Iterator {
 	start := time.Now()
 
@@ -214,7 +277,11 @@ func (db *GoSSDB) Iterator(itbeg []byte, itend []byte, reverse bool) Iterator {
 	if bytes.Equal(itend, types.EmptyValue) {
 		itend = nil
 	}
+<<<<<<< HEAD
 	limit := util.Range{itbeg, itend}
+=======
+	limit := util.Range{Start: itbeg, Limit: itend}
+>>>>>>> upstream/master
 	if reverse {
 		begin = string(limit.Limit)
 		end = string(itbeg)
@@ -287,9 +354,15 @@ func (dbit *ssDBIt) cacheNextPage(begin string) bool {
 		dbit.index = 0
 		dbit.pageNo++
 		return true
+<<<<<<< HEAD
 	} else {
 		return false
 	}
+=======
+	}
+	return false
+
+>>>>>>> upstream/master
 }
 
 func (dbit *ssDBIt) initKeys(begin, end string) bool {
@@ -319,9 +392,14 @@ func (dbit *ssDBIt) initKeys(begin, end string) bool {
 			dbit.nextPage = false
 		}
 		return true
+<<<<<<< HEAD
 	} else {
 		return false
 	}
+=======
+	}
+	return false
+>>>>>>> upstream/master
 
 }
 
@@ -329,6 +407,7 @@ func (dbit *ssDBIt) Next() bool {
 	if len(dbit.keys) > dbit.index+1 {
 		dbit.index++
 		return true
+<<<<<<< HEAD
 	} else {
 		// 如果有下一页数据，则自动抓取
 		if dbit.nextPage {
@@ -336,6 +415,15 @@ func (dbit *ssDBIt) Next() bool {
 		}
 		return false
 	}
+=======
+	}
+	// 如果有下一页数据，则自动抓取
+	if dbit.nextPage {
+		return dbit.cacheNextPage(dbit.tmpEnd)
+	}
+	return false
+
+>>>>>>> upstream/master
 }
 
 func (dbit *ssDBIt) checkKeyCmp(key1, key2 string, reverse bool) bool {
@@ -363,8 +451,12 @@ func (dbit *ssDBIt) findInPage(key string) int {
 
 func (dbit *ssDBIt) Seek(key []byte) bool {
 	keyStr := string(key)
+<<<<<<< HEAD
 	pos := -1
 	pos = dbit.findInPage(keyStr)
+=======
+	pos := dbit.findInPage(keyStr)
+>>>>>>> upstream/master
 
 	// 如果第一页已经找到，不会走入此逻辑
 	for pos == -1 && dbit.nextPage {
@@ -392,17 +484,29 @@ func (dbit *ssDBIt) Rewind() bool {
 		dbit.index = 0
 		dbit.pageNo = 0
 		return true
+<<<<<<< HEAD
 	} else {
 		return false
 	}
+=======
+	}
+	return false
+
+>>>>>>> upstream/master
 }
 
 func (dbit *ssDBIt) Key() []byte {
 	if dbit.index >= 0 && dbit.index < len(dbit.keys) {
 		return []byte(dbit.keys[dbit.index])
+<<<<<<< HEAD
 	} else {
 		return nil
 	}
+=======
+	}
+	return nil
+
+>>>>>>> upstream/master
 }
 func (dbit *ssDBIt) Value() []byte {
 	key := dbit.keys[dbit.index]
@@ -445,6 +549,10 @@ type ssDBBatch struct {
 	batchdel map[string]bool
 }
 
+<<<<<<< HEAD
+=======
+//NewBatch new
+>>>>>>> upstream/master
 func (db *GoSSDB) NewBatch(sync bool) Batch {
 	return &ssDBBatch{db: db, batchset: make(map[string][]byte), batchdel: make(map[string]bool)}
 }

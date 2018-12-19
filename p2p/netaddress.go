@@ -104,6 +104,10 @@ func (na *NetAddress) Equals(other interface{}) bool {
 	return false
 }
 
+<<<<<<< HEAD
+=======
+// Less reports whether na and other are the less addresses
+>>>>>>> upstream/master
 func (na *NetAddress) Less(other interface{}) bool {
 	if o, ok := other.(*NetAddress); ok {
 		return na.String() < o.String()
@@ -124,6 +128,10 @@ func (na *NetAddress) String() string {
 	return na.str
 }
 
+<<<<<<< HEAD
+=======
+// Copy na address
+>>>>>>> upstream/master
 func (na *NetAddress) Copy() *NetAddress {
 	copytmp := *na
 	return &copytmp
@@ -138,6 +146,10 @@ func isCompressSupport(err error) bool {
 	return true
 }
 
+<<<<<<< HEAD
+=======
+// DialTimeout dial timeout
+>>>>>>> upstream/master
 func (na *NetAddress) DialTimeout(version int32) (*grpc.ClientConn, error) {
 	ch := make(chan grpc.ServiceConfig, 1)
 	ch <- P2pComm.GrpcConfig()
@@ -185,7 +197,11 @@ func (na *NetAddress) Routable() bool {
 		na.RFC4193() || na.RFC4843() || na.Local())
 }
 
+<<<<<<< HEAD
 // For IPv4 these are either a 0 or all bits set address. For IPv6 a zero
+=======
+// Valid For IPv4 these are either a 0 or all bits set address. For IPv6 a zero
+>>>>>>> upstream/master
 // address or one that matches the RFC3849 documentation address format.
 func (na *NetAddress) Valid() bool {
 	return na.IP != nil && !(na.IP.IsUnspecified() || na.RFC3849() ||
@@ -216,14 +232,22 @@ func (na *NetAddress) ReachabilityTo(o *NetAddress) int {
 			return Teredo
 		} else if o.IP.To4() != nil {
 			return Ipv4
+<<<<<<< HEAD
 		} else { // ipv6
 			return Ipv6Weak
 		}
+=======
+		}
+		// ipv6
+		return Ipv6Weak
+
+>>>>>>> upstream/master
 	} else if na.IP.To4() != nil {
 		if o.Routable() && o.IP.To4() != nil {
 			return Ipv4
 		}
 		return Default
+<<<<<<< HEAD
 	} else /* ipv6 */ {
 		var tunnelled bool
 		// Is our v6 is tunnelled?
@@ -242,6 +266,26 @@ func (na *NetAddress) ReachabilityTo(o *NetAddress) int {
 		}
 		return Ipv6Strong
 	}
+=======
+	}
+	/* ipv6 */
+	var tunnelled bool
+	// Is our v6 is tunnelled?
+	if o.RFC3964() || o.RFC6052() || o.RFC6145() {
+		tunnelled = true
+	}
+	if !o.Routable() {
+		return Default
+	} else if o.RFC4380() {
+		return Teredo
+	} else if o.IP.To4() != nil {
+		return Ipv4
+	} else if tunnelled {
+		// only prioritise ipv6 if we aren't tunnelling it.
+		return Ipv6Weak
+	}
+	return Ipv6Strong
+>>>>>>> upstream/master
 }
 
 // RFC1918: IPv4 Private networks (10.0.0.0/8, 192.168.0.0/16, 172.16.0.0/12)
@@ -270,11 +314,16 @@ var (
 	zero4       = net.IPNet{IP: net.ParseIP("0.0.0.0"), Mask: net.CIDRMask(8, 32)}
 )
 
+<<<<<<< HEAD
+=======
+// RFC1918 defines ipv4 private network function
+>>>>>>> upstream/master
 func (na *NetAddress) RFC1918() bool {
 	return rfc1918_10.Contains(na.IP) ||
 		rfc1918_192.Contains(na.IP) ||
 		rfc1918_172.Contains(na.IP)
 }
+<<<<<<< HEAD
 func (na *NetAddress) RFC3849() bool { return rfc3849.Contains(na.IP) }
 func (na *NetAddress) RFC3927() bool { return rfc3927.Contains(na.IP) }
 func (na *NetAddress) RFC3964() bool { return rfc3964.Contains(na.IP) }
@@ -283,4 +332,32 @@ func (na *NetAddress) RFC4380() bool { return rfc4380.Contains(na.IP) }
 func (na *NetAddress) RFC4843() bool { return rfc4843.Contains(na.IP) }
 func (na *NetAddress) RFC4862() bool { return rfc4862.Contains(na.IP) }
 func (na *NetAddress) RFC6052() bool { return rfc6052.Contains(na.IP) }
+=======
+
+// RFC3849 defines ipv6 network function
+func (na *NetAddress) RFC3849() bool { return rfc3849.Contains(na.IP) }
+
+// RFC3927 defines ipv4 network function
+func (na *NetAddress) RFC3927() bool { return rfc3927.Contains(na.IP) }
+
+// RFC3964 defines ipv6 6to4 function
+func (na *NetAddress) RFC3964() bool { return rfc3964.Contains(na.IP) }
+
+// RFC4193 defines ipv6 unique local function
+func (na *NetAddress) RFC4193() bool { return rfc4193.Contains(na.IP) }
+
+// RFC4380 defines ipv6 teredo tunneling function
+func (na *NetAddress) RFC4380() bool { return rfc4380.Contains(na.IP) }
+
+// RFC4843 defines ipv6 orchid function
+func (na *NetAddress) RFC4843() bool { return rfc4843.Contains(na.IP) }
+
+// RFC4862 defines ipv6 autoconfig function
+func (na *NetAddress) RFC4862() bool { return rfc4862.Contains(na.IP) }
+
+// RFC6052 defines ipv6 well know prefix function
+func (na *NetAddress) RFC6052() bool { return rfc6052.Contains(na.IP) }
+
+// RFC6145 defines ipv6 ipv4 translated addredd function
+>>>>>>> upstream/master
 func (na *NetAddress) RFC6145() bool { return rfc6145.Contains(na.IP) }

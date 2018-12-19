@@ -7,11 +7,19 @@ package mavl
 import (
 	"bytes"
 
+<<<<<<< HEAD
 	"github.com/golang/protobuf/proto"
 	"github.com/33cn/chain33/types"
 )
 
 // merkle avl Node
+=======
+	"github.com/33cn/chain33/types"
+	"github.com/golang/protobuf/proto"
+)
+
+// Node merkle avl Node
+>>>>>>> upstream/master
 type Node struct {
 	key        []byte
 	value      []byte
@@ -26,7 +34,11 @@ type Node struct {
 	persisted  bool
 }
 
+<<<<<<< HEAD
 //保存数据的是叶子节点
+=======
+// NewNode 创建节点；保存数据的是叶子节点
+>>>>>>> upstream/master
 func NewNode(key []byte, value []byte) *Node {
 	return &Node{
 		key:    key,
@@ -36,6 +48,10 @@ func NewNode(key []byte, value []byte) *Node {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// MakeNode 从数据库中读取数据，创建Node
+>>>>>>> upstream/master
 // NOTE: The hash is not saved or set.  The caller should set the hash afterwards.
 // (Presumably the caller already has the hash)
 func MakeNode(buf []byte, t *Tree) (node *Node, err error) {
@@ -88,6 +104,7 @@ func (node *Node) has(t *Tree, key []byte) (has bool) {
 	}
 	if node.height == 0 {
 		return false
+<<<<<<< HEAD
 	} else {
 		if bytes.Compare(key, node.key) < 0 {
 			return node.getLeftNode(t).has(t, key)
@@ -95,6 +112,13 @@ func (node *Node) has(t *Tree, key []byte) (has bool) {
 			return node.getRightNode(t).has(t, key)
 		}
 	}
+=======
+	}
+	if bytes.Compare(key, node.key) < 0 {
+		return node.getLeftNode(t).has(t, key)
+	}
+	return node.getRightNode(t).has(t, key)
+>>>>>>> upstream/master
 }
 
 func (node *Node) get(t *Tree, key []byte) (index int32, value []byte, exists bool) {
@@ -107,6 +131,7 @@ func (node *Node) get(t *Tree, key []byte) (index int32, value []byte, exists bo
 		} else {
 			return 0, nil, false
 		}
+<<<<<<< HEAD
 	} else {
 		if bytes.Compare(key, node.key) < 0 {
 			return node.getLeftNode(t).get(t, key)
@@ -117,6 +142,16 @@ func (node *Node) get(t *Tree, key []byte) (index int32, value []byte, exists bo
 			return index, value, exists
 		}
 	}
+=======
+	}
+	if bytes.Compare(key, node.key) < 0 {
+		return node.getLeftNode(t).get(t, key)
+	}
+	rightNode := node.getRightNode(t)
+	index, value, exists = rightNode.get(t, key)
+	index += node.size - rightNode.size
+	return index, value, exists
+>>>>>>> upstream/master
 }
 
 //通过index获取leaf节点信息
@@ -124,14 +159,20 @@ func (node *Node) getByIndex(t *Tree, index int32) (key []byte, value []byte) {
 	if node.height == 0 {
 		if index == 0 {
 			return node.key, node.value
+<<<<<<< HEAD
 		} else {
 			panic("getByIndex asked for invalid index")
 		}
+=======
+		}
+		panic("getByIndex asked for invalid index")
+>>>>>>> upstream/master
 	} else {
 		// TODO: could improve this by storing the sizes as well as left/right hash.
 		leftNode := node.getLeftNode(t)
 		if index < leftNode.size {
 			return leftNode.getByIndex(t, index)
+<<<<<<< HEAD
 		} else {
 			return node.getRightNode(t).getByIndex(t, index-leftNode.size)
 		}
@@ -139,6 +180,14 @@ func (node *Node) getByIndex(t *Tree, index int32) (key []byte, value []byte) {
 }
 
 // 计算节点的hash
+=======
+		}
+		return node.getRightNode(t).getByIndex(t, index-leftNode.size)
+	}
+}
+
+// Hash 计算节点的hash
+>>>>>>> upstream/master
 func (node *Node) Hash(t *Tree) []byte {
 	if node.hash != nil {
 		return node.hash
@@ -211,8 +260,13 @@ func (node *Node) save(t *Tree) int64 {
 	if node.persisted {
 		return 0
 	}
+<<<<<<< HEAD
 	var leftsaveNodeNo int64 = 0
 	var rightsaveNodeNo int64 = 0
+=======
+	var leftsaveNodeNo int64
+	var rightsaveNodeNo int64
+>>>>>>> upstream/master
 
 	// save children
 	if node.leftNode != nil {
@@ -306,16 +360,24 @@ func (node *Node) set(t *Tree, key []byte, value []byte) (newSelf *Node, updated
 		}
 		if updated {
 			return node, updated
+<<<<<<< HEAD
 		} else { //有节点插入，需要重新计算height和size以及tree的平衡
 			node.calcHeightAndSize(t)
 			return node.balance(t), updated
 		}
+=======
+		}
+		//有节点插入，需要重新计算height和size以及tree的平衡
+		node.calcHeightAndSize(t)
+		return node.balance(t), updated
+>>>>>>> upstream/master
 	}
 }
 
 func (node *Node) getLeftNode(t *Tree) *Node {
 	if node.leftNode != nil {
 		return node.leftNode
+<<<<<<< HEAD
 	} else {
 		leftNode, err := t.ndb.GetNode(t, node.leftHash)
 		if err != nil {
@@ -323,11 +385,20 @@ func (node *Node) getLeftNode(t *Tree) *Node {
 		}
 		return leftNode
 	}
+=======
+	}
+	leftNode, err := t.ndb.GetNode(t, node.leftHash)
+	if err != nil {
+		panic(err) //数据库已经损坏
+	}
+	return leftNode
+>>>>>>> upstream/master
 }
 
 func (node *Node) getRightNode(t *Tree) *Node {
 	if node.rightNode != nil {
 		return node.rightNode
+<<<<<<< HEAD
 	} else {
 		rightNode, err := t.ndb.GetNode(t, node.rightHash)
 		if err != nil {
@@ -335,6 +406,14 @@ func (node *Node) getRightNode(t *Tree) *Node {
 		}
 		return rightNode
 	}
+=======
+	}
+	rightNode, err := t.ndb.GetNode(t, node.rightHash)
+	if err != nil {
+		panic(err)
+	}
+	return rightNode
+>>>>>>> upstream/master
 }
 
 // NOTE: overwrites node TODO: optimize balance & rotate
@@ -393,6 +472,7 @@ func (node *Node) balance(t *Tree) (newSelf *Node) {
 		if node.getLeftNode(t).calcBalance(t) >= 0 {
 			// Left Left Case
 			return node.rotateRight(t)
+<<<<<<< HEAD
 		} else {
 			// Left Right Case
 			// node = node._copy()
@@ -402,11 +482,22 @@ func (node *Node) balance(t *Tree) (newSelf *Node) {
 			//node.calcHeightAndSize()
 			return node.rotateRight(t)
 		}
+=======
+		}
+		// Left Right Case
+		// node = node._copy()
+		left := node.getLeftNode(t)
+		removeOrphan(t, left)
+		node.leftHash, node.leftNode = nil, left.rotateLeft(t)
+		//node.calcHeightAndSize()
+		return node.rotateRight(t)
+>>>>>>> upstream/master
 	}
 	if balance < -1 {
 		if node.getRightNode(t).calcBalance(t) <= 0 {
 			// Right Right Case
 			return node.rotateLeft(t)
+<<<<<<< HEAD
 		} else {
 			// Right Left Case
 			// node = node._copy()
@@ -416,6 +507,16 @@ func (node *Node) balance(t *Tree) (newSelf *Node) {
 			//node.calcHeightAndSize()
 			return node.rotateLeft(t)
 		}
+=======
+		}
+		// Right Left Case
+		// node = node._copy()
+		right := node.getRightNode(t)
+		removeOrphan(t, right)
+		node.rightHash, node.rightNode = nil, right.rotateRight(t)
+		//node.calcHeightAndSize()
+		return node.rotateLeft(t)
+>>>>>>> upstream/master
 	}
 	// Nothing changed
 	return node
@@ -430,6 +531,7 @@ func (node *Node) remove(t *Tree, key []byte) (
 		if bytes.Equal(key, node.key) {
 			removeOrphan(t, node)
 			return nil, nil, nil, node.value, true
+<<<<<<< HEAD
 		} else {
 			return node.hash, node, nil, nil, false
 		}
@@ -469,6 +571,44 @@ func (node *Node) remove(t *Tree, key []byte) (
 			return node.hash, node, nil, value, true
 		}
 	}
+=======
+		}
+		return node.hash, node, nil, nil, false
+	}
+	if bytes.Compare(key, node.key) < 0 {
+		var newLeftHash []byte
+		var newLeftNode *Node
+		newLeftHash, newLeftNode, newKey, value, removed = node.getLeftNode(t).remove(t, key)
+		if !removed {
+			return node.hash, node, nil, value, false
+		} else if newLeftHash == nil && newLeftNode == nil { // left node held value, was removed
+			return node.rightHash, node.rightNode, node.key, value, true
+		}
+		removeOrphan(t, node)
+		node = node._copy()
+		node.leftHash, node.leftNode = newLeftHash, newLeftNode
+		node.calcHeightAndSize(t)
+		node = node.balance(t)
+		return node.hash, node, newKey, value, true
+	}
+	var newRightHash []byte
+	var newRightNode *Node
+	newRightHash, newRightNode, newKey, value, removed = node.getRightNode(t).remove(t, key)
+	if !removed {
+		return node.hash, node, nil, value, false
+	} else if newRightHash == nil && newRightNode == nil { // right node held value, was removed
+		return node.leftHash, node.leftNode, nil, value, true
+	}
+	removeOrphan(t, node)
+	node = node._copy()
+	node.rightHash, node.rightNode = newRightHash, newRightNode
+	if newKey != nil {
+		node.key = newKey
+	}
+	node.calcHeightAndSize(t)
+	node = node.balance(t)
+	return node.hash, node, nil, value, true
+>>>>>>> upstream/master
 }
 
 func removeOrphan(t *Tree, node *Node) {

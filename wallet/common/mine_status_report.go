@@ -4,6 +4,10 @@
 
 package common
 
+<<<<<<< HEAD
+=======
+// MineStatusReport 挖矿操作状态
+>>>>>>> upstream/master
 type MineStatusReport interface {
 	IsAutoMining() bool
 	// 返回挖矿买票锁的状态

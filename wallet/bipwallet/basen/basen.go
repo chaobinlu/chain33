@@ -4,6 +4,10 @@
 
 // Copyright (c) 2014 Casey Marshall. See LICENSE file for details.
 
+<<<<<<< HEAD
+=======
+// Package basen basen (base-N) is a simple Go encoding package for representing bytes as big integers in arbitrary base-N encoding.
+>>>>>>> upstream/master
 package basen
 
 import (

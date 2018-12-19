@@ -15,6 +15,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+// Start addrbook start
+>>>>>>> upstream/master
 func (a *AddrBook) Start() error {
 	log.Debug("addrbook start")
 	a.loadDb()
@@ -22,17 +26,29 @@ func (a *AddrBook) Start() error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// Close addrbook close
+>>>>>>> upstream/master
 func (a *AddrBook) Close() {
 	a.Quit <- struct{}{}
 	a.bookDb.Close()
 
 }
 
+<<<<<<< HEAD
 //peer address manager
 type AddrBook struct {
 	mtx      sync.Mutex
 	ourAddrs map[string]*NetAddress
 	addrPeer map[string]*knownAddress
+=======
+// AddrBook peer address manager
+type AddrBook struct {
+	mtx      sync.Mutex
+	ourAddrs map[string]*NetAddress
+	addrPeer map[string]*KnownAddress
+>>>>>>> upstream/master
 	cfg      *types.P2P
 	keymtx   sync.Mutex
 	privkey  string
@@ -41,7 +57,12 @@ type AddrBook struct {
 	Quit     chan struct{}
 }
 
+<<<<<<< HEAD
 type knownAddress struct {
+=======
+// KnownAddress defines known address type
+type KnownAddress struct {
+>>>>>>> upstream/master
 	kmtx        sync.Mutex
 	Addr        *NetAddress `json:"addr"`
 	Attempts    uint        `json:"attempts"`
@@ -49,7 +70,12 @@ type knownAddress struct {
 	LastSuccess time.Time   `json:"lastsuccess"`
 }
 
+<<<<<<< HEAD
 func (a *AddrBook) GetPeerStat(addr string) *knownAddress {
+=======
+// GetPeerStat get peer stat
+func (a *AddrBook) GetPeerStat(addr string) *KnownAddress {
+>>>>>>> upstream/master
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
 	if peer, ok := a.addrPeer[addr]; ok {
@@ -59,7 +85,11 @@ func (a *AddrBook) GetPeerStat(addr string) *knownAddress {
 
 }
 
+<<<<<<< HEAD
 func (a *AddrBook) setAddrStat(addr string, run bool) (*knownAddress, bool) {
+=======
+func (a *AddrBook) setAddrStat(addr string, run bool) (*KnownAddress, bool) {
+>>>>>>> upstream/master
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
 	if peer, ok := a.addrPeer[addr]; ok {
@@ -74,11 +104,19 @@ func (a *AddrBook) setAddrStat(addr string, run bool) (*knownAddress, bool) {
 	return nil, false
 }
 
+<<<<<<< HEAD
+=======
+// NewAddrBook create a addrbook
+>>>>>>> upstream/master
 func NewAddrBook(cfg *types.P2P) *AddrBook {
 	a := &AddrBook{
 
 		ourAddrs: make(map[string]*NetAddress),
+<<<<<<< HEAD
 		addrPeer: make(map[string]*knownAddress),
+=======
+		addrPeer: make(map[string]*KnownAddress),
+>>>>>>> upstream/master
 		cfg:      cfg,
 		Quit:     make(chan struct{}, 1),
 	}
@@ -86,8 +124,13 @@ func NewAddrBook(cfg *types.P2P) *AddrBook {
 	return a
 }
 
+<<<<<<< HEAD
 func newKnownAddress(addr *NetAddress) *knownAddress {
 	return &knownAddress{
+=======
+func newKnownAddress(addr *NetAddress) *KnownAddress {
+	return &KnownAddress{
+>>>>>>> upstream/master
 		kmtx:        sync.Mutex{},
 		Addr:        addr,
 		Attempts:    0,
@@ -95,7 +138,11 @@ func newKnownAddress(addr *NetAddress) *knownAddress {
 	}
 }
 
+<<<<<<< HEAD
 func (ka *knownAddress) markGood() {
+=======
+func (ka *KnownAddress) markGood() {
+>>>>>>> upstream/master
 	ka.kmtx.Lock()
 	defer ka.kmtx.Unlock()
 	now := types.Now()
@@ -104,10 +151,18 @@ func (ka *knownAddress) markGood() {
 	ka.LastSuccess = now
 }
 
+<<<<<<< HEAD
 func (ka *knownAddress) Copy() *knownAddress {
 	ka.kmtx.Lock()
 
 	ret := knownAddress{
+=======
+// Copy a KnownAddress
+func (ka *KnownAddress) Copy() *KnownAddress {
+	ka.kmtx.Lock()
+
+	ret := KnownAddress{
+>>>>>>> upstream/master
 		Addr:        ka.Addr.Copy(),
 		Attempts:    ka.Attempts,
 		LastAttempt: ka.LastAttempt,
@@ -117,7 +172,11 @@ func (ka *knownAddress) Copy() *knownAddress {
 	return &ret
 }
 
+<<<<<<< HEAD
 func (ka *knownAddress) markAttempt() {
+=======
+func (ka *KnownAddress) markAttempt() {
+>>>>>>> upstream/master
 	ka.kmtx.Lock()
 	defer ka.kmtx.Unlock()
 
@@ -127,12 +186,21 @@ func (ka *knownAddress) markAttempt() {
 
 }
 
+<<<<<<< HEAD
 func (ka *knownAddress) GetAttempts() uint {
+=======
+// GetAttempts return attempts
+func (ka *KnownAddress) GetAttempts() uint {
+>>>>>>> upstream/master
 	ka.kmtx.Lock()
 	defer ka.kmtx.Unlock()
 	return ka.Attempts
 }
 
+<<<<<<< HEAD
+=======
+// ISOurAddress determine if the address is ours
+>>>>>>> upstream/master
 func (a *AddrBook) ISOurAddress(addr *NetAddress) bool {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
@@ -143,6 +211,10 @@ func (a *AddrBook) ISOurAddress(addr *NetAddress) bool {
 	return false
 }
 
+<<<<<<< HEAD
+=======
+// IsOurStringAddress determine if the address is ours
+>>>>>>> upstream/master
 func (a *AddrBook) IsOurStringAddress(addr string) bool {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
@@ -152,6 +224,10 @@ func (a *AddrBook) IsOurStringAddress(addr string) bool {
 	return false
 }
 
+<<<<<<< HEAD
+=======
+// AddOurAddress add a address for ours
+>>>>>>> upstream/master
 func (a *AddrBook) AddOurAddress(addr *NetAddress) {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
@@ -159,6 +235,10 @@ func (a *AddrBook) AddOurAddress(addr *NetAddress) {
 	a.ourAddrs[addr.String()] = addr
 }
 
+<<<<<<< HEAD
+=======
+// Size return addrpeer size
+>>>>>>> upstream/master
 func (a *AddrBook) Size() int {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
@@ -166,13 +246,21 @@ func (a *AddrBook) Size() int {
 }
 
 type addrBookJSON struct {
+<<<<<<< HEAD
 	Addrs []*knownAddress `json:"addrs"`
+=======
+	Addrs []*KnownAddress `json:"addrs"`
+>>>>>>> upstream/master
 }
 
 func (a *AddrBook) saveToDb() {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
+<<<<<<< HEAD
 	addrs := []*knownAddress{}
+=======
+	addrs := []*KnownAddress{}
+>>>>>>> upstream/master
 
 	seeds := a.cfg.Seeds
 	seedsMap := make(map[string]int)
@@ -282,8 +370,14 @@ out:
 	log.Info("Address handler done")
 }
 
+<<<<<<< HEAD
 // NOTE: addr must not be nil
 func (a *AddrBook) AddAddress(addr *NetAddress, ka *knownAddress) {
+=======
+// AddAddress add a address for ours
+// NOTE: addr must not be nil
+func (a *AddrBook) AddAddress(addr *NetAddress, ka *KnownAddress) {
+>>>>>>> upstream/master
 
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
@@ -309,6 +403,10 @@ func (a *AddrBook) AddAddress(addr *NetAddress, ka *knownAddress) {
 
 }
 
+<<<<<<< HEAD
+=======
+// RemoveAddr remove address
+>>>>>>> upstream/master
 func (a *AddrBook) RemoveAddr(peeraddr string) {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
@@ -317,6 +415,10 @@ func (a *AddrBook) RemoveAddr(peeraddr string) {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// GetPeers return peerlist
+>>>>>>> upstream/master
 func (a *AddrBook) GetPeers() []*NetAddress {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
@@ -327,6 +429,10 @@ func (a *AddrBook) GetPeers() []*NetAddress {
 	return peerlist
 }
 
+<<<<<<< HEAD
+=======
+// GetAddrs return addrlist
+>>>>>>> upstream/master
 func (a *AddrBook) GetAddrs() []string {
 	a.mtx.Lock()
 	defer a.mtx.Unlock()
@@ -367,6 +473,10 @@ func (a *AddrBook) setKey(privkey, pubkey string) {
 
 }
 
+<<<<<<< HEAD
+=======
+// GetPrivPubKey return privkey and pubkey
+>>>>>>> upstream/master
 func (a *AddrBook) GetPrivPubKey() (string, string) {
 	a.keymtx.Lock()
 	defer a.keymtx.Unlock()

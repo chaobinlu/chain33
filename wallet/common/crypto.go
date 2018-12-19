@@ -9,7 +9,11 @@ import (
 	"crypto/cipher"
 )
 
+<<<<<<< HEAD
 //使用钱包的password对私钥进行aes cbc加密,返回加密后的privkey
+=======
+// CBCEncrypterPrivkey 使用钱包的password对私钥进行aes cbc加密,返回加密后的privkey
+>>>>>>> upstream/master
 func CBCEncrypterPrivkey(password []byte, privkey []byte) []byte {
 	key := make([]byte, 32)
 	Encrypted := make([]byte, len(privkey))
@@ -28,7 +32,11 @@ func CBCEncrypterPrivkey(password []byte, privkey []byte) []byte {
 	return Encrypted
 }
 
+<<<<<<< HEAD
 //使用钱包的password对私钥进行aes cbc解密,返回解密后的privkey
+=======
+// CBCDecrypterPrivkey 使用钱包的password对私钥进行aes cbc解密,返回解密后的privkey
+>>>>>>> upstream/master
 func CBCDecrypterPrivkey(password []byte, privkey []byte) []byte {
 	key := make([]byte, 32)
 	if len(password) > 32 {

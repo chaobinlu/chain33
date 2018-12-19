@@ -13,13 +13,20 @@ import (
 	"testing"
 	"unicode"
 
+<<<<<<< HEAD
 	"github.com/pkg/errors"
+=======
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/common/address"
 	"github.com/33cn/chain33/common/crypto"
 	"github.com/33cn/chain33/common/log/log15"
 	"github.com/33cn/chain33/common/merkle"
 	"github.com/33cn/chain33/queue"
 	"github.com/33cn/chain33/types"
+<<<<<<< HEAD
+=======
+	"github.com/pkg/errors"
+>>>>>>> upstream/master
 )
 
 func init() {
@@ -28,18 +35,31 @@ func init() {
 
 var chainlog = log15.New("module", "testnode")
 
+<<<<<<< HEAD
 func GetRealExecName(paraName string, name string) string {
+=======
+//GetParaExecName : 如果 name 没有 paraName 前缀，那么加上这个前缀
+func GetParaExecName(paraName string, name string) string {
+>>>>>>> upstream/master
 	if strings.HasPrefix(name, "user.p.") {
 		return name
 	}
 	return paraName + name
 }
 
+<<<<<<< HEAD
 // MakeStringToUpper 将给定的in字符串从pos开始一共count个转换为大写字母
 func MakeStringToUpper(in string, pos, count int) (out string, err error) {
 	l := len(in)
 	if pos < 0 || pos >= l || (pos+count) >= l {
 		err = errors.New(fmt.Sprintf("Invalid params. in=%s pos=%d count=%d", in, pos, count))
+=======
+// MakeStringToUpper : 将给定的in字符串从pos开始一共count个转换为大写字母
+func MakeStringToUpper(in string, pos, count int) (out string, err error) {
+	l := len(in)
+	if pos < 0 || pos >= l || (pos+count) >= l {
+		err = fmt.Errorf("Invalid params. in=%s pos=%d count=%d", in, pos, count)
+>>>>>>> upstream/master
 		return
 	}
 	tmp := []rune(in)
@@ -50,11 +70,19 @@ func MakeStringToUpper(in string, pos, count int) (out string, err error) {
 	return
 }
 
+<<<<<<< HEAD
 // MakeStringToLower 将给定的in字符串从pos开始一共count个转换为小写字母
 func MakeStringToLower(in string, pos, count int) (out string, err error) {
 	l := len(in)
 	if pos < 0 || pos >= l || (pos+count) >= l {
 		err = errors.New(fmt.Sprintf("Invalid params. in=%s pos=%d count=%d", in, pos, count))
+=======
+// MakeStringToLower : 将给定的in字符串从pos开始一共count个转换为小写字母
+func MakeStringToLower(in string, pos, count int) (out string, err error) {
+	l := len(in)
+	if pos < 0 || pos >= l || (pos+count) >= l {
+		err = fmt.Errorf("Invalid params. in=%s pos=%d count=%d", in, pos, count)
+>>>>>>> upstream/master
 		return
 	}
 	tmp := []rune(in)
@@ -65,6 +93,10 @@ func MakeStringToLower(in string, pos, count int) (out string, err error) {
 	return
 }
 
+<<<<<<< HEAD
+=======
+//GenNoneTxs : 创建一些 none 执行器的 交易列表，一般用于测试
+>>>>>>> upstream/master
 func GenNoneTxs(priv crypto.PrivKey, n int64) (txs []*types.Transaction) {
 	for i := 0; i < int(n); i++ {
 		txs = append(txs, CreateNoneTx(priv))
@@ -72,14 +104,26 @@ func GenNoneTxs(priv crypto.PrivKey, n int64) (txs []*types.Transaction) {
 	return txs
 }
 
+<<<<<<< HEAD
 func GenCoinsTxs(priv crypto.PrivKey, n int64) (txs []*types.Transaction) {
 	to, _ := Genaddress()
 	for i := 0; i < int(n); i++ {
 		txs = append(txs, CreateCoinsTx(priv, to, types.Coin*(n+1)))
+=======
+//GenCoinsTxs : generate txs to be executed on exector coin
+func GenCoinsTxs(priv crypto.PrivKey, n int64) (txs []*types.Transaction) {
+	to, _ := Genaddress()
+	for i := 0; i < int(n); i++ {
+		txs = append(txs, CreateCoinsTx(priv, to, n+1))
+>>>>>>> upstream/master
 	}
 	return txs
 }
 
+<<<<<<< HEAD
+=======
+//Genaddress : generate a address
+>>>>>>> upstream/master
 func Genaddress() (string, crypto.PrivKey) {
 	cr, err := crypto.New(types.GetSignName("", types.SECP256K1))
 	if err != nil {
@@ -93,10 +137,18 @@ func Genaddress() (string, crypto.PrivKey) {
 	return addrto.String(), privto
 }
 
+<<<<<<< HEAD
+=======
+// CreateNoneTx : Create None Tx
+>>>>>>> upstream/master
 func CreateNoneTx(priv crypto.PrivKey) *types.Transaction {
 	return CreateTxWithExecer(priv, "none")
 }
 
+<<<<<<< HEAD
+=======
+// CreateTxWithExecer ： Create Tx With Execer
+>>>>>>> upstream/master
 func CreateTxWithExecer(priv crypto.PrivKey, execer string) *types.Transaction {
 	if execer == "coins" {
 		to, _ := Genaddress()
@@ -105,11 +157,22 @@ func CreateTxWithExecer(priv crypto.PrivKey, execer string) *types.Transaction {
 	tx := &types.Transaction{Execer: []byte(execer), Payload: []byte("none")}
 	tx.To = address.ExecAddress(execer)
 	tx, _ = types.FormatTx(execer, tx)
+<<<<<<< HEAD
 	tx.Sign(types.SECP256K1, priv)
 	return tx
 }
 
 func JsonPrint(t *testing.T, input interface{}) {
+=======
+	if priv != nil {
+		tx.Sign(types.SECP256K1, priv)
+	}
+	return tx
+}
+
+// JSONPrint : print in json format
+func JSONPrint(t *testing.T, input interface{}) {
+>>>>>>> upstream/master
 	data, err := json.MarshalIndent(input, "", "\t")
 	if err != nil {
 		t.Error(err)
@@ -118,6 +181,10 @@ func JsonPrint(t *testing.T, input interface{}) {
 	t.Log(string(data))
 }
 
+<<<<<<< HEAD
+=======
+// CreateManageTx : Create Manage Tx
+>>>>>>> upstream/master
 func CreateManageTx(priv crypto.PrivKey, key, op, value string) *types.Transaction {
 	v := &types.ModifyConfig{Key: key, Op: op, Value: value, Addr: ""}
 	exec := types.LoadExecutorType("manage")
@@ -133,6 +200,10 @@ func CreateManageTx(priv crypto.PrivKey, key, op, value string) *types.Transacti
 	return tx
 }
 
+<<<<<<< HEAD
+=======
+// CreateCoinsTx : Create Coins Tx
+>>>>>>> upstream/master
 func CreateCoinsTx(priv crypto.PrivKey, to string, amount int64) *types.Transaction {
 	tx := createCoinsTx(to, amount)
 	tx.Sign(types.SECP256K1, priv)
@@ -156,6 +227,10 @@ func createCoinsTx(to string, amount int64) *types.Transaction {
 	return tx
 }
 
+<<<<<<< HEAD
+=======
+//CreateTxWithTxHeight : Create Tx With Tx Height
+>>>>>>> upstream/master
 func CreateTxWithTxHeight(priv crypto.PrivKey, to string, amount, expire int64) *types.Transaction {
 	tx := createCoinsTx(to, amount)
 	tx.Expire = expire + types.TxHeightFlag
@@ -163,6 +238,10 @@ func CreateTxWithTxHeight(priv crypto.PrivKey, to string, amount, expire int64) 
 	return tx
 }
 
+<<<<<<< HEAD
+=======
+// GenTxsTxHeigt : Gen Txs with Heigt
+>>>>>>> upstream/master
 func GenTxsTxHeigt(priv crypto.PrivKey, n, height int64) (txs []*types.Transaction) {
 	to, _ := Genaddress()
 	for i := 0; i < int(n); i++ {
@@ -174,9 +253,16 @@ func GenTxsTxHeigt(priv crypto.PrivKey, n, height int64) (txs []*types.Transacti
 
 var zeroHash [32]byte
 
+<<<<<<< HEAD
 func CreateNoneBlock(priv crypto.PrivKey, n int64) *types.Block {
 	newblock := &types.Block{}
 	newblock.Height = -1
+=======
+// CreateNoneBlock : Create None Block
+func CreateNoneBlock(priv crypto.PrivKey, n int64) *types.Block {
+	newblock := &types.Block{}
+	newblock.Height = 1
+>>>>>>> upstream/master
 	newblock.BlockTime = types.Now().Unix()
 	newblock.ParentHash = zeroHash[:]
 	newblock.Txs = GenNoneTxs(priv, n)
@@ -184,6 +270,21 @@ func CreateNoneBlock(priv crypto.PrivKey, n int64) *types.Block {
 	return newblock
 }
 
+<<<<<<< HEAD
+=======
+//CreateCoinsBlock : create coins block, n size
+func CreateCoinsBlock(priv crypto.PrivKey, n int64) *types.Block {
+	newblock := &types.Block{}
+	newblock.Height = 1
+	newblock.BlockTime = types.Now().Unix()
+	newblock.ParentHash = zeroHash[:]
+	newblock.Txs = GenCoinsTxs(priv, n)
+	newblock.TxHash = merkle.CalcMerkleRoot(newblock.Txs)
+	return newblock
+}
+
+// ExecBlock : just exec block
+>>>>>>> upstream/master
 func ExecBlock(client queue.Client, prevStateRoot []byte, block *types.Block, errReturn bool, sync bool) (*types.BlockDetail, []*types.Transaction, error) {
 	//发送执行交易给execs模块
 	//通过consensus module 再次检查
@@ -228,7 +329,11 @@ func ExecBlock(client queue.Client, prevStateRoot []byte, block *types.Block, er
 			deltxlist[i] = true
 			continue
 		}
+<<<<<<< HEAD
 		rdata = append(rdata, &types.ReceiptData{receipt.Ty, receipt.Logs})
+=======
+		rdata = append(rdata, &types.ReceiptData{Ty: receipt.Ty, Logs: receipt.Logs})
+>>>>>>> upstream/master
 		//处理KV
 		kvs := receipt.KV
 		for _, kv := range kvs {
@@ -286,6 +391,10 @@ func ExecBlock(client queue.Client, prevStateRoot []byte, block *types.Block, er
 	return &detail, deltx, nil
 }
 
+<<<<<<< HEAD
+=======
+//CreateNewBlock : Create a New Block
+>>>>>>> upstream/master
 func CreateNewBlock(parent *types.Block, txs []*types.Transaction) *types.Block {
 	newblock := &types.Block{}
 	newblock.Height = parent.Height + 1
@@ -296,6 +405,10 @@ func CreateNewBlock(parent *types.Block, txs []*types.Transaction) *types.Block 
 	return newblock
 }
 
+<<<<<<< HEAD
+=======
+//ExecAndCheckBlock : Exec and Check Block
+>>>>>>> upstream/master
 func ExecAndCheckBlock(qclient queue.Client, block *types.Block, txs []*types.Transaction, status int) (*types.Block, error) {
 	return ExecAndCheckBlockCB(qclient, block, txs, func(index int, receipt *types.ReceiptData) error {
 		if status == 0 && receipt != nil {
@@ -311,6 +424,10 @@ func ExecAndCheckBlock(qclient queue.Client, block *types.Block, txs []*types.Tr
 	})
 }
 
+<<<<<<< HEAD
+=======
+// ExecAndCheckBlock2 :
+>>>>>>> upstream/master
 func ExecAndCheckBlock2(qclient queue.Client, block *types.Block, txs []*types.Transaction, result []int) (*types.Block, error) {
 	return ExecAndCheckBlockCB(qclient, block, txs, func(index int, receipt *types.ReceiptData) error {
 		if len(result) <= index {
@@ -330,6 +447,10 @@ func ExecAndCheckBlock2(qclient queue.Client, block *types.Block, txs []*types.T
 	})
 }
 
+<<<<<<< HEAD
+=======
+//ExecAndCheckBlockCB :
+>>>>>>> upstream/master
 func ExecAndCheckBlockCB(qclient queue.Client, block *types.Block, txs []*types.Transaction, cb func(int, *types.ReceiptData) error) (*types.Block, error) {
 	block2 := CreateNewBlock(block, txs)
 	detail, deltx, err := ExecBlock(qclient, block.StateHash, block2, false, true)
@@ -337,7 +458,11 @@ func ExecAndCheckBlockCB(qclient queue.Client, block *types.Block, txs []*types.
 		return nil, err
 	}
 	for _, v := range deltx {
+<<<<<<< HEAD
 		s, err := types.PBToJson(v)
+=======
+		s, err := types.PBToJSON(v)
+>>>>>>> upstream/master
 		if err != nil {
 			return nil, err
 		}

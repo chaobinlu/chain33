@@ -8,6 +8,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+// ExecLocal_Transfer  transfer of local exec
+>>>>>>> upstream/master
 func (c *Coins) ExecLocal_Transfer(transfer *types.AssetsTransfer, tx *types.Transaction, receipt *types.ReceiptData, index int) (*types.LocalDBSet, error) {
 	kv, err := updateAddrReciver(c.GetLocalDB(), tx.GetRealToAddr(), transfer.Amount, true)
 	if err != nil {
@@ -16,6 +20,10 @@ func (c *Coins) ExecLocal_Transfer(transfer *types.AssetsTransfer, tx *types.Tra
 	return &types.LocalDBSet{KV: []*types.KeyValue{kv}}, nil
 }
 
+<<<<<<< HEAD
+=======
+// ExecLocal_TransferToExec  transfer of local exec to exec
+>>>>>>> upstream/master
 func (c *Coins) ExecLocal_TransferToExec(transfer *types.AssetsTransferToExec, tx *types.Transaction, receipt *types.ReceiptData, index int) (*types.LocalDBSet, error) {
 	kv, err := updateAddrReciver(c.GetLocalDB(), tx.GetRealToAddr(), transfer.Amount, true)
 	if err != nil {
@@ -24,6 +32,10 @@ func (c *Coins) ExecLocal_TransferToExec(transfer *types.AssetsTransferToExec, t
 	return &types.LocalDBSet{KV: []*types.KeyValue{kv}}, nil
 }
 
+<<<<<<< HEAD
+=======
+// ExecLocal_Withdraw  withdraw local exec
+>>>>>>> upstream/master
 func (c *Coins) ExecLocal_Withdraw(withdraw *types.AssetsWithdraw, tx *types.Transaction, receipt *types.ReceiptData, index int) (*types.LocalDBSet, error) {
 	from := tx.From()
 	kv, err := updateAddrReciver(c.GetLocalDB(), from, withdraw.Amount, true)
@@ -33,6 +45,10 @@ func (c *Coins) ExecLocal_Withdraw(withdraw *types.AssetsWithdraw, tx *types.Tra
 	return &types.LocalDBSet{KV: []*types.KeyValue{kv}}, nil
 }
 
+<<<<<<< HEAD
+=======
+// ExecLocal_Genesis Genesis of local exec
+>>>>>>> upstream/master
 func (c *Coins) ExecLocal_Genesis(gen *types.AssetsGenesis, tx *types.Transaction, receipt *types.ReceiptData, index int) (*types.LocalDBSet, error) {
 	kv, err := updateAddrReciver(c.GetLocalDB(), tx.GetRealToAddr(), gen.Amount, true)
 	if err != nil {

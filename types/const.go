@@ -9,28 +9,55 @@ import (
 )
 
 var slash = []byte("-")
+<<<<<<< HEAD
 var Debug = false
 
 type LogErr []byte
 type LogReserved []byte
 
+=======
+var sharp = []byte("#")
+
+//Debug 调试开关
+var Debug = false
+
+//LogErr log错误信息
+type LogErr []byte
+
+//LogReserved LogReserved信息
+type LogReserved []byte
+
+//LogInfo loginfo信息
+>>>>>>> upstream/master
 type LogInfo struct {
 	Ty   reflect.Type
 	Name string
 }
 
+<<<<<<< HEAD
+=======
+//UserKeyX 用户自定义执行器前缀字符串
+>>>>>>> upstream/master
 const (
 	UserKeyX = "user."
 	ParaKeyX = "user.p."
 	NoneX    = "none"
 )
 
+<<<<<<< HEAD
+=======
+//UserKeyX 用户自定义执行器前缀byte类型
+>>>>>>> upstream/master
 var (
 	UserKey    = []byte(UserKeyX)
 	ParaKey    = []byte(ParaKeyX)
 	ExecerNone = []byte(NoneX)
 )
 
+<<<<<<< HEAD
+=======
+//基本全局常量定义
+>>>>>>> upstream/master
 const (
 	InputPrecision        float64 = 1e4
 	Multiple1E4           int64   = 1e4
@@ -44,7 +71,13 @@ const (
 	MinerAction                   = "miner"
 )
 
+<<<<<<< HEAD
 var (
+=======
+//全局账户私钥/公钥
+var (
+	//ViewPubFee 公钥
+>>>>>>> upstream/master
 	//addr:1Cbo5u8V5F3ubWBv9L6qu9wWxKuD3qBVpi,这里只是作为测试用，后面需要修改为系统账户
 	ViewPubFee  = "0x0f7b661757fe8471c0b853b09bf526b19537a2f91254494d19874a04119415e8"
 	SpendPubFee = "0x64204db5a521771eeeddee59c25aaae6bebe796d564effb6ba11352418002ee3"
@@ -77,7 +110,11 @@ const (
 	TyLogReserved = 0
 	TyLogErr      = 1
 	TyLogFee      = 2
+<<<<<<< HEAD
 	//coins
+=======
+	//TyLogTransfer coins
+>>>>>>> upstream/master
 	TyLogTransfer        = 3
 	TyLogGenesis         = 4
 	TyLogDeposit         = 5
@@ -90,6 +127,10 @@ const (
 	TyLogGenesisDeposit  = 12
 )
 
+<<<<<<< HEAD
+=======
+//SystemLog 系统log日志
+>>>>>>> upstream/master
 var SystemLog = map[int64]*LogInfo{
 	TyLogReserved:        {reflect.TypeOf(LogReserved{}), "LogReserved"},
 	TyLogErr:             {reflect.TypeOf(LogErr{}), "LogErr"},
@@ -123,10 +164,17 @@ func init() {
 //提供一种可以快速查重的交易类型，和原来的交易完全兼容
 //并且可以通过开关控制是否开启这样的交易
 
+<<<<<<< HEAD
 //标记是一个时间还是一个 TxHeight
 var TxHeightFlag int64 = 1 << 62
 
 //eg: current Height is 10000
+=======
+//TxHeightFlag 标记是一个时间还是一个 TxHeight
+var TxHeightFlag int64 = 1 << 62
+
+//HighAllowPackHeight eg: current Height is 10000
+>>>>>>> upstream/master
 //TxHeight is  10010
 //=> Height <= TxHeight + HighAllowPackHeight
 //=> Height >= TxHeight - LowAllowPackHeight
@@ -137,7 +185,15 @@ var TxHeightFlag int64 = 1 << 62
 //也就是说，另外一笔相同的交易，只能被打包在这个区间(9910,10210)。
 //那么检查交易重复的时候，我只要检查 9910 - currentHeight 这个区间的交易不要重复就好了
 var HighAllowPackHeight int64 = 90
+<<<<<<< HEAD
 var LowAllowPackHeight int64 = 30
 
 //默认情况下不开启fork
+=======
+
+//LowAllowPackHeight 允许打包的low区块高度
+var LowAllowPackHeight int64 = 30
+
+//EnableTxGroupParaFork 默认情况下不开启fork
+>>>>>>> upstream/master
 var EnableTxGroupParaFork = false

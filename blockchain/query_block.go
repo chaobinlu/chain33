@@ -9,7 +9,11 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
 //通过blockhash 获取对应的block信息
+=======
+//GetBlockByHashes 通过blockhash 获取对应的block信息
+>>>>>>> upstream/master
 func (chain *BlockChain) GetBlockByHashes(hashes [][]byte) (respblocks *types.BlockDetails, err error) {
 	var blocks types.BlockDetails
 	for _, hash := range hashes {
@@ -23,7 +27,11 @@ func (chain *BlockChain) GetBlockByHashes(hashes [][]byte) (respblocks *types.Bl
 	return &blocks, nil
 }
 
+<<<<<<< HEAD
 //通过blockheight 获取blockhash
+=======
+//ProcGetBlockHash 通过blockheight 获取blockhash
+>>>>>>> upstream/master
 func (chain *BlockChain) ProcGetBlockHash(height *types.ReqInt) (*types.ReplyHash, error) {
 	if height == nil || 0 > height.GetHeight() {
 		chainlog.Error("ProcGetBlockHash input err!")
@@ -43,7 +51,12 @@ func (chain *BlockChain) ProcGetBlockHash(height *types.ReqInt) (*types.ReplyHas
 	return &ReplyHash, nil
 }
 
+<<<<<<< HEAD
 //type  BlockOverview {
+=======
+//ProcGetBlockOverview 返回值
+// type  BlockOverview {
+>>>>>>> upstream/master
 //	Header head = 1;
 //	int64  txCount = 2;
 //	repeated bytes txHashes = 3;}
@@ -87,11 +100,19 @@ func (chain *BlockChain) ProcGetBlockOverview(ReqHash *types.ReqHash) (*types.Bl
 	return &blockOverview, nil
 }
 
+<<<<<<< HEAD
+=======
+//ProcGetLastBlockMsg 获取最新区块信息
+>>>>>>> upstream/master
 func (chain *BlockChain) ProcGetLastBlockMsg() (respblock *types.Block, err error) {
 	block := chain.blockStore.LastBlock()
 	return block, nil
 }
 
+<<<<<<< HEAD
+=======
+//ProcGetBlockByHashMsg 获取最新区块hash
+>>>>>>> upstream/master
 func (chain *BlockChain) ProcGetBlockByHashMsg(hash []byte) (respblock *types.BlockDetail, err error) {
 	blockdetail, err := chain.LoadBlockByHash(hash)
 	if err != nil {
@@ -100,6 +121,10 @@ func (chain *BlockChain) ProcGetBlockByHashMsg(hash []byte) (respblock *types.Bl
 	return blockdetail, nil
 }
 
+<<<<<<< HEAD
+=======
+//ProcGetHeadersMsg 返回值
+>>>>>>> upstream/master
 //type Header struct {
 //	Version    int64
 //	ParentHash []byte
@@ -146,6 +171,10 @@ func (chain *BlockChain) ProcGetHeadersMsg(requestblock *types.ReqBlocks) (resph
 	return &headers, nil
 }
 
+<<<<<<< HEAD
+=======
+//ProcGetLastHeaderMsg 获取最新区块头信息
+>>>>>>> upstream/master
 func (chain *BlockChain) ProcGetLastHeaderMsg() (*types.Header, error) {
 	//首先从缓存中获取最新的blockheader
 	head := chain.blockStore.LastHeader()
@@ -155,15 +184,25 @@ func (chain *BlockChain) ProcGetLastHeaderMsg() (*types.Header, error) {
 		if err == nil && tmpHead != nil {
 			chainlog.Error("ProcGetLastHeaderMsg from cache is nil.", "blockhight", blockhight, "hash", common.ToHex(tmpHead.Hash))
 			return tmpHead, nil
+<<<<<<< HEAD
 		} else {
 			return nil, err
 		}
+=======
+		}
+		return nil, err
+
+>>>>>>> upstream/master
 	}
 	return head, nil
 }
 
 /*
+<<<<<<< HEAD
 EventGetBlocks(types.RequestGetBlock): rpc 模块 会向 blockchain 模块发送 EventGetBlocks(types.RequestGetBlock) 消息，
+=======
+ProcGetBlockDetailsMsg EventGetBlocks(types.RequestGetBlock): rpc 模块 会向 blockchain 模块发送 EventGetBlocks(types.RequestGetBlock) 消息，
+>>>>>>> upstream/master
 功能是查询 区块的信息, 回复消息是 EventBlocks(types.Blocks)
 type ReqBlocks struct {
 	Start int64 `protobuf:"varint,1,opt,name=start" json:"start,omitempty"`
@@ -219,7 +258,11 @@ func (chain *BlockChain) ProcGetBlockDetailsMsg(requestblock *types.ReqBlocks) (
 	return &blocks, nil
 }
 
+<<<<<<< HEAD
 //处理从peer对端同步过来的block消息
+=======
+//ProcAddBlockMsg 处理从peer对端同步过来的block消息
+>>>>>>> upstream/master
 func (chain *BlockChain) ProcAddBlockMsg(broadcast bool, blockdetail *types.BlockDetail, pid string) (*types.BlockDetail, error) {
 	block := blockdetail.Block
 	if block == nil {

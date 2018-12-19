@@ -31,6 +31,10 @@ func init() {
 	QueryData.Register("base", &BaseClient{})
 }
 
+<<<<<<< HEAD
+=======
+//Miner 矿工
+>>>>>>> upstream/master
 type Miner interface {
 	CreateGenesisTx() []*types.Transaction
 	GetGenesisBlockTime() int64
@@ -39,6 +43,10 @@ type Miner interface {
 	ProcEvent(msg queue.Message) bool
 }
 
+<<<<<<< HEAD
+=======
+//BaseClient ...
+>>>>>>> upstream/master
 type BaseClient struct {
 	client       queue.Client
 	api          client.QueueProtocolAPI
@@ -52,6 +60,10 @@ type BaseClient struct {
 	isCaughtUp   int32
 }
 
+<<<<<<< HEAD
+=======
+//NewBaseClient ...
+>>>>>>> upstream/master
 func NewBaseClient(cfg *types.Consensus) *BaseClient {
 	var flag int32
 	if cfg.Minerstart {
@@ -63,18 +75,35 @@ func NewBaseClient(cfg *types.Consensus) *BaseClient {
 	return client
 }
 
+<<<<<<< HEAD
 func (client *BaseClient) GetGenesisBlockTime() int64 {
 	return client.Cfg.GenesisBlockTime
 }
 
+=======
+//GetGenesisBlockTime 获取创世区块时间
+func (bc *BaseClient) GetGenesisBlockTime() int64 {
+	return bc.Cfg.GenesisBlockTime
+}
+
+//SetChild ...
+>>>>>>> upstream/master
 func (bc *BaseClient) SetChild(c Miner) {
 	bc.child = c
 }
 
+<<<<<<< HEAD
+=======
+//GetAPI 获取api
+>>>>>>> upstream/master
 func (bc *BaseClient) GetAPI() client.QueueProtocolAPI {
 	return bc.api
 }
 
+<<<<<<< HEAD
+=======
+//InitClient 初始化
+>>>>>>> upstream/master
 func (bc *BaseClient) InitClient(c queue.Client, minerstartCB func()) {
 	log.Info("Enter SetQueueClient method of consensus")
 	bc.client = c
@@ -83,18 +112,37 @@ func (bc *BaseClient) InitClient(c queue.Client, minerstartCB func()) {
 	bc.InitMiner()
 }
 
+<<<<<<< HEAD
+=======
+//GetQueueClient 获取客户端队列
+>>>>>>> upstream/master
 func (bc *BaseClient) GetQueueClient() queue.Client {
 	return bc.client
 }
 
+<<<<<<< HEAD
+=======
+//RandInt64 随机数
+>>>>>>> upstream/master
 func (bc *BaseClient) RandInt64() int64 {
 	return randgen.Int63()
 }
 
+<<<<<<< HEAD
+=======
+//InitMiner 初始化矿工
+>>>>>>> upstream/master
 func (bc *BaseClient) InitMiner() {
 	bc.once.Do(bc.minerstartCB)
 }
 
+<<<<<<< HEAD
+=======
+//Wait wait for ready
+func (bc *BaseClient) Wait() {}
+
+//SetQueueClient 设置客户端队列
+>>>>>>> upstream/master
 func (bc *BaseClient) SetQueueClient(c queue.Client) {
 	bc.InitClient(c, func() {
 		//call init block
@@ -104,7 +152,11 @@ func (bc *BaseClient) SetQueueClient(c queue.Client) {
 	go bc.child.CreateBlock()
 }
 
+<<<<<<< HEAD
 //change init block
+=======
+//InitBlock change init block
+>>>>>>> upstream/master
 func (bc *BaseClient) InitBlock() {
 	block, err := bc.RequestLastBlock()
 	if err != nil {
@@ -129,13 +181,21 @@ func (bc *BaseClient) InitBlock() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+//Close 关闭
+>>>>>>> upstream/master
 func (bc *BaseClient) Close() {
 	atomic.StoreInt32(&bc.minerStart, 0)
 	bc.client.Close()
 	log.Info("consensus base closed")
 }
 
+<<<<<<< HEAD
 //为了不引起交易检查时候产生的无序
+=======
+//CheckTxDup 为了不引起交易检查时候产生的无序
+>>>>>>> upstream/master
 func (bc *BaseClient) CheckTxDup(txs []*types.Transaction) (transactions []*types.Transaction) {
 	cacheTxs := types.TxsToCache(txs)
 	var err error
@@ -146,10 +206,18 @@ func (bc *BaseClient) CheckTxDup(txs []*types.Transaction) (transactions []*type
 	return types.CacheToTxs(cacheTxs)
 }
 
+<<<<<<< HEAD
+=======
+//IsMining 是否在挖矿
+>>>>>>> upstream/master
 func (bc *BaseClient) IsMining() bool {
 	return atomic.LoadInt32(&bc.minerStart) == 1
 }
 
+<<<<<<< HEAD
+=======
+//IsCaughtUp 是否追上最新高度
+>>>>>>> upstream/master
 func (bc *BaseClient) IsCaughtUp() bool {
 	if bc.client == nil {
 		panic("bc not bind message queue.")
@@ -163,6 +231,10 @@ func (bc *BaseClient) IsCaughtUp() bool {
 	return resp.GetData().(*types.IsCaughtUp).GetIscaughtup()
 }
 
+<<<<<<< HEAD
+=======
+//ExecConsensus 执行共识
+>>>>>>> upstream/master
 func (bc *BaseClient) ExecConsensus(data *types.ChainExecutor) (types.Message, error) {
 	param, err := QueryData.Decode(data.Driver, data.FuncName, data.Param)
 	if err != nil {
@@ -171,7 +243,11 @@ func (bc *BaseClient) ExecConsensus(data *types.ChainExecutor) (types.Message, e
 	return QueryData.Call(data.Driver, data.FuncName, param)
 }
 
+<<<<<<< HEAD
 // 准备新区块
+=======
+//EventLoop 准备新区块
+>>>>>>> upstream/master
 func (bc *BaseClient) EventLoop() {
 	// 监听blockchain模块，获取当前最高区块
 	bc.client.Sub("consensus")
@@ -223,6 +299,10 @@ func (bc *BaseClient) EventLoop() {
 	}()
 }
 
+<<<<<<< HEAD
+=======
+//CheckBlock 检查区块
+>>>>>>> upstream/master
 func (bc *BaseClient) CheckBlock(block *types.BlockDetail) error {
 	//check parent
 	if block.Block.Height <= 0 { //genesis block not check
@@ -248,7 +328,11 @@ func (bc *BaseClient) CheckBlock(block *types.BlockDetail) error {
 	return err
 }
 
+<<<<<<< HEAD
 // Mempool中取交易列表
+=======
+//RequestTx Mempool中取交易列表
+>>>>>>> upstream/master
 func (bc *BaseClient) RequestTx(listSize int, txHashList [][]byte) []*types.Transaction {
 	if bc.client == nil {
 		panic("bc not bind message queue.")
@@ -262,11 +346,20 @@ func (bc *BaseClient) RequestTx(listSize int, txHashList [][]byte) []*types.Tran
 	return resp.GetData().(*types.ReplyTxList).GetTxs()
 }
 
+<<<<<<< HEAD
+=======
+//RequestBlock 请求区块
+>>>>>>> upstream/master
 func (bc *BaseClient) RequestBlock(start int64) (*types.Block, error) {
 	if bc.client == nil {
 		panic("bc not bind message queue.")
 	}
+<<<<<<< HEAD
 	msg := bc.client.NewMessage("blockchain", types.EventGetBlocks, &types.ReqBlocks{start, start, false, []string{""}})
+=======
+	reqblock := &types.ReqBlocks{Start: start, End: start, IsDetail: false, Pid: []string{""}}
+	msg := bc.client.NewMessage("blockchain", types.EventGetBlocks, reqblock)
+>>>>>>> upstream/master
 	bc.client.Send(msg, true)
 	resp, err := bc.client.Wait(msg)
 	if err != nil {
@@ -276,7 +369,11 @@ func (bc *BaseClient) RequestBlock(start int64) (*types.Block, error) {
 	return blocks.Items[0].Block, nil
 }
 
+<<<<<<< HEAD
 //获取最新的block从blockchain模块
+=======
+//RequestLastBlock 获取最新的block从blockchain模块
+>>>>>>> upstream/master
 func (bc *BaseClient) RequestLastBlock() (*types.Block, error) {
 	if bc.client == nil {
 		panic("client not bind message queue.")
@@ -314,8 +411,17 @@ func buildHashList(deltx []*types.Transaction) *types.TxHashList {
 	return list
 }
 
+<<<<<<< HEAD
 // 向blockchain写区块
 func (bc *BaseClient) WriteBlock(prev []byte, block *types.Block) error {
+=======
+//WriteBlock 向blockchain写区块
+func (bc *BaseClient) WriteBlock(prev []byte, block *types.Block) error {
+	//保存block的原始信息用于删除mempool中的错误交易
+	rawtxs := make([]*types.Transaction, len(block.Txs))
+	copy(rawtxs, block.Txs)
+
+>>>>>>> upstream/master
 	blockdetail := &types.BlockDetail{Block: block}
 	msg := bc.client.NewMessage("blockchain", types.EventAddBlockDetail, blockdetail)
 	bc.client.Send(msg, true)
@@ -325,7 +431,11 @@ func (bc *BaseClient) WriteBlock(prev []byte, block *types.Block) error {
 	}
 	blockdetail = resp.GetData().(*types.BlockDetail)
 	//从mempool 中删除错误的交易
+<<<<<<< HEAD
 	deltx := diffTx(block.Txs, blockdetail.Block.Txs)
+=======
+	deltx := diffTx(rawtxs, blockdetail.Block.Txs)
+>>>>>>> upstream/master
 	if len(deltx) > 0 {
 		bc.delMempoolTx(deltx)
 	}
@@ -351,12 +461,20 @@ func diffTx(tx1, tx2 []*types.Transaction) (deltx []*types.Transaction) {
 	return deltx
 }
 
+<<<<<<< HEAD
+=======
+//SetCurrentBlock 设置当前区块
+>>>>>>> upstream/master
 func (bc *BaseClient) SetCurrentBlock(b *types.Block) {
 	bc.mulock.Lock()
 	bc.currentBlock = b
 	bc.mulock.Unlock()
 }
 
+<<<<<<< HEAD
+=======
+//UpdateCurrentBlock 更新当前区块
+>>>>>>> upstream/master
 func (bc *BaseClient) UpdateCurrentBlock(b *types.Block) {
 	bc.mulock.Lock()
 	defer bc.mulock.Unlock()
@@ -368,12 +486,20 @@ func (bc *BaseClient) UpdateCurrentBlock(b *types.Block) {
 	bc.currentBlock = block
 }
 
+<<<<<<< HEAD
+=======
+//GetCurrentBlock 获取当前区块
+>>>>>>> upstream/master
 func (bc *BaseClient) GetCurrentBlock() (b *types.Block) {
 	bc.mulock.Lock()
 	defer bc.mulock.Unlock()
 	return bc.currentBlock
 }
 
+<<<<<<< HEAD
+=======
+//GetCurrentHeight 获取当前高度
+>>>>>>> upstream/master
 func (bc *BaseClient) GetCurrentHeight() int64 {
 	bc.mulock.Lock()
 	start := bc.currentBlock.Height
@@ -381,14 +507,26 @@ func (bc *BaseClient) GetCurrentHeight() int64 {
 	return start
 }
 
+<<<<<<< HEAD
+=======
+//Lock 上锁
+>>>>>>> upstream/master
 func (bc *BaseClient) Lock() {
 	bc.mulock.Lock()
 }
 
+<<<<<<< HEAD
+=======
+//Unlock 解锁
+>>>>>>> upstream/master
 func (bc *BaseClient) Unlock() {
 	bc.mulock.Unlock()
 }
 
+<<<<<<< HEAD
+=======
+//ConsensusTicketMiner ...
+>>>>>>> upstream/master
 func (bc *BaseClient) ConsensusTicketMiner(iscaughtup *types.IsCaughtUp) {
 	if !atomic.CompareAndSwapInt32(&bc.isCaughtUp, 0, 1) {
 		log.Info("ConsensusTicketMiner", "isCaughtUp", bc.isCaughtUp)
@@ -397,6 +535,10 @@ func (bc *BaseClient) ConsensusTicketMiner(iscaughtup *types.IsCaughtUp) {
 	}
 }
 
+<<<<<<< HEAD
+=======
+//AddTxsToBlock 添加交易到区块中
+>>>>>>> upstream/master
 func (bc *BaseClient) AddTxsToBlock(block *types.Block, txs []*types.Transaction) []*types.Transaction {
 	size := block.Size()
 	max := types.MaxBlockSize - 100000 //留下100K空间，添加其他的交易

@@ -15,7 +15,10 @@ import (
 	"strings"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/BurntSushi/toml"
+=======
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/common"
 	"github.com/33cn/chain33/common/address"
 	"github.com/33cn/chain33/common/log"
@@ -23,6 +26,7 @@ import (
 	rpctypes "github.com/33cn/chain33/rpc/types"
 	coinstypes "github.com/33cn/chain33/system/dapp/coins/types"
 	"github.com/33cn/chain33/types"
+<<<<<<< HEAD
 )
 
 var (
@@ -34,10 +38,29 @@ var (
 	heightFile          = "height.txt"
 )
 
+=======
+	"github.com/BurntSushi/toml"
+)
+
+var (
+	configPath    = flag.String("f", "write.toml", "configfile")
+	receiveAddr   = "1MHkgR4uUg1ksssR5NFzU6zkzyCqxqjg2Z"
+	rpcAddr       = "http://localhost:8801"
+	currentHeight int64
+	currentIndex  int64
+	heightFile    = "height.txt"
+)
+
+//Config 配置
+>>>>>>> upstream/master
 type Config struct {
 	UserWriteConf *UserWriteConf
 }
 
+<<<<<<< HEAD
+=======
+//UserWriteConf 用户配置
+>>>>>>> upstream/master
 type UserWriteConf struct {
 	ReceiveAddr   string
 	CurrentHeight int64
@@ -156,7 +179,11 @@ func scanWrite() {
 				continue
 			}
 			var noteTx types.Transaction
+<<<<<<< HEAD
 			txBytes, err := common.FromHex(action.GetTransfer().Note)
+=======
+			txBytes, err := common.FromHex(string(action.GetTransfer().Note))
+>>>>>>> upstream/master
 			if err != nil {
 				fmt.Fprintln(os.Stderr, "not a user data tx")
 				continue
@@ -193,12 +220,20 @@ func scanWrite() {
 				Expire: "0",
 			}
 			var signed string
+<<<<<<< HEAD
 			err = rpc.Call("Chain33.SignRawTx", paramsReqSignRawTx, &signed)
+=======
+			rpc.Call("Chain33.SignRawTx", paramsReqSignRawTx, &signed)
+>>>>>>> upstream/master
 			paramsRaw := rpctypes.RawParm{
 				Data: signed,
 			}
 			var sent string
+<<<<<<< HEAD
 			err = rpc.Call("Chain33.SendTransaction", paramsRaw, &sent)
+=======
+			rpc.Call("Chain33.SendTransaction", paramsRaw, &sent)
+>>>>>>> upstream/master
 			f, _ := os.OpenFile(heightFile, os.O_RDWR, 0666)
 			height := strconv.FormatInt(currentHeight, 10)
 			index := strconv.FormatInt(currentIndex, 10)

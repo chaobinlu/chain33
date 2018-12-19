@@ -10,12 +10,20 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+// AllowIsSame allow issame drivername
+>>>>>>> upstream/master
 func (d *DriverBase) AllowIsSame(execer []byte) bool {
 	execer = types.GetParaExec(execer)
 	return d.child.GetDriverName() == string(execer)
 }
 
+<<<<<<< HEAD
 //user.evm
+=======
+// AllowIsUserDot1 user.evm
+>>>>>>> upstream/master
 func (d *DriverBase) AllowIsUserDot1(execer []byte) bool {
 	execer = types.GetParaExec(execer)
 	if !bytes.HasPrefix(execer, types.UserKey) {
@@ -24,7 +32,11 @@ func (d *DriverBase) AllowIsUserDot1(execer []byte) bool {
 	return d.AllowIsSame(execer[len(types.UserKey):])
 }
 
+<<<<<<< HEAD
 //user.evm.xxx
+=======
+// AllowIsUserDot2 user.evm.xxx
+>>>>>>> upstream/master
 func (d *DriverBase) AllowIsUserDot2(execer []byte) bool {
 	execer = types.GetParaExec(execer)
 	if !bytes.HasPrefix(execer, types.UserKey) {
@@ -45,7 +57,11 @@ func (d *DriverBase) AllowIsUserDot2(execer []byte) bool {
 	return false
 }
 
+<<<<<<< HEAD
 //默认行为: 名字相同 或者 是平行链
+=======
+// Allow default behavior: same name  or  parallel chain
+>>>>>>> upstream/master
 func (d *DriverBase) Allow(tx *types.Transaction, index int) error {
 	if d.AllowIsSame(tx.Execer) {
 		return nil
@@ -53,6 +69,10 @@ func (d *DriverBase) Allow(tx *types.Transaction, index int) error {
 	return types.ErrNotAllow
 }
 
+<<<<<<< HEAD
+=======
+// IsFriend defines a isfriend function
+>>>>>>> upstream/master
 func (d *DriverBase) IsFriend(myexec, writekey []byte, othertx *types.Transaction) bool {
 	return false
 }

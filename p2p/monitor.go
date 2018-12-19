@@ -87,7 +87,11 @@ func (n *Node) getAddrFromGithub() {
 	}
 }
 
+<<<<<<< HEAD
 //从在线节点获取地址列表
+=======
+// getAddrFromOnline gets the address list from the online node
+>>>>>>> upstream/master
 func (n *Node) getAddrFromOnline() {
 	ticker := time.NewTicker(GetAddrFromOnlineInterval)
 	defer ticker.Stop()
@@ -197,7 +201,10 @@ func (n *Node) getAddrFromOnline() {
 	}
 }
 
+<<<<<<< HEAD
 //从addrBook 中获取地址
+=======
+>>>>>>> upstream/master
 func (n *Node) getAddrFromAddrBook() {
 	ticker := time.NewTicker(GetAddrFromAddrBookInterval)
 	defer ticker.Stop()
@@ -404,7 +411,11 @@ func (n *Node) monitorPeerInfo() {
 	}()
 }
 
+<<<<<<< HEAD
 //并发连接节点地址
+=======
+// monitorDialPeers connect the node address concurrently
+>>>>>>> upstream/master
 func (n *Node) monitorDialPeers() {
 	var dialCount int
 	addrChan := n.pubsub.Sub("addr")

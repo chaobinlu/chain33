@@ -43,7 +43,11 @@ type cmd struct {
 	msg    interface{}
 }
 
+<<<<<<< HEAD
 // New creates a new PubSub and starts a goroutine for handling operations.
+=======
+//NewPubSub New creates a new PubSub and starts a goroutine for handling operations.
+>>>>>>> upstream/master
 // The capacity of the channels created by Sub and SubOnce will be as specified.
 func NewPubSub(capacity int) *PubSub {
 	ps := &PubSub{make(chan cmd), capacity}
@@ -86,7 +90,11 @@ func (ps *PubSub) TryPub(msg interface{}, topics ...string) {
 	ps.cmdChan <- cmd{op: tryPub, topics: topics, msg: msg}
 }
 
+<<<<<<< HEAD
 //发布交易：如果channel满了，那么把最旧的数据删除，并写入msg
+=======
+//FIFOPub 发布交易：如果channel满了，那么把最旧的数据删除，并写入msg
+>>>>>>> upstream/master
 func (ps *PubSub) FIFOPub(msg interface{}, topics ...string) {
 	ps.cmdChan <- cmd{op: fifoPub, topics: topics, msg: msg}
 }

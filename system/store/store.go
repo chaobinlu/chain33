@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package store store the world - state data
+>>>>>>> upstream/master
 package store
 
 import (
@@ -9,11 +13,21 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
 type StoreCreate func(cfg *types.Store, sub []byte) queue.Module
 
 var regStore = make(map[string]StoreCreate)
 
 func Reg(name string, create StoreCreate) {
+=======
+// Storecreate store queue module
+type Storecreate func(cfg *types.Store, sub []byte) queue.Module
+
+var regStore = make(map[string]Storecreate)
+
+// Reg 注册 store driver
+func Reg(name string, create Storecreate) {
+>>>>>>> upstream/master
 	if create == nil {
 		panic("Store: Register driver is nil")
 	}
@@ -23,7 +37,12 @@ func Reg(name string, create StoreCreate) {
 	regStore[name] = create
 }
 
+<<<<<<< HEAD
 func Load(name string) (create StoreCreate, err error) {
+=======
+// Load load StoreCreate by name
+func Load(name string) (create Storecreate, err error) {
+>>>>>>> upstream/master
 	if driver, ok := regStore[name]; ok {
 		return driver, nil
 	}

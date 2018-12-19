@@ -13,6 +13,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+//CheckBlock : To check the block's validaty
+>>>>>>> upstream/master
 func CheckBlock(client queue.Client, block *types.BlockDetail) error {
 	req := block
 	msg := client.NewMessage("consensus", types.EventCheckBlock, req)
@@ -28,8 +32,21 @@ func CheckBlock(client queue.Client, block *types.BlockDetail) error {
 	return errors.New(string(reply.GetMsg()))
 }
 
+<<<<<<< HEAD
 func ExecTx(client queue.Client, prevStateRoot []byte, block *types.Block) *types.Receipts {
 	list := &types.ExecTxList{prevStateRoot, block.Txs, block.BlockTime, block.Height, uint64(block.Difficulty), false}
+=======
+//ExecTx : To send lists of txs within a block to exector for execution
+func ExecTx(client queue.Client, prevStateRoot []byte, block *types.Block) *types.Receipts {
+	list := &types.ExecTxList{
+		StateHash:  prevStateRoot,
+		Txs:        block.Txs,
+		BlockTime:  block.BlockTime,
+		Height:     block.Height,
+		Difficulty: uint64(block.Difficulty),
+		IsMempool:  false,
+	}
+>>>>>>> upstream/master
 	msg := client.NewMessage("execs", types.EventExecTxList, list)
 	client.Send(msg, true)
 	resp, err := client.Wait(msg)
@@ -40,9 +57,16 @@ func ExecTx(client queue.Client, prevStateRoot []byte, block *types.Block) *type
 	return receipts
 }
 
+<<<<<<< HEAD
 func ExecKVMemSet(client queue.Client, prevStateRoot []byte, height int64, kvset []*types.KeyValue, sync bool) []byte {
 	set := &types.StoreSet{prevStateRoot, kvset, height}
 	setwithsync := &types.StoreSetWithSync{set, sync}
+=======
+//ExecKVMemSet : send kv values to memory store and set it in db
+func ExecKVMemSet(client queue.Client, prevStateRoot []byte, height int64, kvset []*types.KeyValue, sync bool) []byte {
+	set := &types.StoreSet{StateHash: prevStateRoot, KV: kvset, Height: height}
+	setwithsync := &types.StoreSetWithSync{Storeset: set, Sync: sync}
+>>>>>>> upstream/master
 
 	msg := client.NewMessage("store", types.EventStoreMemSet, setwithsync)
 	client.Send(msg, true)
@@ -54,8 +78,14 @@ func ExecKVMemSet(client queue.Client, prevStateRoot []byte, height int64, kvset
 	return hash.GetHash()
 }
 
+<<<<<<< HEAD
 func ExecKVSetCommit(client queue.Client, hash []byte) error {
 	req := &types.ReqHash{hash}
+=======
+//ExecKVSetCommit : commit the data set opetation to db
+func ExecKVSetCommit(client queue.Client, hash []byte) error {
+	req := &types.ReqHash{Hash: hash}
+>>>>>>> upstream/master
 	msg := client.NewMessage("store", types.EventStoreCommit, req)
 	client.Send(msg, true)
 	msg, err := client.Wait(msg)
@@ -63,11 +93,21 @@ func ExecKVSetCommit(client queue.Client, hash []byte) error {
 		return err
 	}
 	hash = msg.GetData().(*types.ReplyHash).GetHash()
+<<<<<<< HEAD
 	return nil
 }
 
 func ExecKVSetRollback(client queue.Client, hash []byte) error {
 	req := &types.ReqHash{hash}
+=======
+	_ = hash
+	return nil
+}
+
+//ExecKVSetRollback : do the db's roll back operation
+func ExecKVSetRollback(client queue.Client, hash []byte) error {
+	req := &types.ReqHash{Hash: hash}
+>>>>>>> upstream/master
 	msg := client.NewMessage("store", types.EventStoreRollback, req)
 	client.Send(msg, true)
 	msg, err := client.Wait(msg)
@@ -75,10 +115,18 @@ func ExecKVSetRollback(client queue.Client, hash []byte) error {
 		return err
 	}
 	hash = msg.GetData().(*types.ReplyHash).GetHash()
+<<<<<<< HEAD
 	return nil
 }
 
 func CheckTxDupInner(txs []*types.TransactionCache) (ret []*types.TransactionCache) {
+=======
+	_ = hash
+	return nil
+}
+
+func checkTxDupInner(txs []*types.TransactionCache) (ret []*types.TransactionCache) {
+>>>>>>> upstream/master
 	dupMap := make(map[string]bool)
 	for _, tx := range txs {
 		hash := string(tx.Hash())
@@ -91,10 +139,34 @@ func CheckTxDupInner(txs []*types.TransactionCache) (ret []*types.TransactionCac
 	return ret
 }
 
+<<<<<<< HEAD
 func CheckTxDup(client queue.Client, txs []*types.TransactionCache, height int64) (transactions []*types.TransactionCache, err error) {
 	var checkHashList types.TxHashList
 	if types.IsFork(height, "ForkCheckTxDup") {
 		txs = CheckTxDupInner(txs)
+=======
+//CheckDupTx : check use txs []*types.Transaction and not []*types.TransactionCache
+func CheckDupTx(client queue.Client, txs []*types.Transaction, height int64) (transactions []*types.Transaction, err error) {
+	txcache := make([]*types.TransactionCache, len(txs))
+	for i := 0; i < len(txcache); i++ {
+		txcache[i] = &types.TransactionCache{Transaction: txs[i]}
+	}
+	cache, err := CheckTxDup(client, txcache, height)
+	if err != nil {
+		return nil, err
+	}
+	for i := 0; i < len(cache); i++ {
+		transactions = append(transactions, cache[i].Transaction)
+	}
+	return transactions, nil
+}
+
+//CheckTxDup : check whether the tx is duplicated within the while chain
+func CheckTxDup(client queue.Client, txs []*types.TransactionCache, height int64) (transactions []*types.TransactionCache, err error) {
+	var checkHashList types.TxHashList
+	if types.IsFork(height, "ForkCheckTxDup") {
+		txs = checkTxDupInner(txs)
+>>>>>>> upstream/master
 	}
 	for _, tx := range txs {
 		checkHashList.Hashes = append(checkHashList.Hashes, tx.Hash())
@@ -123,7 +195,11 @@ func CheckTxDup(client queue.Client, txs []*types.TransactionCache, height int64
 	return transactions, nil
 }
 
+<<<<<<< HEAD
 //上报指定错误信息到指定模块，目前只支持从store，blockchain，wallet写数据库失败时上报错误信息到wallet模块，
+=======
+//ReportErrEventToFront 上报指定错误信息到指定模块，目前只支持从store，blockchain，wallet写数据库失败时上报错误信息到wallet模块，
+>>>>>>> upstream/master
 //然后由钱包模块前端定时调用显示给客户
 func ReportErrEventToFront(logger log.Logger, client queue.Client, frommodule string, tomodule string, err error) {
 	if client == nil || len(tomodule) == 0 || len(frommodule) == 0 || err == nil {

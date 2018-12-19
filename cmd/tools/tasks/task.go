@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package tasks 处理的事务任务
+>>>>>>> upstream/master
 package tasks
 
 // Task 处理的事务任务

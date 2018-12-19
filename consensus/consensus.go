@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package consensus 共识相关的模块
+>>>>>>> upstream/master
 package consensus
 
 import (
@@ -12,6 +16,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+// New new consensus queue module
+>>>>>>> upstream/master
 func New(cfg *types.Consensus, sub map[string][]byte) queue.Module {
 	con, err := consensus.Load(cfg.Name)
 	if err != nil {

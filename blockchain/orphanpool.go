@@ -28,7 +28,11 @@ type orphanBlock struct {
 	sequence   int64
 }
 
+<<<<<<< HEAD
 //孤儿节点的存储以blockhash作为map的索引。hash转换成string
+=======
+//OrphanPool 孤儿节点的存储以blockhash作为map的索引。hash转换成string
+>>>>>>> upstream/master
 type OrphanPool struct {
 	orphanLock   sync.RWMutex
 	orphans      map[string]*orphanBlock
@@ -36,6 +40,10 @@ type OrphanPool struct {
 	oldestOrphan *orphanBlock
 }
 
+<<<<<<< HEAD
+=======
+//NewOrphanPool new
+>>>>>>> upstream/master
 func NewOrphanPool() *OrphanPool {
 	op := &OrphanPool{
 		orphans:     make(map[string]*orphanBlock),
@@ -44,7 +52,11 @@ func NewOrphanPool() *OrphanPool {
 	return op
 }
 
+<<<<<<< HEAD
 //判断本节点是不是已知的孤儿节点
+=======
+//IsKnownOrphan 判断本节点是不是已知的孤儿节点
+>>>>>>> upstream/master
 func (op *OrphanPool) IsKnownOrphan(hash []byte) bool {
 	op.orphanLock.RLock()
 	_, exists := op.orphans[string(hash)]
@@ -53,7 +65,11 @@ func (op *OrphanPool) IsKnownOrphan(hash []byte) bool {
 	return exists
 }
 
+<<<<<<< HEAD
 // 获取本孤儿节点的祖先节点hash在孤儿链中，没有的话就返回孤儿节点本身hash
+=======
+//GetOrphanRoot 获取本孤儿节点的祖先节点hash在孤儿链中，没有的话就返回孤儿节点本身hash
+>>>>>>> upstream/master
 func (op *OrphanPool) GetOrphanRoot(hash []byte) []byte {
 	op.orphanLock.RLock()
 	defer op.orphanLock.RUnlock()
@@ -73,7 +89,11 @@ func (op *OrphanPool) GetOrphanRoot(hash []byte) []byte {
 	return orphanRoot
 }
 
+<<<<<<< HEAD
 // 删除孤儿节点从OrphanPool中，以及prevOrphans中的index
+=======
+//RemoveOrphanBlock 删除孤儿节点从OrphanPool中，以及prevOrphans中的index
+>>>>>>> upstream/master
 func (op *OrphanPool) RemoveOrphanBlock(orphan *orphanBlock) {
 	op.orphanLock.Lock()
 	defer op.orphanLock.Unlock()
@@ -83,6 +103,10 @@ func (op *OrphanPool) RemoveOrphanBlock(orphan *orphanBlock) {
 	op.removeOrphanBlock(orphan)
 }
 
+<<<<<<< HEAD
+=======
+//RemoveOrphanBlock2 删除孤儿节点从OrphanPool中，以及prevOrphans中的index
+>>>>>>> upstream/master
 func (op *OrphanPool) RemoveOrphanBlock2(block *types.Block, expiration time.Time, broadcast bool, pid string, sequence int64) {
 	b := &orphanBlock{
 		block:      block,
@@ -173,7 +197,11 @@ func (op *OrphanPool) addOrphanBlock(broadcast bool, block *types.Block, pid str
 	op.prevOrphans[string(prevHash)] = append(op.prevOrphans[string(prevHash)], oBlock)
 }
 
+<<<<<<< HEAD
 //获取父hash对应的子孤儿节点的个数
+=======
+//GetChildOrphanCount 获取父hash对应的子孤儿节点的个数
+>>>>>>> upstream/master
 func (op *OrphanPool) GetChildOrphanCount(hash string) int {
 	op.orphanLock.RLock()
 	defer op.orphanLock.RUnlock()

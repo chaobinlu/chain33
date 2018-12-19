@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package merkle 实现默克尔树相关的hash计算
+>>>>>>> upstream/master
 package merkle
 
 import (
@@ -47,7 +51,11 @@ known ways of changing the transactions without affecting the merkle
 root.
 */
 
+<<<<<<< HEAD
 /* This implements a constant-space merkle root/path calculator, limited to 2^32 leaves. */
+=======
+/*Computation This implements a constant-space merkle root/path calculator, limited to 2^32 leaves. */
+>>>>>>> upstream/master
 //flage =1 只计算roothash  flage =2 只计算branch  flage =3 计算roothash 和 branch
 func Computation(leaves [][]byte, flage int, branchpos uint32) (roothash []byte, mutated bool, pbranch [][]byte) {
 	if len(leaves) == 0 {
@@ -124,7 +132,11 @@ func Computation(leaves [][]byte, flage int, branchpos uint32) (roothash []byte,
 	return h, mutated, branch
 }
 
+<<<<<<< HEAD
 //计算左右节点hash的父hash
+=======
+//GetHashFromTwoHash 计算左右节点hash的父hash
+>>>>>>> upstream/master
 func GetHashFromTwoHash(left []byte, right []byte) []byte {
 	if left == nil || right == nil {
 		return nil
@@ -141,7 +153,11 @@ func GetHashFromTwoHash(left []byte, right []byte) []byte {
 	return parenthash[:]
 }
 
+<<<<<<< HEAD
 //获取merkle roothash
+=======
+//GetMerkleRoot 获取merkle roothash
+>>>>>>> upstream/master
 func GetMerkleRoot(leaves [][]byte) (roothash []byte) {
 	if leaves == nil {
 		return nil
@@ -150,13 +166,21 @@ func GetMerkleRoot(leaves [][]byte) (roothash []byte) {
 	return proothash
 }
 
+<<<<<<< HEAD
 //获取指定txindex的branch position 从0开始
+=======
+//GetMerkleBranch 获取指定txindex的branch position 从0开始
+>>>>>>> upstream/master
 func GetMerkleBranch(leaves [][]byte, position uint32) [][]byte {
 	_, _, branchs := Computation(leaves, 2, position)
 	return branchs
 }
 
+<<<<<<< HEAD
 // 通过branch 获取对应的roothash 用于指定txhash的proof证明
+=======
+//GetMerkleRootFromBranch 通过branch 获取对应的roothash 用于指定txhash的proof证明
+>>>>>>> upstream/master
 func GetMerkleRootFromBranch(merkleBranch [][]byte, leaf []byte, Index uint32) []byte {
 	hash := leaf
 	for _, branch := range merkleBranch {
@@ -170,7 +194,11 @@ func GetMerkleRootFromBranch(merkleBranch [][]byte, leaf []byte, Index uint32) [
 	return hash
 }
 
+<<<<<<< HEAD
 //获取merkle roothash 以及指定tx index的branch，注释：position从0开始
+=======
+//GetMerkleRootAndBranch 获取merkle roothash 以及指定tx index的branch，注释：position从0开始
+>>>>>>> upstream/master
 func GetMerkleRootAndBranch(leaves [][]byte, position uint32) (roothash []byte, branchs [][]byte) {
 	roothash, _, branchs = Computation(leaves, 3, position)
 	return
@@ -178,6 +206,10 @@ func GetMerkleRootAndBranch(leaves [][]byte, position uint32) (roothash []byte, 
 
 var zeroHash [32]byte
 
+<<<<<<< HEAD
+=======
+//CalcMerkleRoot 计算merkle树根
+>>>>>>> upstream/master
 func CalcMerkleRoot(txs []*types.Transaction) []byte {
 	var hashes [][]byte
 	for _, tx := range txs {
@@ -193,6 +225,10 @@ func CalcMerkleRoot(txs []*types.Transaction) []byte {
 	return merkleroot
 }
 
+<<<<<<< HEAD
+=======
+//CalcMerkleRootCache 计算merkle树根缓存
+>>>>>>> upstream/master
 func CalcMerkleRootCache(txs []*types.TransactionCache) []byte {
 	var hashes [][]byte
 	for _, tx := range txs {

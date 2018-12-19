@@ -5,12 +5,21 @@
 package pluginmgr
 
 import (
+<<<<<<< HEAD
 	"github.com/spf13/cobra"
 	"github.com/33cn/chain33/rpc/types"
 	wcom "github.com/33cn/chain33/wallet/common"
 )
 
 //
+=======
+	"github.com/33cn/chain33/rpc/types"
+	wcom "github.com/33cn/chain33/wallet/common"
+	"github.com/spf13/cobra"
+)
+
+// Plugin plugin module struct
+>>>>>>> upstream/master
 type Plugin interface {
 	// 获取整个插件的包名，用以计算唯一值、做前缀等
 	GetName() string

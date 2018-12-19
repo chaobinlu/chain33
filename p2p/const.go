@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+<<<<<<< HEAD
+=======
+// time limit for timeout
+>>>>>>> upstream/master
 var (
 	UpdateState                 = 2 * time.Second
 	PingTimeout                 = 14 * time.Second
@@ -32,11 +36,20 @@ const (
 )
 
 var (
+<<<<<<< HEAD
 	LocalAddr string
 )
 
 const (
 	defaultPort     = 13802
+=======
+	// LocalAddr local address
+	LocalAddr   string
+	defaultPort = 13802
+)
+
+const (
+>>>>>>> upstream/master
 	defalutNatPort  = 23802
 	maxOutBoundNum  = 25
 	stableBoundNum  = 15
@@ -52,6 +65,10 @@ const (
 )
 
 const (
+<<<<<<< HEAD
+=======
+	// Service service number
+>>>>>>> upstream/master
 	Service int32 = nodeBloom + nodeNetwork + nodeGetUTXO
 )
 
@@ -61,10 +78,18 @@ const (
 	privKeyTag = "privkey"
 )
 
+<<<<<<< HEAD
+=======
+// P2pCacheTxSize p2pcache size of transaction
+>>>>>>> upstream/master
 const (
 	P2pCacheTxSize = 10240
 )
 
+<<<<<<< HEAD
+=======
+// TestNetSeeds test seeds of net
+>>>>>>> upstream/master
 var TestNetSeeds = []string{
 	"114.55.101.159:13802",
 	"47.104.125.151:13802",
@@ -72,7 +97,11 @@ var TestNetSeeds = []string{
 	"47.104.125.177:13802",
 }
 
+<<<<<<< HEAD
 //内置seed 列表
+=======
+// InnerSeeds built-in list of seed
+>>>>>>> upstream/master
 var InnerSeeds = []string{
 	"39.107.234.240:13802",
 	"39.105.88.66:13802",

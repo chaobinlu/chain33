@@ -8,6 +8,10 @@ const (
 	keyWalletPassKey = "WalletPassKey"
 )
 
+<<<<<<< HEAD
+=======
+// CalcWalletPassKey 获取钱包密码的数据库字段Key值
+>>>>>>> upstream/master
 func CalcWalletPassKey() []byte {
 	return []byte(keyWalletPassKey)
 }

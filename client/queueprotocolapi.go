@@ -9,9 +9,15 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
 // 消息通道交互API接口定义
 type QueueProtocolAPI interface {
 	Version() (*types.Reply, error)
+=======
+// QueueProtocolAPI 消息通道交互API接口定义
+type QueueProtocolAPI interface {
+	Version() (*types.VersionInfo, error)
+>>>>>>> upstream/master
 	Close()
 	NewMessage(topic string, msgid int64, data interface{}) queue.Message
 	Notify(topic string, ty int64, data interface{}) (queue.Message, error)
@@ -111,16 +117,35 @@ type QueueProtocolAPI interface {
 	GetBlockSequences(param *types.ReqBlocks) (*types.BlockSequences, error)
 	//types.EventGetBlockByHashes:
 	GetBlockByHashes(param *types.ReqHashes) (*types.BlockDetails, error)
+<<<<<<< HEAD
+=======
+	//types.EventGetSequenceByHash:
+	GetSequenceByHash(param *types.ReqHash) (*types.Int64, error)
+>>>>>>> upstream/master
 
 	// --------------- blockchain interfaces end
 
 	// +++++++++++++++ store interfaces begin
 	StoreGet(*types.StoreGet) (*types.StoreReplyValue, error)
 	StoreGetTotalCoins(*types.IterateRangeByStateHash) (*types.ReplyGetTotalCoins, error)
+<<<<<<< HEAD
+=======
+	StoreList(param *types.StoreList) (*types.StoreListReply, error)
+>>>>>>> upstream/master
 	// --------------- store interfaces end
 
 	// +++++++++++++++ other interfaces begin
 	// close chain33
 	CloseQueue() (*types.Reply, error)
 	// --------------- other interfaces end
+<<<<<<< HEAD
+=======
+	// types.EventAddBlockSeqCB
+	AddSeqCallBack(param *types.BlockSeqCB) (*types.Reply, error)
+
+	// types.EventListBlockSeqCB
+	ListSeqCallBack() (*types.BlockSeqCBs, error)
+	// types.EventGetSeqCBLastNum
+	GetSeqCallBackLastNum(param *types.ReqString) (*types.Int64, error)
+>>>>>>> upstream/master
 }

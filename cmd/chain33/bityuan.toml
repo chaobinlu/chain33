@@ -30,6 +30,10 @@ isRecordBlockSequence=false
 enableTxQuickIndex=false
 
 [p2p]
+<<<<<<< HEAD
+=======
+port=13802
+>>>>>>> upstream/master
 seeds=[]
 isSeed=false
 innerSeedEnable=true
@@ -45,6 +49,12 @@ grpcBindAddr="localhost:8802"
 whitelist=["127.0.0.1"]
 jrpcFuncWhitelist=["*"]
 grpcFuncWhitelist=["*"]
+<<<<<<< HEAD
+=======
+enableTLS=false
+certFile="cert.pem"
+keyFile="key.pem"
+>>>>>>> upstream/master
 
 [mempool]
 maxTxNumPerAccount=100
@@ -52,6 +62,11 @@ maxTxNumPerAccount=100
 [store]
 dbPath="datadir/mavltree"
 dbCache=128
+<<<<<<< HEAD
+=======
+
+[store.sub.mavl]
+>>>>>>> upstream/master
 enableMavlPrefix=false
 enableMVCC=false
 enableMavlPrune=false

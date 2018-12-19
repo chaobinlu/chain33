@@ -10,12 +10,19 @@ import (
 	"testing"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
+=======
+>>>>>>> upstream/master
 	dbm "github.com/33cn/chain33/common/db"
 	"github.com/33cn/chain33/common/version"
 	"github.com/33cn/chain33/types"
 	"github.com/33cn/chain33/util"
 	"github.com/33cn/chain33/util/testnode"
+<<<<<<< HEAD
+=======
+	"github.com/stretchr/testify/assert"
+>>>>>>> upstream/master
 )
 
 func TestReindex(t *testing.T) {
@@ -25,7 +32,11 @@ func TestReindex(t *testing.T) {
 	chain := mock33.GetBlockChain()
 	db := chain.GetDB()
 	kvs := getAllKeys(db)
+<<<<<<< HEAD
 	assert.Equal(t, len(kvs), 19)
+=======
+	assert.Equal(t, len(kvs), 20)
+>>>>>>> upstream/master
 	defer mock33.Close()
 	txs := util.GenCoinsTxs(mock33.GetGenesisKey(), 10)
 	for i := 0; i < len(txs); i++ {

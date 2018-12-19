@@ -2,8 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
 //通过私钥生成所选币种的公钥和地址
 
+=======
+// Package transformer 通过私钥生成所选币种的公钥和地址
+>>>>>>> upstream/master
 package transformer
 
 import (
@@ -11,6 +15,10 @@ import (
 	"sync"
 )
 
+<<<<<<< HEAD
+=======
+// Transformer 过私钥生成所选币种的公钥和地址
+>>>>>>> upstream/master
 type Transformer interface {
 	PrivKeyToPub(priv []byte) (pub []byte, err error)
 	PubKeyToAddress(pub []byte) (add string, err error)
@@ -21,7 +29,11 @@ var (
 	drivers   = make(map[string]Transformer)
 )
 
+<<<<<<< HEAD
 //对不同币种的Transformer进行注册
+=======
+// Register 对不同币种的Transformer进行注册
+>>>>>>> upstream/master
 func Register(name string, driver Transformer) {
 	driversMu.Lock()
 	defer driversMu.Unlock()
@@ -34,7 +46,11 @@ func Register(name string, driver Transformer) {
 	drivers[name] = driver
 }
 
+<<<<<<< HEAD
 //提供币种名称返回相应的Transformer对象
+=======
+// New 提供币种名称返回相应的Transformer对象
+>>>>>>> upstream/master
 func New(name string) (t Transformer, err error) {
 	driversMu.RLock()
 	defer driversMu.RUnlock()

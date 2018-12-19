@@ -5,6 +5,7 @@
 package rpc
 
 import (
+<<<<<<< HEAD
 	"testing"
 
 	"github.com/33cn/chain33/types"
@@ -17,6 +18,19 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/33cn/chain33/client/mocks"
+=======
+	"encoding/hex"
+	"fmt"
+	"testing"
+
+	"github.com/33cn/chain33/client/mocks"
+	"github.com/33cn/chain33/types"
+	pb "github.com/33cn/chain33/types"
+	"github.com/golang/protobuf/proto"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+	"golang.org/x/net/context"
+>>>>>>> upstream/master
 	"google.golang.org/grpc/peer"
 )
 
@@ -136,11 +150,19 @@ func TestSendTransaction(t *testing.T) {
 //}
 
 func testVersionOK(t *testing.T) {
+<<<<<<< HEAD
 	reply := &types.Reply{IsOk: true, Msg: nil}
 	qapi.On("Version").Return(reply, nil)
 	data, err := g.Version(getOkCtx(), nil)
 	assert.Nil(t, err, "the error should be nil")
 	assert.Equal(t, true, data.IsOk, "reply should be ok")
+=======
+	reply := &types.VersionInfo{Chain33: "6.0.2"}
+	qapi.On("Version").Return(reply, nil)
+	data, err := g.Version(getOkCtx(), nil)
+	assert.Nil(t, err, "the error should be nil")
+	assert.Equal(t, "6.0.2", data.Chain33, "reply should be ok")
+>>>>>>> upstream/master
 
 }
 
@@ -242,7 +264,11 @@ func testQueryChainOK(t *testing.T) {
 	assert.Equal(t, true, data.IsOk, "reply should be ok")
 	var decodemsg types.ReqString
 	pb.Decode(data.Msg, &decodemsg)
+<<<<<<< HEAD
 	assert.Equal(t, msg, &decodemsg)
+=======
+	assert.Equal(t, req.Data, decodemsg.Data)
+>>>>>>> upstream/master
 }
 
 func TestQueryChain(t *testing.T) {
@@ -654,7 +680,11 @@ func TestDumpPrivkey(t *testing.T) {
 //}
 
 func testGetBlocksError(t *testing.T) {
+<<<<<<< HEAD
 	var in = pb.ReqBlocks{0, 0, true, []string{""}}
+=======
+	var in = pb.ReqBlocks{IsDetail: true}
+>>>>>>> upstream/master
 
 	qapi.On("GetBlocks", &in).Return(nil, fmt.Errorf("error")).Once()
 	_, err := g.GetBlocks(getOkCtx(), &in)
@@ -663,11 +693,19 @@ func testGetBlocksError(t *testing.T) {
 }
 
 func testGetBlocksOK(t *testing.T) {
+<<<<<<< HEAD
 	var in = pb.ReqBlocks{0, 0, true, []string{""}}
 	var details types.BlockDetails
 
 	var block = &types.Block{Version: 1}
 	var detail = &types.BlockDetail{Block: block, Receipts: nil}
+=======
+	var in = pb.ReqBlocks{IsDetail: true}
+	var details types.BlockDetails
+
+	var block = &types.Block{Version: 1}
+	var detail = &types.BlockDetail{Block: block}
+>>>>>>> upstream/master
 	details.Items = append(details.Items, detail)
 
 	qapi.On("GetBlocks", &in).Return(&details, nil).Once()
@@ -677,8 +715,14 @@ func testGetBlocksOK(t *testing.T) {
 
 	var details2 types.BlockDetails
 	pb.Decode(data.Msg, &details2)
+<<<<<<< HEAD
 	assert.Equal(t, details, details2)
 
+=======
+	if !proto.Equal(&details, &details2) {
+		assert.Equal(t, details, details2)
+	}
+>>>>>>> upstream/master
 }
 
 func TestGetBlocks(t *testing.T) {

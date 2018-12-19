@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package solo solo共识挖矿
+>>>>>>> upstream/master
 package solo
 
 import (
@@ -18,6 +22,10 @@ import (
 
 var slog = log.New("module", "solo")
 
+<<<<<<< HEAD
+=======
+//Client 客户端
+>>>>>>> upstream/master
 type Client struct {
 	*drivers.BaseClient
 	subcfg    *subConfig
@@ -35,6 +43,10 @@ type subConfig struct {
 	WaitTxMs         int64  `json:"waitTxMs"`
 }
 
+<<<<<<< HEAD
+=======
+//New new
+>>>>>>> upstream/master
 func New(cfg *types.Consensus, sub []byte) queue.Module {
 	c := drivers.NewBaseClient(cfg)
 	var subcfg subConfig
@@ -44,19 +56,40 @@ func New(cfg *types.Consensus, sub []byte) queue.Module {
 	if subcfg.WaitTxMs == 0 {
 		subcfg.WaitTxMs = 1000
 	}
+<<<<<<< HEAD
+=======
+	if subcfg.Genesis == "" {
+		subcfg.Genesis = cfg.Genesis
+	}
+	if subcfg.GenesisBlockTime == 0 {
+		subcfg.GenesisBlockTime = cfg.GenesisBlockTime
+	}
+>>>>>>> upstream/master
 	solo := &Client{c, &subcfg, time.Duration(subcfg.WaitTxMs) * time.Millisecond}
 	c.SetChild(solo)
 	return solo
 }
 
+<<<<<<< HEAD
+=======
+//Close close
+>>>>>>> upstream/master
 func (client *Client) Close() {
 	slog.Info("consensus solo closed")
 }
 
+<<<<<<< HEAD
+=======
+//GetGenesisBlockTime 获取创世区块时间
+>>>>>>> upstream/master
 func (client *Client) GetGenesisBlockTime() int64 {
 	return client.subcfg.GenesisBlockTime
 }
 
+<<<<<<< HEAD
+=======
+//CreateGenesisTx 创建创世交易
+>>>>>>> upstream/master
 func (client *Client) CreateGenesisTx() (ret []*types.Transaction) {
 	var tx types.Transaction
 	tx.Execer = []byte("coins")
@@ -70,15 +103,27 @@ func (client *Client) CreateGenesisTx() (ret []*types.Transaction) {
 	return
 }
 
+<<<<<<< HEAD
+=======
+//ProcEvent false
+>>>>>>> upstream/master
 func (client *Client) ProcEvent(msg queue.Message) bool {
 	return false
 }
 
+<<<<<<< HEAD
 //solo 不检查任何的交易
+=======
+//CheckBlock solo不检查任何的交易
+>>>>>>> upstream/master
 func (client *Client) CheckBlock(parent *types.Block, current *types.BlockDetail) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//CreateBlock 创建区块
+>>>>>>> upstream/master
 func (client *Client) CreateBlock() {
 	issleep := true
 	for {

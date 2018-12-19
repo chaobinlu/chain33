@@ -10,12 +10,19 @@ import (
 	"strconv"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/spf13/cobra"
+=======
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/common/address"
 	"github.com/33cn/chain33/rpc/jsonclient"
 	rpctypes "github.com/33cn/chain33/rpc/types"
 	cty "github.com/33cn/chain33/system/dapp/coins/types"
 	"github.com/33cn/chain33/types"
+<<<<<<< HEAD
+=======
+	"github.com/spf13/cobra"
+>>>>>>> upstream/master
 
 	// TODO: 暂时将插件中的类型引用起来，后续需要修改
 
@@ -23,6 +30,10 @@ import (
 	"math"
 )
 
+<<<<<<< HEAD
+=======
+// DecodeTransaction decode transaction function
+>>>>>>> upstream/master
 func DecodeTransaction(tx *rpctypes.Transaction) *TxResult {
 	result := &TxResult{
 		Execer:     tx.Execer,
@@ -38,10 +49,18 @@ func DecodeTransaction(tx *rpctypes.Transaction) *TxResult {
 		GroupCount: tx.GroupCount,
 		Header:     tx.Header,
 		Next:       tx.Next,
+<<<<<<< HEAD
+=======
+		Hash:       tx.Hash,
+>>>>>>> upstream/master
 	}
 	return result
 }
 
+<<<<<<< HEAD
+=======
+// DecodeAccount decode account func
+>>>>>>> upstream/master
 func DecodeAccount(acc *types.Account, precision int64) *AccountResult {
 	balanceResult := strconv.FormatFloat(float64(acc.GetBalance())/float64(precision), 'f', 4, 64)
 	frozenResult := strconv.FormatFloat(float64(acc.GetFrozen())/float64(precision), 'f', 4, 64)
@@ -54,12 +73,20 @@ func DecodeAccount(acc *types.Account, precision int64) *AccountResult {
 	return accResult
 }
 
+<<<<<<< HEAD
+=======
+// SendToAddress send to address func
+>>>>>>> upstream/master
 func SendToAddress(rpcAddr string, from string, to string, amount int64, note string, isToken bool, tokenSymbol string, isWithdraw bool) {
 	amt := amount
 	if isWithdraw {
 		amt = -amount
 	}
+<<<<<<< HEAD
 	params := types.ReqWalletSendToAddress{From: from, To: to, Amount: amt, Note: note}
+=======
+	params := types.ReqWalletSendToAddress{From: from, To: to, Amount: amt, Note: []byte(note)}
+>>>>>>> upstream/master
 	if !isToken {
 		params.IsToken = false
 	} else {
@@ -68,14 +95,29 @@ func SendToAddress(rpcAddr string, from string, to string, amount int64, note st
 	}
 
 	var res rpctypes.ReplyHash
+<<<<<<< HEAD
 	ctx := jsonclient.NewRpcCtx(rpcAddr, "Chain33.SendToAddress", params, &res)
 	ctx.Run()
 }
 
+=======
+	ctx := jsonclient.NewRPCCtx(rpcAddr, "Chain33.SendToAddress", params, &res)
+	ctx.Run()
+}
+
+// CreateRawTx create rawtransaction func
+>>>>>>> upstream/master
 func CreateRawTx(cmd *cobra.Command, to string, amount float64, note string, isWithdraw bool, tokenSymbol, execName string) (string, error) {
 	if amount < 0 {
 		return "", types.ErrAmount
 	}
+<<<<<<< HEAD
+=======
+	if float64(types.MaxCoin/types.Coin) < amount {
+		return "", types.ErrAmount
+	}
+
+>>>>>>> upstream/master
 	paraName, _ := cmd.Flags().GetString("paraName")
 	amountInt64 := int64(math.Trunc((amount+0.0000001)*1e4)) * 1e4
 	initExecName := execName
@@ -87,16 +129,28 @@ func CreateRawTx(cmd *cobra.Command, to string, amount float64, note string, isW
 	transfer := &cty.CoinsAction{}
 	if !isWithdraw {
 		if initExecName != "" {
+<<<<<<< HEAD
 			v := &cty.CoinsAction_TransferToExec{TransferToExec: &types.AssetsTransferToExec{Amount: amountInt64, Note: note, ExecName: execName, To: to}}
 			transfer.Value = v
 			transfer.Ty = cty.CoinsActionTransferToExec
 		} else {
 			v := &cty.CoinsAction_Transfer{Transfer: &types.AssetsTransfer{Amount: amountInt64, Note: note, To: to}}
+=======
+			v := &cty.CoinsAction_TransferToExec{TransferToExec: &types.AssetsTransferToExec{Amount: amountInt64, Note: []byte(note), ExecName: execName, To: to}}
+			transfer.Value = v
+			transfer.Ty = cty.CoinsActionTransferToExec
+		} else {
+			v := &cty.CoinsAction_Transfer{Transfer: &types.AssetsTransfer{Amount: amountInt64, Note: []byte(note), To: to}}
+>>>>>>> upstream/master
 			transfer.Value = v
 			transfer.Ty = cty.CoinsActionTransfer
 		}
 	} else {
+<<<<<<< HEAD
 		v := &cty.CoinsAction_Withdraw{Withdraw: &types.AssetsWithdraw{Amount: amountInt64, Note: note, ExecName: execName}}
+=======
+		v := &cty.CoinsAction_Withdraw{Withdraw: &types.AssetsWithdraw{Amount: amountInt64, Note: []byte(note), ExecName: execName, To: to}}
+>>>>>>> upstream/master
 		transfer.Value = v
 		transfer.Ty = cty.CoinsActionWithdraw
 	}
@@ -114,6 +168,10 @@ func CreateRawTx(cmd *cobra.Command, to string, amount float64, note string, isW
 	return hex.EncodeToString(txHex), nil
 }
 
+<<<<<<< HEAD
+=======
+// GetExecAddr get exec address func
+>>>>>>> upstream/master
 func GetExecAddr(exec string) (string, error) {
 	if ok := types.IsAllowExecName([]byte(exec), []byte(exec)); !ok {
 		return "", types.ErrExecNameNotAllow

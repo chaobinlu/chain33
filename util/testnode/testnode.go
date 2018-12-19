@@ -2,6 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// package testnode 提供一个通用的测试节点，用于单元测试和集成测试。
+
+>>>>>>> upstream/master
 package testnode
 
 import (
@@ -36,7 +41,10 @@ import (
 	"github.com/33cn/chain33/wallet"
 )
 
+<<<<<<< HEAD
 //这个包提供一个通用的测试节点，用于单元测试和集成测试。
+=======
+>>>>>>> upstream/master
 func init() {
 	err := limits.SetLimits()
 	if err != nil {
@@ -49,13 +57,21 @@ func init() {
 var lognode = log15.New("module", "lognode")
 var chain33globalLock sync.Mutex
 
+<<<<<<< HEAD
+=======
+//Chain33Mock :
+>>>>>>> upstream/master
 type Chain33Mock struct {
 	random   *rand.Rand
 	q        queue.Queue
 	client   queue.Client
 	api      client.QueueProtocolAPI
 	chain    *blockchain.BlockChain
+<<<<<<< HEAD
 	mem      *mempool.Mempool
+=======
+	mem      queue.Module
+>>>>>>> upstream/master
 	cs       queue.Module
 	exec     *executor.Executor
 	wallet   queue.Module
@@ -66,10 +82,18 @@ type Chain33Mock struct {
 	lastsend []byte
 }
 
+<<<<<<< HEAD
+=======
+//GetDefaultConfig :
+>>>>>>> upstream/master
 func GetDefaultConfig() (*types.Config, *types.ConfigSubModule) {
 	return types.InitCfgString(cfgstring)
 }
 
+<<<<<<< HEAD
+=======
+//NewWithConfig :
+>>>>>>> upstream/master
 func NewWithConfig(cfg *types.Config, sub *types.ConfigSubModule, mockapi client.QueueProtocolAPI) *Chain33Mock {
 	return newWithConfig(cfg, sub, mockapi)
 }
@@ -99,10 +123,17 @@ func newWithConfig(cfg *types.Config, sub *types.ConfigSubModule, mockapi client
 	mock.cs.SetQueueClient(q.Client())
 	lognode.Info("init consensus " + cfg.Consensus.Name)
 
+<<<<<<< HEAD
 	mock.mem = mempool.New(cfg.MemPool)
 	mock.mem.SetQueueClient(q.Client())
 	lognode.Info("init mempool")
 	mock.mem.WaitPollLastHeader()
+=======
+	mock.mem = mempool.New(cfg.Mempool, sub.Mempool)
+	mock.mem.SetQueueClient(q.Client())
+	mock.mem.Wait()
+	lognode.Info("init mempool")
+>>>>>>> upstream/master
 	if cfg.P2P.Enable {
 		mock.network = p2p.New(cfg.P2P)
 		mock.network.SetQueueClient(q.Client())
@@ -122,13 +153,21 @@ func newWithConfig(cfg *types.Config, sub *types.ConfigSubModule, mockapi client
 		newWalletRealize(mockapi)
 	}
 	mock.api = mockapi
+<<<<<<< HEAD
 	server := rpc.New(cfg.Rpc)
+=======
+	server := rpc.New(cfg.RPC)
+>>>>>>> upstream/master
 	server.SetAPI(mock.api)
 	server.SetQueueClientNoListen(q.Client())
 	mock.rpc = server
 	return mock
 }
 
+<<<<<<< HEAD
+=======
+//New :
+>>>>>>> upstream/master
 func New(cfgpath string, mockapi client.QueueProtocolAPI) *Chain33Mock {
 	var cfg *types.Config
 	var sub *types.ConfigSubModule
@@ -143,6 +182,7 @@ func New(cfgpath string, mockapi client.QueueProtocolAPI) *Chain33Mock {
 	return newWithConfig(cfg, sub, mockapi)
 }
 
+<<<<<<< HEAD
 func (m *Chain33Mock) Listen() {
 	pluginmgr.AddRPC(m.rpc)
 	portgrpc, portjsonrpc := m.rpc.Listen()
@@ -158,23 +198,57 @@ func (m *Chain33Mock) Listen() {
 
 func (m *Chain33Mock) GetBlockChain() *blockchain.BlockChain {
 	return m.chain
+=======
+//Listen :
+func (mock *Chain33Mock) Listen() {
+	pluginmgr.AddRPC(mock.rpc)
+	portgrpc, portjsonrpc := mock.rpc.Listen()
+	if strings.HasSuffix(mock.cfg.RPC.JrpcBindAddr, ":0") {
+		l := len(mock.cfg.RPC.JrpcBindAddr)
+		mock.cfg.RPC.JrpcBindAddr = mock.cfg.RPC.JrpcBindAddr[0:l-2] + ":" + fmt.Sprint(portjsonrpc)
+	}
+	if strings.HasSuffix(mock.cfg.RPC.GrpcBindAddr, ":0") {
+		l := len(mock.cfg.RPC.GrpcBindAddr)
+		mock.cfg.RPC.GrpcBindAddr = mock.cfg.RPC.GrpcBindAddr[0:l-2] + ":" + fmt.Sprint(portgrpc)
+	}
+}
+
+//GetBlockChain :
+func (mock *Chain33Mock) GetBlockChain() *blockchain.BlockChain {
+	return mock.chain
+>>>>>>> upstream/master
 }
 
 func setFee(cfg *types.Config, fee int64) {
 	cfg.Exec.MinExecFee = fee
+<<<<<<< HEAD
 	cfg.MemPool.MinTxFee = fee
+=======
+	cfg.Mempool.MinTxFee = fee
+>>>>>>> upstream/master
 	cfg.Wallet.MinFee = fee
 	if fee == 0 {
 		cfg.Exec.IsFree = true
 	}
 }
 
+<<<<<<< HEAD
 func (m *Chain33Mock) GetJsonC() *jsonclient.JSONClient {
 	jsonc, _ := jsonclient.NewJSONClient("http://" + m.cfg.Rpc.JrpcBindAddr + "/")
 	return jsonc
 }
 
 func (m *Chain33Mock) SendAndSign(priv crypto.PrivKey, hextx string) ([]byte, error) {
+=======
+//GetJSONC :
+func (mock *Chain33Mock) GetJSONC() *jsonclient.JSONClient {
+	jsonc, _ := jsonclient.NewJSONClient("http://" + mock.cfg.RPC.JrpcBindAddr + "/")
+	return jsonc
+}
+
+//SendAndSign :
+func (mock *Chain33Mock) SendAndSign(priv crypto.PrivKey, hextx string) ([]byte, error) {
+>>>>>>> upstream/master
 	txbytes, err := hex.DecodeString(hextx)
 	if err != nil {
 		return nil, err
@@ -186,13 +260,18 @@ func (m *Chain33Mock) SendAndSign(priv crypto.PrivKey, hextx string) ([]byte, er
 	}
 	tx.Fee = 1e6
 	tx.Sign(types.SECP256K1, priv)
+<<<<<<< HEAD
 	reply, err := m.api.SendTx(tx)
+=======
+	reply, err := mock.api.SendTx(tx)
+>>>>>>> upstream/master
 	if err != nil {
 		return nil, err
 	}
 	return reply.GetMsg(), nil
 }
 
+<<<<<<< HEAD
 func newWalletRealize(qApi client.QueueProtocolAPI) {
 	seed := &types.SaveSeedByPw{"subject hamster apple parent vital can adult chapter fork business humor pen tiger void elephant", "123456"}
 	reply, err := qApi.SaveSeed(seed)
@@ -200,36 +279,73 @@ func newWalletRealize(qApi client.QueueProtocolAPI) {
 		panic(err)
 	}
 	reply, err = qApi.WalletUnLock(&types.WalletUnLock{"123456", 0, false})
+=======
+func newWalletRealize(qAPI client.QueueProtocolAPI) {
+	seed := &types.SaveSeedByPw{
+		Seed:   "subject hamster apple parent vital can adult chapter fork business humor pen tiger void elephant",
+		Passwd: "123456",
+	}
+	reply, err := qAPI.SaveSeed(seed)
+	if !reply.IsOk && err != nil {
+		panic(err)
+	}
+	reply, err = qAPI.WalletUnLock(&types.WalletUnLock{Passwd: "123456"})
+>>>>>>> upstream/master
 	if !reply.IsOk && err != nil {
 		panic(err)
 	}
 	for i, priv := range util.TestPrivkeyHex {
+<<<<<<< HEAD
 		privkey := &types.ReqWalletImportPrivkey{priv, fmt.Sprintf("label%d", i)}
 		acc, err := qApi.WalletImportprivkey(privkey)
+=======
+		privkey := &types.ReqWalletImportPrivkey{Privkey: priv, Label: fmt.Sprintf("label%d", i)}
+		acc, err := qAPI.WalletImportprivkey(privkey)
+>>>>>>> upstream/master
 		if err != nil {
 			panic(err)
 		}
 		lognode.Info("import", "index", i, "addr", acc.Acc.Addr)
 	}
 	req := &types.ReqAccountList{WithoutBalance: true}
+<<<<<<< HEAD
 	_, err = qApi.WalletGetAccountList(req)
+=======
+	_, err = qAPI.WalletGetAccountList(req)
+>>>>>>> upstream/master
 	if err != nil {
 		panic(err)
 	}
 }
 
+<<<<<<< HEAD
+=======
+//GetAPI :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) GetAPI() client.QueueProtocolAPI {
 	return mock.api
 }
 
+<<<<<<< HEAD
+=======
+//GetRPC :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) GetRPC() *rpc.RPC {
 	return mock.rpc
 }
 
+<<<<<<< HEAD
+=======
+//GetCfg :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) GetCfg() *types.Config {
 	return mock.cfg
 }
 
+<<<<<<< HEAD
+=======
+//Close :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) Close() {
 	mock.chain.Close()
 	mock.store.Close()
@@ -243,6 +359,10 @@ func (mock *Chain33Mock) Close() {
 	chain33globalLock.Unlock()
 }
 
+<<<<<<< HEAD
+=======
+//WaitHeight :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) WaitHeight(height int64) error {
 	for {
 		header, err := mock.api.GetLastHeader()
@@ -257,6 +377,10 @@ func (mock *Chain33Mock) WaitHeight(height int64) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//WaitTx :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) WaitTx(hash []byte) (*rpctypes.TransactionDetail, error) {
 	if hash == nil {
 		return nil, nil
@@ -272,17 +396,29 @@ func (mock *Chain33Mock) WaitTx(hash []byte) (*rpctypes.TransactionDetail, error
 		data := rpctypes.QueryParm{
 			Hash: common.ToHex(hash),
 		}
+<<<<<<< HEAD
 		err = mock.GetJsonC().Call("Chain33.QueryTransaction", data, &testResult)
+=======
+		err = mock.GetJSONC().Call("Chain33.QueryTransaction", data, &testResult)
+>>>>>>> upstream/master
 		return &testResult, err
 	}
 }
 
+<<<<<<< HEAD
+=======
+//SendHot :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) SendHot() error {
 	tx := util.CreateCoinsTx(mock.GetGenesisKey(), mock.GetHotAddress(), 10000*types.Coin)
 	mock.SendTx(tx)
 	return mock.Wait()
 }
 
+<<<<<<< HEAD
+=======
+//SendTx :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) SendTx(tx *types.Transaction) []byte {
 	reply, err := mock.GetAPI().SendTx(tx)
 	if err != nil {
@@ -292,6 +428,10 @@ func (mock *Chain33Mock) SendTx(tx *types.Transaction) []byte {
 	return reply.GetMsg()
 }
 
+<<<<<<< HEAD
+=======
+//Wait :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) Wait() error {
 	if mock.lastsend == nil {
 		return nil
@@ -300,6 +440,10 @@ func (mock *Chain33Mock) Wait() error {
 	return err
 }
 
+<<<<<<< HEAD
+=======
+//GetAccount :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) GetAccount(stateHash []byte, addr string) *types.Account {
 	statedb := executor.NewStateDB(mock.client, stateHash, nil, nil)
 	acc := account.NewCoinsAccount()
@@ -307,6 +451,18 @@ func (mock *Chain33Mock) GetAccount(stateHash []byte, addr string) *types.Accoun
 	return acc.LoadAccount(addr)
 }
 
+<<<<<<< HEAD
+=======
+//GetExecAccount :get execer account info
+func (mock *Chain33Mock) GetExecAccount(stateHash []byte, execer, addr string) *types.Account {
+	statedb := executor.NewStateDB(mock.client, stateHash, nil, nil)
+	acc := account.NewCoinsAccount()
+	acc.SetDB(statedb)
+	return acc.LoadExecAccount(addr, address.ExecAddress(execer))
+}
+
+//GetBlock :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) GetBlock(height int64) *types.Block {
 	blocks, err := mock.api.GetBlocks(&types.ReqBlocks{Start: height, End: height})
 	if err != nil {
@@ -315,6 +471,10 @@ func (mock *Chain33Mock) GetBlock(height int64) *types.Block {
 	return blocks.Items[0].Block
 }
 
+<<<<<<< HEAD
+=======
+//GetLastBlock :
+>>>>>>> upstream/master
 func (mock *Chain33Mock) GetLastBlock() *types.Block {
 	header, err := mock.api.GetLastHeader()
 	if err != nil {
@@ -323,6 +483,7 @@ func (mock *Chain33Mock) GetLastBlock() *types.Block {
 	return mock.GetBlock(header.Height)
 }
 
+<<<<<<< HEAD
 func (m *Chain33Mock) GetClient() queue.Client {
 	return m.client
 }
@@ -341,11 +502,40 @@ func (m *Chain33Mock) GetGenesisKey() crypto.PrivKey {
 
 func (m *Chain33Mock) GetGenesisAddress() string {
 	return address.PubKeyToAddress(m.GetGenesisKey().PubKey().Bytes()).String()
+=======
+//GetClient :
+func (mock *Chain33Mock) GetClient() queue.Client {
+	return mock.client
+}
+
+//GetHotKey :
+func (mock *Chain33Mock) GetHotKey() crypto.PrivKey {
+	return util.TestPrivkeyList[0]
+}
+
+//GetHotAddress :
+func (mock *Chain33Mock) GetHotAddress() string {
+	return address.PubKeyToAddress(mock.GetHotKey().PubKey().Bytes()).String()
+}
+
+//GetGenesisKey :
+func (mock *Chain33Mock) GetGenesisKey() crypto.PrivKey {
+	return util.TestPrivkeyList[1]
+}
+
+//GetGenesisAddress :
+func (mock *Chain33Mock) GetGenesisAddress() string {
+	return address.PubKeyToAddress(mock.GetGenesisKey().PubKey().Bytes()).String()
+>>>>>>> upstream/master
 }
 
 type mockP2P struct {
 }
 
+<<<<<<< HEAD
+=======
+//SetQueueClient :
+>>>>>>> upstream/master
 func (m *mockP2P) SetQueueClient(client queue.Client) {
 	go func() {
 		p2pKey := "p2p"
@@ -364,5 +554,12 @@ func (m *mockP2P) SetQueueClient(client queue.Client) {
 	}()
 }
 
+<<<<<<< HEAD
+=======
+//Wait for ready
+func (m *mockP2P) Wait() {}
+
+//Close :
+>>>>>>> upstream/master
 func (m *mockP2P) Close() {
 }

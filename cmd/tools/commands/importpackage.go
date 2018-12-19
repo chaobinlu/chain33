@@ -7,11 +7,20 @@ package commands
 import (
 	"fmt"
 
+<<<<<<< HEAD
 	"github.com/spf13/cobra"
 	"github.com/33cn/chain33/cmd/tools/strategy"
 	"github.com/33cn/chain33/cmd/tools/types"
 )
 
+=======
+	"github.com/33cn/chain33/cmd/tools/strategy"
+	"github.com/33cn/chain33/cmd/tools/types"
+	"github.com/spf13/cobra"
+)
+
+//ImportCmd 导入命令
+>>>>>>> upstream/master
 func ImportCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "import",

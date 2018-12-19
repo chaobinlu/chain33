@@ -22,15 +22,27 @@ type FieldElement [10]int32
 
 var zero FieldElement
 
+<<<<<<< HEAD
+=======
+//FeZero 0
+>>>>>>> upstream/master
 func FeZero(fe *FieldElement) {
 	copy(fe[:], zero[:])
 }
 
+<<<<<<< HEAD
+=======
+//FeOne 1
+>>>>>>> upstream/master
 func FeOne(fe *FieldElement) {
 	FeZero(fe)
 	fe[0] = 1
 }
 
+<<<<<<< HEAD
+=======
+//FeAdd +
+>>>>>>> upstream/master
 func FeAdd(dst, a, b *FieldElement) {
 	dst[0] = a[0] + b[0]
 	dst[1] = a[1] + b[1]
@@ -44,6 +56,10 @@ func FeAdd(dst, a, b *FieldElement) {
 	dst[9] = a[9] + b[9]
 }
 
+<<<<<<< HEAD
+=======
+//FeSub -
+>>>>>>> upstream/master
 func FeSub(dst, a, b *FieldElement) {
 	dst[0] = a[0] - b[0]
 	dst[1] = a[1] - b[1]
@@ -57,14 +73,23 @@ func FeSub(dst, a, b *FieldElement) {
 	dst[9] = a[9] - b[9]
 }
 
+<<<<<<< HEAD
+=======
+//FeCopy 复制
+>>>>>>> upstream/master
 func FeCopy(dst, src *FieldElement) {
 	copy(dst[:], src[:])
 }
 
 // Replace (f,g) with (g,g) if b == 1
 // replace (f,g) with (f,g) if b == 0.
+<<<<<<< HEAD
 //
 // Preconditions: b in {0,1}.
+=======
+
+// FeCMove Preconditions: b in {0,1}.
+>>>>>>> upstream/master
 func FeCMove(f, g *FieldElement, b int32) {
 	b = -b
 	f[0] ^= b & (f[0] ^ g[0])
@@ -94,6 +119,10 @@ func load4(in []byte) int64 {
 	return r
 }
 
+<<<<<<< HEAD
+=======
+//FeFromBytes ...
+>>>>>>> upstream/master
 func FeFromBytes(dst *FieldElement, src *[32]byte) {
 	h0 := load4(src[:])
 	h1 := load3(src[4:]) << 6
@@ -221,12 +250,20 @@ func FeToBytes(s *[32]byte, h *FieldElement) {
 	s[31] = byte(h[9] >> 18)
 }
 
+<<<<<<< HEAD
+=======
+//FeIsNegative 是否为负
+>>>>>>> upstream/master
 func FeIsNegative(f *FieldElement) byte {
 	var s [32]byte
 	FeToBytes(&s, f)
 	return s[0] & 1
 }
 
+<<<<<<< HEAD
+=======
+//FeIsNonZero 是否为非0
+>>>>>>> upstream/master
 func FeIsNonZero(f *FieldElement) int32 {
 	var s [32]byte
 	FeToBytes(&s, f)
@@ -241,10 +278,15 @@ func FeIsNonZero(f *FieldElement) int32 {
 }
 
 // FeNeg sets h = -f
+<<<<<<< HEAD
 //
 // Preconditions:
 //    |f| bounded by 1.1*2^25,1.1*2^24,1.1*2^25,1.1*2^24,etc.
 //
+=======
+// Preconditions:
+//    |f| bounded by 1.1*2^25,1.1*2^24,1.1*2^25,1.1*2^24,etc.
+>>>>>>> upstream/master
 // Postconditions:
 //    |h| bounded by 1.1*2^25,1.1*2^24,1.1*2^25,1.1*2^24,etc.
 func FeNeg(h, f *FieldElement) {
@@ -260,6 +302,10 @@ func FeNeg(h, f *FieldElement) {
 	h[9] = -f[9]
 }
 
+<<<<<<< HEAD
+=======
+//FeCombine 拼接
+>>>>>>> upstream/master
 func FeCombine(h *FieldElement, h0, h1, h2, h3, h4, h5, h6, h7, h8, h9 int64) {
 	var c0, c1, c2, c3, c4, c5, c6, c7, c8, c9 int64
 
@@ -507,6 +553,10 @@ func FeSquare2(h, f *FieldElement) {
 	FeCombine(h, h0, h1, h2, h3, h4, h5, h6, h7, h8, h9)
 }
 
+<<<<<<< HEAD
+=======
+//FeInvert 反转
+>>>>>>> upstream/master
 func FeInvert(out, z *FieldElement) {
 	var t0, t1, t2, t3 FieldElement
 	var i int
@@ -632,32 +682,60 @@ func fePow22523(out, z *FieldElement) {
 //   CompletedGroupElement: ((X:Z),(Y:T)) satisfying x=X/Z, y=Y/T
 //   PreComputedGroupElement: (y+x,y-x,2dxy)
 
+<<<<<<< HEAD
+=======
+//ProjectiveGroupElement (X:Y:Z) satisfying x=X/Z, y=Y/Z
+>>>>>>> upstream/master
 type ProjectiveGroupElement struct {
 	X, Y, Z FieldElement
 }
 
+<<<<<<< HEAD
+=======
+//ExtendedGroupElement (X:Y:Z:T) satisfying x=X/Z, y=Y/Z, XY=ZT
+>>>>>>> upstream/master
 type ExtendedGroupElement struct {
 	X, Y, Z, T FieldElement
 }
 
+<<<<<<< HEAD
+=======
+//CompletedGroupElement ((X:Z),(Y:T)) satisfying x=X/Z, y=Y/T
+>>>>>>> upstream/master
 type CompletedGroupElement struct {
 	X, Y, Z, T FieldElement
 }
 
+<<<<<<< HEAD
+=======
+//PreComputedGroupElement (y+x,y-x,2dxy)
+>>>>>>> upstream/master
 type PreComputedGroupElement struct {
 	yPlusX, yMinusX, xy2d FieldElement
 }
 
+<<<<<<< HEAD
+=======
+//CachedGroupElement 缓存
+>>>>>>> upstream/master
 type CachedGroupElement struct {
 	yPlusX, yMinusX, Z, T2d FieldElement
 }
 
+<<<<<<< HEAD
+=======
+//Zero 0
+>>>>>>> upstream/master
 func (p *ProjectiveGroupElement) Zero() {
 	FeZero(&p.X)
 	FeOne(&p.Y)
 	FeOne(&p.Z)
 }
 
+<<<<<<< HEAD
+=======
+//Double x2
+>>>>>>> upstream/master
 func (p *ProjectiveGroupElement) Double(r *CompletedGroupElement) {
 	var t0 FieldElement
 
@@ -672,6 +750,10 @@ func (p *ProjectiveGroupElement) Double(r *CompletedGroupElement) {
 	FeSub(&r.T, &r.T, &r.Z)
 }
 
+<<<<<<< HEAD
+=======
+//ToBytes ...
+>>>>>>> upstream/master
 func (p *ProjectiveGroupElement) ToBytes(s *[32]byte) {
 	var recip, x, y FieldElement
 
@@ -682,6 +764,10 @@ func (p *ProjectiveGroupElement) ToBytes(s *[32]byte) {
 	s[31] ^= FeIsNegative(&x) << 7
 }
 
+<<<<<<< HEAD
+=======
+//Zero 0
+>>>>>>> upstream/master
 func (p *ExtendedGroupElement) Zero() {
 	FeZero(&p.X)
 	FeOne(&p.Y)
@@ -689,12 +775,20 @@ func (p *ExtendedGroupElement) Zero() {
 	FeZero(&p.T)
 }
 
+<<<<<<< HEAD
+=======
+//Double x2
+>>>>>>> upstream/master
 func (p *ExtendedGroupElement) Double(r *CompletedGroupElement) {
 	var q ProjectiveGroupElement
 	p.ToProjective(&q)
 	q.Double(r)
 }
 
+<<<<<<< HEAD
+=======
+//ToCached 缓存
+>>>>>>> upstream/master
 func (p *ExtendedGroupElement) ToCached(r *CachedGroupElement) {
 	FeAdd(&r.yPlusX, &p.Y, &p.X)
 	FeSub(&r.yMinusX, &p.Y, &p.X)
@@ -702,12 +796,20 @@ func (p *ExtendedGroupElement) ToCached(r *CachedGroupElement) {
 	FeMul(&r.T2d, &p.T, &d2)
 }
 
+<<<<<<< HEAD
+=======
+//ToProjective ...
+>>>>>>> upstream/master
 func (p *ExtendedGroupElement) ToProjective(r *ProjectiveGroupElement) {
 	FeCopy(&r.X, &p.X)
 	FeCopy(&r.Y, &p.Y)
 	FeCopy(&r.Z, &p.Z)
 }
 
+<<<<<<< HEAD
+=======
+//ToBytes 字节化
+>>>>>>> upstream/master
 func (p *ExtendedGroupElement) ToBytes(s *[32]byte) {
 	var recip, x, y FieldElement
 
@@ -718,6 +820,10 @@ func (p *ExtendedGroupElement) ToBytes(s *[32]byte) {
 	s[31] ^= FeIsNegative(&x) << 7
 }
 
+<<<<<<< HEAD
+=======
+//FromBytes ...
+>>>>>>> upstream/master
 func (p *ExtendedGroupElement) FromBytes(s *[32]byte) bool {
 	var u, v, v3, vxx, check FieldElement
 
@@ -764,12 +870,20 @@ func (p *ExtendedGroupElement) FromBytes(s *[32]byte) bool {
 	return true
 }
 
+<<<<<<< HEAD
+=======
+//ToProjective ...
+>>>>>>> upstream/master
 func (p *CompletedGroupElement) ToProjective(r *ProjectiveGroupElement) {
 	FeMul(&r.X, &p.X, &p.T)
 	FeMul(&r.Y, &p.Y, &p.Z)
 	FeMul(&r.Z, &p.Z, &p.T)
 }
 
+<<<<<<< HEAD
+=======
+//ToExtended 扩展
+>>>>>>> upstream/master
 func (p *CompletedGroupElement) ToExtended(r *ExtendedGroupElement) {
 	FeMul(&r.X, &p.X, &p.T)
 	FeMul(&r.Y, &p.Y, &p.Z)
@@ -777,12 +891,20 @@ func (p *CompletedGroupElement) ToExtended(r *ExtendedGroupElement) {
 	FeMul(&r.T, &p.X, &p.Y)
 }
 
+<<<<<<< HEAD
+=======
+//Zero 0
+>>>>>>> upstream/master
 func (p *PreComputedGroupElement) Zero() {
 	FeOne(&p.yPlusX)
 	FeOne(&p.yMinusX)
 	FeZero(&p.xy2d)
 }
 
+<<<<<<< HEAD
+=======
+//GeAdd +
+>>>>>>> upstream/master
 func GeAdd(r *CompletedGroupElement, p *ExtendedGroupElement, q *CachedGroupElement) {
 	geAdd(r, p, q)
 }
@@ -946,6 +1068,10 @@ func negative(b int32) int32 {
 	return (b >> 31) & 1
 }
 
+<<<<<<< HEAD
+=======
+//PreComputedGroupElementCMove ...
+>>>>>>> upstream/master
 func PreComputedGroupElementCMove(t, u *PreComputedGroupElement, b int32) {
 	FeCMove(&t.yPlusX, &u.yPlusX, b)
 	FeCMove(&t.yMinusX, &u.yMinusX, b)
@@ -1019,13 +1145,20 @@ func GeScalarMultBase(h *ExtendedGroupElement, a *[32]byte) {
 	}
 }
 
+<<<<<<< HEAD
 // The scalars are GF(2^252 + 27742317777372353535851937790883648493).
 
+=======
+// ScMulAdd The scalars are GF(2^252 + 27742317777372353535851937790883648493).
+>>>>>>> upstream/master
 // Input:
 //   a[0]+256*a[1]+...+256^31*a[31] = a
 //   b[0]+256*b[1]+...+256^31*b[31] = b
 //   c[0]+256*c[1]+...+256^31*c[31] = c
+<<<<<<< HEAD
 //
+=======
+>>>>>>> upstream/master
 // ProtoToJson:
 //   s[0]+256*s[1]+...+256^31*s[31] = (ab+c) mod l
 //   where l = 2^252 + 27742317777372353535851937790883648493.
@@ -1454,13 +1587,20 @@ func ScMulAdd(s, a, b, c *[32]byte) {
 	s[31] = byte(s11 >> 17)
 }
 
+<<<<<<< HEAD
 // The scalars are GF(2^252 + 27742317777372353535851937790883648493).
 
+=======
+//ScMulSub The scalars are GF(2^252 + 27742317777372353535851937790883648493).
+>>>>>>> upstream/master
 // Input:
 //   a[0]+256*a[1]+...+256^31*a[31] = a
 //   b[0]+256*b[1]+...+256^31*b[31] = b
 //   c[0]+256*c[1]+...+256^31*c[31] = c
+<<<<<<< HEAD
 //
+=======
+>>>>>>> upstream/master
 // ProtoToJson:
 //   s[0]+256*s[1]+...+256^31*s[31] = (c-ab) mod l
 //   where l = 2^252 + 27742317777372353535851937790883648493.
@@ -1889,9 +2029,14 @@ func ScMulSub(s, a, b, c *[32]byte) {
 	s[31] = byte(s11 >> 17)
 }
 
+<<<<<<< HEAD
 // Input:
 //   s[0]+256*s[1]+...+256^63*s[63] = s
 //
+=======
+//ScReduce Input:
+//   s[0]+256*s[1]+...+256^63*s[63] = s
+>>>>>>> upstream/master
 // ProtoToJson:
 //   s[0]+256*s[1]+...+256^31*s[31] = s mod l
 //   where l = 2^252 + 27742317777372353535851937790883648493.
@@ -2213,7 +2358,11 @@ func ScReduce(out *[32]byte, s *[64]byte) {
 	out[31] = byte(s11 >> 17)
 }
 
+<<<<<<< HEAD
 // Input:
+=======
+//ScAdd Input:
+>>>>>>> upstream/master
 //   s[0]+256*s[1]+...+256^31*s[31] = a
 //   s[0]+256*s[1]+...+256^31*s[31] = b
 // ProtoToJson:
@@ -2452,7 +2601,11 @@ func ScAdd(out *[32]byte, a, b *[32]byte) {
 	out[31] = byte((s11 >> 17))
 }
 
+<<<<<<< HEAD
 // Input:
+=======
+//ScSub Input:
+>>>>>>> upstream/master
 //   s[0]+256*s[1]+...+256^31*s[31] = a
 //   s[0]+256*s[1]+...+256^31*s[31] = b
 // ProtoToJson:
@@ -2694,6 +2847,11 @@ func ScSub(out *[32]byte, a, b *[32]byte) {
 func signum(a int64) int64 {
 	return (a >> 63) - ((-a) >> 63)
 }
+<<<<<<< HEAD
+=======
+
+//ScCheck 检查
+>>>>>>> upstream/master
 func ScCheck(s *[32]byte) bool {
 	s0 := load4(s[:])
 	s1 := load4(s[4:])

@@ -4,6 +4,10 @@
 
 // +build go1.8
 
+<<<<<<< HEAD
+=======
+// Package main chain33程序入口
+>>>>>>> upstream/master
 package main
 
 import (

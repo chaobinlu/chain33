@@ -3,18 +3,31 @@
 // license that can be found in the LICENSE file.
 
 /*
+<<<<<<< HEAD
 扫描chain33项目下plugin中所有的插件，根据扫描到的结果重新更新共识、执行器和数据操作的初始化文件 init.go
+=======
+Package commands 扫描chain33项目下plugin中所有的插件，根据扫描到的结果重新更新共识、执行器和数据操作的初始化文件 init.go
+>>>>>>> upstream/master
 */
 package commands
 
 import (
 	"fmt"
 
+<<<<<<< HEAD
 	"github.com/spf13/cobra"
 	"github.com/33cn/chain33/cmd/tools/strategy"
 	"github.com/33cn/chain33/cmd/tools/types"
 )
 
+=======
+	"github.com/33cn/chain33/cmd/tools/strategy"
+	"github.com/33cn/chain33/cmd/tools/types"
+	"github.com/spf13/cobra"
+)
+
+//UpdateInitCmd 升级初始命令
+>>>>>>> upstream/master
 func UpdateInitCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "updateinit",

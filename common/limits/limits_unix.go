@@ -9,6 +9,10 @@
 
 // +build !windows,!plan9
 
+<<<<<<< HEAD
+=======
+// Package limits 实现设置进程打开文件资源数
+>>>>>>> upstream/master
 package limits
 
 import (
@@ -56,6 +60,10 @@ func SetLimits() error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//GetLimits 获取limits
+>>>>>>> upstream/master
 func GetLimits() (syscall.Rlimit, error) {
 	var rLimit syscall.Rlimit
 	err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &rLimit)

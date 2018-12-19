@@ -38,6 +38,10 @@ isRecordBlockSequence=false
 enableTxQuickIndex=false
 
 [p2p]
+<<<<<<< HEAD
+=======
+port=13802
+>>>>>>> upstream/master
 seeds=[]
 enable=true
 isSeed=false
@@ -57,6 +61,12 @@ grpcBindAddr="localhost:8802"
 whitelist=["127.0.0.1"]
 jrpcFuncWhitelist=["*"]
 grpcFuncWhitelist=["*"]
+<<<<<<< HEAD
+=======
+enableTLS=false
+certFile="cert.pem"
+keyFile="key.pem"
+>>>>>>> upstream/master
 
 [mempool]
 poolCacheSize=102400
@@ -164,6 +174,10 @@ ForkExecRollback= 450000
 ForkTxHeight= -1
 ForkTxGroupPara= -1
 ForkCheckBlockTime=1200000
+<<<<<<< HEAD
+=======
+ForkMultiSignAddress=1500000
+>>>>>>> upstream/master
 
 [fork.sub.coins]
 Enable=0

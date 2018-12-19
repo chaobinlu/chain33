@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Copyright Fuzamei Corp. 2018 All Rights Reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -677,4 +678,26 @@ func (mem *Mempool) SetQueueClient(client queue.Client) {
 			mlog.Debug("mempool", "cost", types.Since(beg), "msg", types.GetEventName(int(msg.Ty)))
 		}
 	}()
+=======
+package mempool
+
+import (
+	"github.com/33cn/chain33/queue"
+	"github.com/33cn/chain33/system/mempool"
+	"github.com/33cn/chain33/types"
+)
+
+// New new mempool queue module
+func New(cfg *types.Mempool, sub map[string][]byte) queue.Module {
+	con, err := mempool.Load(cfg.Name)
+	if err != nil {
+		panic("Unsupported mempool type:" + cfg.Name + " " + err.Error())
+	}
+	subcfg, ok := sub[cfg.Name]
+	if !ok {
+		subcfg = nil
+	}
+	obj := con(cfg, subcfg)
+	return obj
+>>>>>>> upstream/master
 }

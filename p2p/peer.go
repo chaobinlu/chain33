@@ -18,11 +18,19 @@ import (
 	"google.golang.org/grpc/codes"
 )
 
+<<<<<<< HEAD
+=======
+// Start peer start
+>>>>>>> upstream/master
 func (p *Peer) Start() {
 	log.Debug("Peer", "Start", p.Addr())
 	go p.heartBeat()
 }
 
+<<<<<<< HEAD
+=======
+// Close peer close
+>>>>>>> upstream/master
 func (p *Peer) Close() {
 	atomic.StoreInt32(&p.isclose, 1)
 	p.mconn.Close()
@@ -31,6 +39,10 @@ func (p *Peer) Close() {
 
 }
 
+<<<<<<< HEAD
+=======
+// Peer object information
+>>>>>>> upstream/master
 type Peer struct {
 	mutx         sync.Mutex
 	node         *Node
@@ -47,6 +59,10 @@ type Peer struct {
 	IsMaxInbouds bool
 }
 
+<<<<<<< HEAD
+=======
+// NewPeer produce a peer object
+>>>>>>> upstream/master
 func NewPeer(conn *grpc.ClientConn, node *Node, remote *NetAddress) *Peer {
 	p := &Peer{
 		conn: conn,
@@ -59,53 +75,89 @@ func NewPeer(conn *grpc.ClientConn, node *Node, remote *NetAddress) *Peer {
 	return p
 }
 
+<<<<<<< HEAD
+=======
+// Version version object information
+>>>>>>> upstream/master
 type Version struct {
 	mtx            sync.Mutex
 	version        int32
 	versionSupport bool
 }
 
+<<<<<<< HEAD
+=======
+// Stat object information
+>>>>>>> upstream/master
 type Stat struct {
 	mtx sync.Mutex
 	ok  bool
 }
 
+<<<<<<< HEAD
+=======
+// Ok start is ok
+>>>>>>> upstream/master
 func (st *Stat) Ok() {
 	st.mtx.Lock()
 	defer st.mtx.Unlock()
 	st.ok = true
 }
 
+<<<<<<< HEAD
+=======
+// NotOk start is not ok
+>>>>>>> upstream/master
 func (st *Stat) NotOk() {
 	st.mtx.Lock()
 	defer st.mtx.Unlock()
 	st.ok = false
 }
 
+<<<<<<< HEAD
+=======
+// IsOk start is ok or not
+>>>>>>> upstream/master
 func (st *Stat) IsOk() bool {
 	st.mtx.Lock()
 	defer st.mtx.Unlock()
 	return st.ok
 }
 
+<<<<<<< HEAD
+=======
+// SetSupport set support of version
+>>>>>>> upstream/master
 func (v *Version) SetSupport(ok bool) {
 	v.mtx.Lock()
 	defer v.mtx.Unlock()
 	v.versionSupport = ok
 }
 
+<<<<<<< HEAD
+=======
+// IsSupport is support version
+>>>>>>> upstream/master
 func (v *Version) IsSupport() bool {
 	v.mtx.Lock()
 	defer v.mtx.Unlock()
 	return v.versionSupport
 }
 
+<<<<<<< HEAD
+=======
+// SetVersion set version number
+>>>>>>> upstream/master
 func (v *Version) SetVersion(ver int32) {
 	v.mtx.Lock()
 	defer v.mtx.Unlock()
 	v.version = ver
 }
 
+<<<<<<< HEAD
+=======
+// GetVersion get version number
+>>>>>>> upstream/master
 func (v *Version) GetVersion() int32 {
 	v.mtx.Lock()
 	defer v.mtx.Unlock()
@@ -153,10 +205,18 @@ func (p *Peer) heartBeat() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// GetInBouns get inbounds of peer
+>>>>>>> upstream/master
 func (p *Peer) GetInBouns() int32 {
 	return atomic.LoadInt32(&p.inBounds)
 }
 
+<<<<<<< HEAD
+=======
+// GetPeerInfo get peer information of peer
+>>>>>>> upstream/master
 func (p *Peer) GetPeerInfo(version int32) (*pb.P2PPeerInfo, error) {
 	return p.mconn.gcli.GetPeerInfo(context.Background(), &pb.P2PGetPeerInfo{Version: version}, grpc.FailFast(true))
 }
@@ -348,7 +408,11 @@ func (p *Peer) readStream() {
 					log.Info("readStream", "block==+======+====+=>Height", block.GetBlock().GetHeight(), "from peer", p.Addr(),
 						"block size(KB)", float32(len(pb.Encode(block)))/1024, "block hash",
 						blockhash)
+<<<<<<< HEAD
 					msg := p.node.nodeInfo.client.NewMessage("blockchain", pb.EventBroadcastAddBlock, &pb.BlockPid{p.GetPeerName(), block.GetBlock()})
+=======
+					msg := p.node.nodeInfo.client.NewMessage("blockchain", pb.EventBroadcastAddBlock, &pb.BlockPid{Pid: p.GetPeerName(), Block: block.GetBlock()})
+>>>>>>> upstream/master
 					err = p.node.nodeInfo.client.Send(msg, false)
 					if err != nil {
 						log.Error("readStream", "send to blockchain Error", err.Error())
@@ -379,17 +443,29 @@ func (p *Peer) readStream() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// GetRunning get running ok or not
+>>>>>>> upstream/master
 func (p *Peer) GetRunning() bool {
 	return atomic.LoadInt32(&p.isclose) != 1
 
 }
 
+<<<<<<< HEAD
 // makePersistent marks the peer as persistent.
+=======
+// MakePersistent marks the peer as persistent.
+>>>>>>> upstream/master
 func (p *Peer) MakePersistent() {
 
 	p.persistent = true
 }
 
+<<<<<<< HEAD
+=======
+// SetAddr set address of peer
+>>>>>>> upstream/master
 func (p *Peer) SetAddr(addr *NetAddress) {
 	p.peerAddr = addr
 }
@@ -404,6 +480,10 @@ func (p *Peer) IsPersistent() bool {
 	return p.persistent
 }
 
+<<<<<<< HEAD
+=======
+// SetPeerName set name of peer
+>>>>>>> upstream/master
 func (p *Peer) SetPeerName(name string) {
 	p.mutx.Lock()
 	defer p.mutx.Unlock()
@@ -413,6 +493,10 @@ func (p *Peer) SetPeerName(name string) {
 	p.name = name
 }
 
+<<<<<<< HEAD
+=======
+// GetPeerName get name of peer
+>>>>>>> upstream/master
 func (p *Peer) GetPeerName() string {
 	p.mutx.Lock()
 	defer p.mutx.Unlock()

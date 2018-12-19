@@ -107,7 +107,11 @@ service chain33 {
     rpc DumpPrivkey(ReqString) returns (ReplyString) {}
 
     //获取程序版本
+<<<<<<< HEAD
     rpc Version(ReqNil) returns (Reply) {}
+=======
+    rpc Version(ReqNil) returns (VersionInfo) {}
+>>>>>>> upstream/master
 
     //是否同步
     rpc IsSync(ReqNil) returns (Reply) {}
@@ -125,6 +129,12 @@ service chain33 {
     //获取指定区间的block加载序列号信息
     rpc GetBlockSequences(ReqBlocks) returns (BlockSequences) {}
 
+<<<<<<< HEAD
+=======
+    //get add block's sequence by hash
+    rpc GetSequenceByHash(ReqHash) returns (Int64) {}
+
+>>>>>>> upstream/master
     //通过block hash 获取对应的blocks信息
     rpc GetBlockByHashes(ReqHashes) returns (BlockDetails) {}
     //关闭chain33
@@ -136,4 +146,10 @@ service chain33 {
     rpc SignRawTx(ReqSignRawTx) returns (ReplySignRawTx) {}
 
     rpc CreateNoBalanceTransaction(NoBalanceTx) returns (ReplySignRawTx) {}
+<<<<<<< HEAD
+=======
+    
+	// 获取随机HASH
+    rpc QueryRandNum(ReqRandHash) returns(ReplyHash) {}
+>>>>>>> upstream/master
 }

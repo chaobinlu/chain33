@@ -8,15 +8,24 @@ import (
 	"encoding/json"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
 	"github.com/33cn/chain33/types"
+=======
+	"github.com/33cn/chain33/types"
+	"github.com/stretchr/testify/assert"
+>>>>>>> upstream/master
 )
 
 func TestTypeReflact(t *testing.T) {
 	ty := NewType()
 	assert.NotNil(t, ty)
 	//创建一个json字符串
+<<<<<<< HEAD
 	data, err := types.PBToJson(&types.AssetsTransfer{Amount: 10})
+=======
+	data, err := types.PBToJSON(&types.AssetsTransfer{Amount: 10})
+>>>>>>> upstream/master
 	assert.Nil(t, err)
 	raw := json.RawMessage(data)
 	tx, err := ty.CreateTx("Transfer", raw)

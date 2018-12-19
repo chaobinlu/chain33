@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package mavl 默克尔平衡树算法实现以及裁剪
+>>>>>>> upstream/master
 package mavl
 
 import (
@@ -10,11 +14,19 @@ import (
 	"fmt"
 	"sync"
 
+<<<<<<< HEAD
 	"github.com/golang/protobuf/proto"
 	"github.com/hashicorp/golang-lru"
 	dbm "github.com/33cn/chain33/common/db"
 	log "github.com/33cn/chain33/common/log/log15"
 	"github.com/33cn/chain33/types"
+=======
+	dbm "github.com/33cn/chain33/common/db"
+	log "github.com/33cn/chain33/common/log/log15"
+	"github.com/33cn/chain33/types"
+	"github.com/golang/protobuf/proto"
+	"github.com/hashicorp/golang-lru"
+>>>>>>> upstream/master
 )
 
 const (
@@ -23,6 +35,10 @@ const (
 )
 
 var (
+<<<<<<< HEAD
+=======
+	// ErrNodeNotExist node is not exist
+>>>>>>> upstream/master
 	ErrNodeNotExist  = errors.New("ErrNodeNotExist")
 	treelog          = log.New("module", "mavl")
 	emptyRoot        [32]byte
@@ -31,15 +47,27 @@ var (
 	enableMvcc bool
 )
 
+<<<<<<< HEAD
+=======
+// EnableMavlPrefix 使能mavl加前缀
+>>>>>>> upstream/master
 func EnableMavlPrefix(enable bool) {
 	enableMavlPrefix = enable
 }
 
+<<<<<<< HEAD
+=======
+// EnableMVCC 使能MVCC
+>>>>>>> upstream/master
 func EnableMVCC(enable bool) {
 	enableMvcc = enable
 }
 
+<<<<<<< HEAD
 //merkle avl tree
+=======
+// Tree merkle avl tree
+>>>>>>> upstream/master
 type Tree struct {
 	root *Node
 	ndb  *nodeDB
@@ -47,11 +75,16 @@ type Tree struct {
 	blockHeight int64
 }
 
+<<<<<<< HEAD
 // 新建一个merkle avl 树
+=======
+// NewTree 新建一个merkle avl 树
+>>>>>>> upstream/master
 func NewTree(db dbm.DB, sync bool) *Tree {
 	if db == nil {
 		// In-memory IAVLTree
 		return &Tree{}
+<<<<<<< HEAD
 	} else {
 		// Persistent IAVLTree
 		ndb := newNodeDB(db, sync)
@@ -61,6 +94,17 @@ func NewTree(db dbm.DB, sync bool) *Tree {
 	}
 }
 
+=======
+	}
+	// Persistent IAVLTree
+	ndb := newNodeDB(db, sync)
+	return &Tree{
+		ndb: ndb,
+	}
+}
+
+// Copy copy tree
+>>>>>>> upstream/master
 func (t *Tree) Copy() *Tree {
 	if t.root == nil {
 		return &Tree{
@@ -79,7 +123,11 @@ func (t *Tree) Copy() *Tree {
 	}
 }
 
+<<<<<<< HEAD
 // 获取tree的叶子节点数
+=======
+// Size 获取tree的叶子节点数
+>>>>>>> upstream/master
 func (t *Tree) Size() int32 {
 	if t.root == nil {
 		return 0
@@ -87,7 +135,11 @@ func (t *Tree) Size() int32 {
 	return t.root.size
 }
 
+<<<<<<< HEAD
 // 获取tree的高度
+=======
+// Height 获取tree的高度
+>>>>>>> upstream/master
 func (t *Tree) Height() int32 {
 	if t.root == nil {
 		return 0
@@ -95,7 +147,11 @@ func (t *Tree) Height() int32 {
 	return t.root.height
 }
 
+<<<<<<< HEAD
 //判断key是否存在tree中
+=======
+// Has 判断key是否存在tree中
+>>>>>>> upstream/master
 func (t *Tree) Has(key []byte) bool {
 	if t.root == nil {
 		return false
@@ -103,7 +159,11 @@ func (t *Tree) Has(key []byte) bool {
 	return t.root.has(t, key)
 }
 
+<<<<<<< HEAD
 //设置k:v pair到tree中
+=======
+// Set 设置k:v pair到tree中
+>>>>>>> upstream/master
 func (t *Tree) Set(key []byte, value []byte) (updated bool) {
 	//treelog.Info("IAVLTree.Set", "key", key, "value",value)
 	if t.root == nil {
@@ -114,7 +174,11 @@ func (t *Tree) Set(key []byte, value []byte) (updated bool) {
 	return updated
 }
 
+<<<<<<< HEAD
 //计算tree 的roothash
+=======
+// Hash 计算tree 的roothash
+>>>>>>> upstream/master
 func (t *Tree) Hash() []byte {
 	if t.root == nil {
 		return nil
@@ -123,7 +187,11 @@ func (t *Tree) Hash() []byte {
 	return hash
 }
 
+<<<<<<< HEAD
 // 保存整个tree的节点信息到db中
+=======
+// Save 保存整个tree的节点信息到db中
+>>>>>>> upstream/master
 func (t *Tree) Save() []byte {
 	if t.root == nil {
 		return nil
@@ -145,7 +213,11 @@ func (t *Tree) Save() []byte {
 	return t.root.hash
 }
 
+<<<<<<< HEAD
 // 从db中加载rootnode
+=======
+// Load 从db中加载rootnode
+>>>>>>> upstream/master
 func (t *Tree) Load(hash []byte) (err error) {
 	if hash == nil {
 		return
@@ -157,11 +229,19 @@ func (t *Tree) Load(hash []byte) (err error) {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// SetBlockHeight 设置block高度到tree
+>>>>>>> upstream/master
 func (t *Tree) SetBlockHeight(height int64) {
 	t.blockHeight = height
 }
 
+<<<<<<< HEAD
 //通过key获取leaf节点信息
+=======
+// Get 通过key获取leaf节点信息
+>>>>>>> upstream/master
 func (t *Tree) Get(key []byte) (index int32, value []byte, exists bool) {
 	if t.root == nil {
 		return 0, nil, false
@@ -169,7 +249,11 @@ func (t *Tree) Get(key []byte) (index int32, value []byte, exists bool) {
 	return t.root.get(t, key)
 }
 
+<<<<<<< HEAD
 //通过index获取leaf节点信息
+=======
+// GetByIndex 通过index获取leaf节点信息
+>>>>>>> upstream/master
 func (t *Tree) GetByIndex(index int32) (key []byte, value []byte) {
 	if t.root == nil {
 		return nil, nil
@@ -177,7 +261,11 @@ func (t *Tree) GetByIndex(index int32) (key []byte, value []byte) {
 	return t.root.getByIndex(t, index)
 }
 
+<<<<<<< HEAD
 //获取指定k:v pair的proof证明
+=======
+// Proof 获取指定k:v pair的proof证明
+>>>>>>> upstream/master
 func (t *Tree) Proof(key []byte) (value []byte, proofBytes []byte, exists bool) {
 	value, proof := t.ConstructProof(key)
 	if proof == nil {
@@ -193,7 +281,11 @@ func (t *Tree) Proof(key []byte) (value []byte, proofBytes []byte, exists bool) 
 	return value, proofBytes, true
 }
 
+<<<<<<< HEAD
 //删除key对应的节点
+=======
+// Remove 删除key对应的节点
+>>>>>>> upstream/master
 func (t *Tree) Remove(key []byte) (value []byte, removed bool) {
 	if t.root == nil {
 		return nil, false
@@ -214,7 +306,11 @@ func (t *Tree) Remove(key []byte) (value []byte, removed bool) {
 	return value, true
 }
 
+<<<<<<< HEAD
 // 依次迭代遍历树的所有键
+=======
+// Iterate 依次迭代遍历树的所有键
+>>>>>>> upstream/master
 func (t *Tree) Iterate(fn func(key []byte, value []byte) bool) (stopped bool) {
 	if t.root == nil {
 		return false
@@ -222,6 +318,7 @@ func (t *Tree) Iterate(fn func(key []byte, value []byte) bool) (stopped bool) {
 	return t.root.traverse(t, true, func(node *Node) bool {
 		if node.height == 0 {
 			return fn(node.key, node.value)
+<<<<<<< HEAD
 		} else {
 			return false
 		}
@@ -229,6 +326,14 @@ func (t *Tree) Iterate(fn func(key []byte, value []byte) bool) (stopped bool) {
 }
 
 // 在start和end之间的键进行迭代回调[start, end)
+=======
+		}
+		return false
+	})
+}
+
+// IterateRange 在start和end之间的键进行迭代回调[start, end)
+>>>>>>> upstream/master
 func (t *Tree) IterateRange(start, end []byte, ascending bool, fn func(key []byte, value []byte) bool) (stopped bool) {
 	if t.root == nil {
 		return false
@@ -236,6 +341,7 @@ func (t *Tree) IterateRange(start, end []byte, ascending bool, fn func(key []byt
 	return t.root.traverseInRange(t, start, end, ascending, false, 0, func(node *Node, _ uint8) bool {
 		if node.height == 0 {
 			return fn(node.key, node.value)
+<<<<<<< HEAD
 		} else {
 			return false
 		}
@@ -243,6 +349,14 @@ func (t *Tree) IterateRange(start, end []byte, ascending bool, fn func(key []byt
 }
 
 // 在start和end之间的键进行迭代回调[start, end]
+=======
+		}
+		return false
+	})
+}
+
+// IterateRangeInclusive 在start和end之间的键进行迭代回调[start, end]
+>>>>>>> upstream/master
 func (t *Tree) IterateRangeInclusive(start, end []byte, ascending bool, fn func(key, value []byte) bool) (stopped bool) {
 	if t.root == nil {
 		return false
@@ -250,9 +364,14 @@ func (t *Tree) IterateRangeInclusive(start, end []byte, ascending bool, fn func(
 	return t.root.traverseInRange(t, start, end, ascending, true, 0, func(node *Node, _ uint8) bool {
 		if node.height == 0 {
 			return fn(node.key, node.value)
+<<<<<<< HEAD
 		} else {
 			return false
 		}
+=======
+		}
+		return false
+>>>>>>> upstream/master
 	})
 }
 
@@ -280,6 +399,10 @@ func newNodeDB(db dbm.DB, sync bool) *nodeDB {
 	return ndb
 }
 
+<<<<<<< HEAD
+=======
+// GetNode 从数据库中查询Node
+>>>>>>> upstream/master
 func (ndb *nodeDB) GetNode(t *Tree, hash []byte) (*Node, error) {
 	ndb.mtx.Lock()
 	defer ndb.mtx.Unlock()
@@ -309,11 +432,19 @@ func (ndb *nodeDB) GetNode(t *Tree, hash []byte) (*Node, error) {
 	return node, nil
 }
 
+<<<<<<< HEAD
+=======
+// GetBatch get db batch handle
+>>>>>>> upstream/master
 func (ndb *nodeDB) GetBatch(sync bool) *nodeBatch {
 	return &nodeBatch{ndb.db.NewBatch(sync)}
 }
 
+<<<<<<< HEAD
 //保存节点
+=======
+// SaveNode 保存节点
+>>>>>>> upstream/master
 func (ndb *nodeDB) SaveNode(t *Tree, node *Node) {
 	ndb.mtx.Lock()
 	defer ndb.mtx.Unlock()
@@ -357,7 +488,11 @@ func (ndb *nodeDB) cacheNode(node *Node) {
 	}
 }
 
+<<<<<<< HEAD
 //删除节点
+=======
+// RemoveNode 删除节点
+>>>>>>> upstream/master
 func (ndb *nodeDB) RemoveNode(t *Tree, node *Node) {
 	ndb.mtx.Lock()
 	defer ndb.mtx.Unlock()
@@ -374,7 +509,11 @@ func (ndb *nodeDB) RemoveNode(t *Tree, node *Node) {
 	ndb.orphans[string(node.hash)] = struct{}{}
 }
 
+<<<<<<< HEAD
 //提交状态tree，批量写入db中
+=======
+// Commit 提交状态tree，批量写入db中
+>>>>>>> upstream/master
 func (ndb *nodeDB) Commit() error {
 
 	ndb.mtx.Lock()
@@ -391,7 +530,11 @@ func (ndb *nodeDB) Commit() error {
 	return err
 }
 
+<<<<<<< HEAD
 //对外接口
+=======
+// SetKVPair 设置kv对外接口
+>>>>>>> upstream/master
 func SetKVPair(db dbm.DB, storeSet *types.StoreSet, sync bool) ([]byte, error) {
 	tree := NewTree(db, sync)
 	tree.SetBlockHeight(storeSet.Height)
@@ -405,6 +548,10 @@ func SetKVPair(db dbm.DB, storeSet *types.StoreSet, sync bool) ([]byte, error) {
 	return tree.Save(), nil
 }
 
+<<<<<<< HEAD
+=======
+// GetKVPair 获取kv对外接口
+>>>>>>> upstream/master
 func GetKVPair(db dbm.DB, storeGet *types.StoreGet) ([][]byte, error) {
 	tree := NewTree(db, true)
 	err := tree.Load(storeGet.StateHash)
@@ -421,6 +568,10 @@ func GetKVPair(db dbm.DB, storeGet *types.StoreGet) ([][]byte, error) {
 	return values, nil
 }
 
+<<<<<<< HEAD
+=======
+// GetKVPairProof 获取指定k:v pair的proof证明
+>>>>>>> upstream/master
 func GetKVPairProof(db dbm.DB, roothash []byte, key []byte) ([]byte, error) {
 	tree := NewTree(db, true)
 	err := tree.Load(roothash)
@@ -434,7 +585,11 @@ func GetKVPairProof(db dbm.DB, roothash []byte, key []byte) ([]byte, error) {
 	return nil, nil
 }
 
+<<<<<<< HEAD
 //剔除key对应的节点在本次tree中，返回新的roothash和key对应的value
+=======
+// DelKVPair 剔除key对应的节点在本次tree中，返回新的roothash和key对应的value
+>>>>>>> upstream/master
 func DelKVPair(db dbm.DB, storeDel *types.StoreGet) ([]byte, [][]byte, error) {
 	tree := NewTree(db, true)
 	err := tree.Load(storeDel.StateHash)
@@ -451,6 +606,10 @@ func DelKVPair(db dbm.DB, storeDel *types.StoreGet) ([]byte, [][]byte, error) {
 	return tree.Save(), values, nil
 }
 
+<<<<<<< HEAD
+=======
+// VerifyKVPairProof 验证KVPair 的证明
+>>>>>>> upstream/master
 func VerifyKVPairProof(db dbm.DB, roothash []byte, keyvalue types.KeyValue, proof []byte) bool {
 
 	//通过传入的keyvalue构造leafnode
@@ -468,6 +627,10 @@ func VerifyKVPairProof(db dbm.DB, roothash []byte, keyvalue types.KeyValue, proo
 	return istrue
 }
 
+<<<<<<< HEAD
+=======
+// PrintTreeLeaf 通过roothash打印所有叶子节点
+>>>>>>> upstream/master
 func PrintTreeLeaf(db dbm.DB, roothash []byte) {
 	tree := NewTree(db, true)
 	tree.Load(roothash)
@@ -482,6 +645,10 @@ func PrintTreeLeaf(db dbm.DB, roothash []byte) {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// IterateRangeByStateHash 在start和end之间的键进行迭代回调[start, end)
+>>>>>>> upstream/master
 func IterateRangeByStateHash(db dbm.DB, statehash, start, end []byte, ascending bool, fn func([]byte, []byte) bool) {
 	tree := NewTree(db, true)
 	tree.Load(statehash)

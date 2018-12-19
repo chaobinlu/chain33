@@ -23,6 +23,7 @@ type updateInitStrategy struct {
 	cryptoRootPath string
 }
 
+<<<<<<< HEAD
 func (this *updateInitStrategy) Run() error {
 	mlog.Info("Begin run chain33 update init.go.")
 	defer mlog.Info("Run chain33 update init.go finish.")
@@ -35,6 +36,20 @@ func (this *updateInitStrategy) Run() error {
 func (this *updateInitStrategy) initMember() error {
 	path, err := this.getParam("path")
 	packname, _ := this.getParam("packname")
+=======
+func (up *updateInitStrategy) Run() error {
+	mlog.Info("Begin run chain33 update init.go.")
+	defer mlog.Info("Run chain33 update init.go finish.")
+	if err := up.initMember(); err != nil {
+		return err
+	}
+	return up.runImpl()
+}
+
+func (up *updateInitStrategy) initMember() error {
+	path, err := up.getParam("path")
+	packname, _ := up.getParam("packname")
+>>>>>>> upstream/master
 	if err != nil || path == "" {
 		gopath := os.Getenv("GOPATH")
 		if len(gopath) > 0 {
@@ -44,6 +59,7 @@ func (this *updateInitStrategy) initMember() error {
 	if len(path) == 0 {
 		return errors.New("Chain33 Plugin Not Existed")
 	}
+<<<<<<< HEAD
 	this.consRootPath = fmt.Sprintf("%s/consensus/", path)
 	this.dappRootPath = fmt.Sprintf("%s/dapp/", path)
 	this.storeRootPath = fmt.Sprintf("%s/store/", path)
@@ -52,6 +68,16 @@ func (this *updateInitStrategy) initMember() error {
 	mkdir(this.dappRootPath)
 	mkdir(this.storeRootPath)
 	mkdir(this.cryptoRootPath)
+=======
+	up.consRootPath = fmt.Sprintf("%s/consensus/", path)
+	up.dappRootPath = fmt.Sprintf("%s/dapp/", path)
+	up.storeRootPath = fmt.Sprintf("%s/store/", path)
+	up.cryptoRootPath = fmt.Sprintf("%s/crypto/", path)
+	mkdir(up.consRootPath)
+	mkdir(up.dappRootPath)
+	mkdir(up.storeRootPath)
+	mkdir(up.cryptoRootPath)
+>>>>>>> upstream/master
 	buildInit(path, packname)
 	return nil
 }
@@ -72,19 +98,32 @@ func buildInit(path string, packname string) {
 		var data = []byte(`package plugin
 
 import (
+<<<<<<< HEAD
 	_ "${packname}/consensus/init"
 	_ "${packname}/crypto/init"
 	_ "${packname}/dapp/init"
 	_ "${packname}/store/init"
+=======
+	_ "${packname}/consensus/init" //consensus init
+	_ "${packname}/crypto/init"    //crypto init
+	_ "${packname}/dapp/init"      //dapp init
+	_ "${packname}/store/init"     //store init
+>>>>>>> upstream/master
 )`)
 		data = bytes.Replace(data, []byte("${packname}"), []byte(packname), -1)
 		ioutil.WriteFile(path, data, 0666)
 	}
 }
 
+<<<<<<< HEAD
 func (this *updateInitStrategy) runImpl() error {
 	var err error
 	task := this.buildTask()
+=======
+func (up *updateInitStrategy) runImpl() error {
+	var err error
+	task := up.buildTask()
+>>>>>>> upstream/master
 	for {
 		if task == nil {
 			break
@@ -99,6 +138,7 @@ func (this *updateInitStrategy) runImpl() error {
 	return err
 }
 
+<<<<<<< HEAD
 func (this *updateInitStrategy) buildTask() tasks.Task {
 	taskSlice := make([]tasks.Task, 0)
 	taskSlice = append(taskSlice,
@@ -113,6 +153,22 @@ func (this *updateInitStrategy) buildTask() tasks.Task {
 		},
 		&tasks.UpdateInitFileTask{
 			Folder: this.cryptoRootPath,
+=======
+func (up *updateInitStrategy) buildTask() tasks.Task {
+	taskSlice := make([]tasks.Task, 0)
+	taskSlice = append(taskSlice,
+		&tasks.UpdateInitFileTask{
+			Folder: up.consRootPath,
+		},
+		&tasks.UpdateInitFileTask{
+			Folder: up.dappRootPath,
+		},
+		&tasks.UpdateInitFileTask{
+			Folder: up.storeRootPath,
+		},
+		&tasks.UpdateInitFileTask{
+			Folder: up.cryptoRootPath,
+>>>>>>> upstream/master
 		},
 	)
 

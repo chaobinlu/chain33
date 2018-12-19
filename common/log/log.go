@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package log 日志相关接口以及函数
+>>>>>>> upstream/master
 package log
 
 import (
@@ -23,14 +27,22 @@ func init() {
 	//resetWithLogLevel("error")
 }
 
+<<<<<<< HEAD
 // 设置控制台日志输出级别
+=======
+//SetLogLevel 设置控制台日志输出级别
+>>>>>>> upstream/master
 func SetLogLevel(logLevel string) {
 	handler := getConsoleLogHandler(logLevel)
 	(*handler).SetMaxLevel(int(getLevel(logLevel)))
 	log15.Root().SetHandler(*handler)
 }
 
+<<<<<<< HEAD
 // 设置文件日志和控制台日志信息
+=======
+//SetFileLog 设置文件日志和控制台日志信息
+>>>>>>> upstream/master
 func SetFileLog(log *types.Log) {
 	if log == nil {
 		log = &types.Log{LogFile: "logs/chain33.log"}
@@ -121,10 +133,18 @@ func getLevel(lvlString string) log15.Lvl {
 	return lvl
 }
 
+<<<<<<< HEAD
+=======
+//New new
+>>>>>>> upstream/master
 func New(ctx ...interface{}) log15.Logger {
 	return NewMain(ctx...)
 }
 
+<<<<<<< HEAD
+=======
+//NewMain new
+>>>>>>> upstream/master
 func NewMain(ctx ...interface{}) log15.Logger {
 	return log15.Root().New(ctx...)
 }

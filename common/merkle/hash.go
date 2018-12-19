@@ -9,6 +9,7 @@ import (
 	"fmt"
 )
 
+<<<<<<< HEAD
 const HashSize = 32
 
 type Hash [HashSize]byte
@@ -20,6 +21,21 @@ var ErrHashStrSize = fmt.Errorf("max hash string length is %v bytes", MaxHashStr
 // CloneBytes returns a copy of the bytes which represent the hash as a byte
 // slice.
 //
+=======
+//HashSize hash长度
+const HashSize = 32
+
+//Hash 哈希
+type Hash [HashSize]byte
+
+//MaxHashStringSize 最大hash字符串长度
+const MaxHashStringSize = HashSize * 2
+
+//ErrHashStrSize error
+var ErrHashStrSize = fmt.Errorf("max hash string length is %v bytes", MaxHashStringSize)
+
+// CloneBytes returns a copy of the bytes which represent the hash as a byte slice.
+>>>>>>> upstream/master
 // NOTE: It is generally cheaper to just slice the hash directly thereby reusing
 // the same bytes rather than calling this method.
 func (hash *Hash) CloneBytes() []byte {

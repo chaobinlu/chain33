@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package queue chain33底层消息队列模块
+>>>>>>> upstream/master
 package queue
 
 import (
@@ -31,6 +35,10 @@ const (
 	defaultLowChanBuffer = 40960
 )
 
+<<<<<<< HEAD
+=======
+// DisableLog disable log
+>>>>>>> upstream/master
 func DisableLog() {
 	qlog.SetHandler(log.DiscardHandler())
 }
@@ -41,9 +49,15 @@ type chanSub struct {
 	isClose int32
 }
 
+<<<<<<< HEAD
 /// Queue only one obj in project
 /// Queue only generate Client and start、Close operate,
 /// if you send massage or receive massage on Queue, please use Client.
+=======
+// Queue only one obj in project
+// Queue only generate Client and start、Close operate,
+// if you send massage or receive massage on Queue, please use Client.
+>>>>>>> upstream/master
 type Queue interface {
 	Close()
 	Start()
@@ -52,6 +66,7 @@ type Queue interface {
 }
 
 type queue struct {
+<<<<<<< HEAD
 	chanSubs map[string]*chanSub
 	mu       sync.Mutex
 	done     chan struct{}
@@ -65,10 +80,31 @@ func New(name string) Queue {
 	return q
 }
 
+=======
+	chanSubs  map[string]*chanSub
+	mu        sync.Mutex
+	done      chan struct{}
+	interrupt chan struct{}
+	isClose   int32
+	name      string
+}
+
+// New new queue struct
+func New(name string) Queue {
+	q := &queue{chanSubs: make(map[string]*chanSub), name: name, done: make(chan struct{}, 1), interrupt: make(chan struct{}, 1)}
+	return q
+}
+
+// Name return the queue name
+>>>>>>> upstream/master
 func (q *queue) Name() string {
 	return q.name
 }
 
+<<<<<<< HEAD
+=======
+// Start 开始运行消息队列
+>>>>>>> upstream/master
 func (q *queue) Start() {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
@@ -77,7 +113,11 @@ func (q *queue) Start() {
 	case <-q.done:
 		atomic.StoreInt32(&q.isClose, 1)
 		break
+<<<<<<< HEAD
 	case <-q.interupt:
+=======
+	case <-q.interrupt:
+>>>>>>> upstream/master
 		fmt.Println("closing chain33")
 		//atomic.StoreInt32(&q.isClose, 1)
 		break
@@ -92,6 +132,10 @@ func (q *queue) isClosed() bool {
 	return atomic.LoadInt32(&q.isClose) == 1
 }
 
+<<<<<<< HEAD
+=======
+// Close 关闭消息队列
+>>>>>>> upstream/master
 func (q *queue) Close() {
 	if q.isClosed() {
 		return
@@ -214,20 +258,38 @@ func (q *queue) sendLowTimeout(msg Message, timeout time.Duration) error {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// Client new client
+>>>>>>> upstream/master
 func (q *queue) Client() Client {
 	return newClient(q)
 }
 
+<<<<<<< HEAD
 type Message struct {
 	Topic   string
 	Ty      int64
 	Id      int64
+=======
+// Message message struct
+type Message struct {
+	Topic   string
+	Ty      int64
+	ID      int64
+>>>>>>> upstream/master
 	Data    interface{}
 	chReply chan Message
 }
 
+<<<<<<< HEAD
 func NewMessage(id int64, topic string, ty int64, data interface{}) (msg Message) {
 	msg.Id = id
+=======
+// NewMessage new message
+func NewMessage(id int64, topic string, ty int64, data interface{}) (msg Message) {
+	msg.ID = id
+>>>>>>> upstream/master
 	msg.Ty = ty
 	msg.Data = data
 	msg.Topic = topic
@@ -235,6 +297,10 @@ func NewMessage(id int64, topic string, ty int64, data interface{}) (msg Message
 	return msg
 }
 
+<<<<<<< HEAD
+=======
+// GetData get message data
+>>>>>>> upstream/master
 func (msg Message) GetData() interface{} {
 	if _, ok := msg.Data.(error); ok {
 		return nil
@@ -242,6 +308,10 @@ func (msg Message) GetData() interface{} {
 	return msg.Data
 }
 
+<<<<<<< HEAD
+=======
+// Err if err return error msg, or return nil
+>>>>>>> upstream/master
 func (msg Message) Err() error {
 	if err, ok := msg.Data.(error); ok {
 		return err
@@ -249,6 +319,10 @@ func (msg Message) Err() error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// Reply reply message to reply chan
+>>>>>>> upstream/master
 func (msg Message) Reply(replyMsg Message) {
 	if msg.chReply == nil {
 		qlog.Debug("reply a empty chreply", "msg", msg)
@@ -260,11 +334,21 @@ func (msg Message) Reply(replyMsg Message) {
 	}
 }
 
+<<<<<<< HEAD
 func (msg Message) String() string {
 	return fmt.Sprintf("{topic:%s, Ty:%s, Id:%d, Err:%v, Ch:%v}", msg.Topic,
 		types.GetEventName(int(msg.Ty)), msg.Id, msg.Err(), msg.chReply != nil)
 }
 
+=======
+// String print the message information
+func (msg Message) String() string {
+	return fmt.Sprintf("{topic:%s, Ty:%s, Id:%d, Err:%v, Ch:%v}", msg.Topic,
+		types.GetEventName(int(msg.Ty)), msg.ID, msg.Err(), msg.chReply != nil)
+}
+
+// ReplyErr reply error
+>>>>>>> upstream/master
 func (msg Message) ReplyErr(title string, err error) {
 	var reply types.Reply
 	if err != nil {

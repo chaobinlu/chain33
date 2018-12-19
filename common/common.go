@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package common contains various helper functions.
+>>>>>>> upstream/master
 package common
 
 import (
@@ -15,6 +19,10 @@ func init() {
 	random = rand.New(rand.NewSource(time.Now().UnixNano()))
 }
 
+<<<<<<< HEAD
+=======
+//MinInt32 min
+>>>>>>> upstream/master
 func MinInt32(left, right int32) int32 {
 	if left > right {
 		return right
@@ -22,6 +30,10 @@ func MinInt32(left, right int32) int32 {
 	return left
 }
 
+<<<<<<< HEAD
+=======
+//MaxInt32 max
+>>>>>>> upstream/master
 func MaxInt32(left, right int32) int32 {
 	if left > right {
 		return left
@@ -29,6 +41,10 @@ func MaxInt32(left, right int32) int32 {
 	return right
 }
 
+<<<<<<< HEAD
+=======
+//GetRandBytes 获取随机字节
+>>>>>>> upstream/master
 func GetRandBytes(min, max int) []byte {
 	length := max
 	if min < max {
@@ -41,12 +57,20 @@ func GetRandBytes(min, max int) []byte {
 	return result
 }
 
+<<<<<<< HEAD
+=======
+//GetRandString 获取随机字符串
+>>>>>>> upstream/master
 func GetRandString(length int) string {
 	return string(GetRandBytes(length, length))
 }
 
 var printString = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+<<<<<<< HEAD
+=======
+//GetRandPrintString 获取随机可打印字符串
+>>>>>>> upstream/master
 func GetRandPrintString(min, max int) string {
 	l := max
 	if min < max {

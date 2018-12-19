@@ -4,6 +4,10 @@
 
 // +build go1.8
 
+<<<<<<< HEAD
+=======
+// package main 用于测试数据库中的MAVL节点数目
+>>>>>>> upstream/master
 package main
 
 import (
@@ -90,6 +94,16 @@ func main() {
 		mavl.PruningTreePrintDB(db, []byte("_..md.._"))
 	}
 	a = 0
+<<<<<<< HEAD
+=======
+	fmt.Println("是否需要查询二级叶子节点索引计数")
+	fmt.Fscan(stdin, &a)
+	stdin.ReadString('\n')
+	if a > 0 {
+		mavl.PruningTreePrintDB(db, []byte("..mok.."))
+	}
+	a = 0
+>>>>>>> upstream/master
 	fmt.Println("是否需要裁剪树,请输入最大裁剪数高度")
 	fmt.Fscan(stdin, &a)
 	stdin.ReadString('\n')

@@ -8,12 +8,21 @@ import (
 	"errors"
 	"reflect"
 
+<<<<<<< HEAD
 	"github.com/golang/protobuf/proto"
 	"github.com/33cn/chain33/types"
 )
 
 //通过addr前缀查找本地址参与的所有交易
 //查询交易默认放到：coins 中查询
+=======
+	"github.com/33cn/chain33/types"
+	"github.com/golang/protobuf/proto"
+)
+
+// GetTxsByAddr find all transactions in this address by the addr prefix
+// query transaction are placed by default ：coins in the query
+>>>>>>> upstream/master
 func (d *DriverBase) GetTxsByAddr(addr *types.ReqAddr) (types.Message, error) {
 	db := d.GetLocalDB()
 	var prefix []byte
@@ -66,7 +75,11 @@ func (d *DriverBase) GetTxsByAddr(addr *types.ReqAddr) (types.Message, error) {
 	return &replyTxInfos, nil
 }
 
+<<<<<<< HEAD
 //查询指定prefix的key数量，用于统计
+=======
+// GetPrefixCount query the number keys of the specified prefix, for statistical
+>>>>>>> upstream/master
 func (d *DriverBase) GetPrefixCount(key *types.ReqKey) (types.Message, error) {
 	var counts types.Int64
 	db := d.GetLocalDB()
@@ -74,7 +87,11 @@ func (d *DriverBase) GetPrefixCount(key *types.ReqKey) (types.Message, error) {
 	return &counts, nil
 }
 
+<<<<<<< HEAD
 //查询指定地址参与的交易计数，用于统计
+=======
+// GetAddrTxsCount query the transaction count for the specified address ，for statistical
+>>>>>>> upstream/master
 func (d *DriverBase) GetAddrTxsCount(reqkey *types.ReqKey) (types.Message, error) {
 	var counts types.Int64
 	db := d.GetLocalDB()
@@ -95,6 +112,10 @@ func (d *DriverBase) GetAddrTxsCount(reqkey *types.ReqKey) (types.Message, error
 	return &counts, nil
 }
 
+<<<<<<< HEAD
+=======
+// Query defines query function
+>>>>>>> upstream/master
 func (d *DriverBase) Query(funcname string, params []byte) (msg types.Message, err error) {
 	funcmap := d.child.GetFuncMap()
 	funcname = "Query_" + funcname

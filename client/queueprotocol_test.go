@@ -8,6 +8,7 @@ import (
 	"os"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/33cn/chain33/pluginmgr"
 	_ "github.com/33cn/chain33/system"
 
@@ -16,6 +17,17 @@ import (
 	"github.com/33cn/chain33/queue"
 	rpctypes "github.com/33cn/chain33/rpc/types"
 	"github.com/33cn/chain33/types"
+=======
+	"github.com/33cn/chain33/client"
+	"github.com/33cn/chain33/common/version"
+	"github.com/33cn/chain33/pluginmgr"
+	"github.com/33cn/chain33/queue"
+	rpctypes "github.com/33cn/chain33/rpc/types"
+	_ "github.com/33cn/chain33/system"
+	"github.com/33cn/chain33/types"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+>>>>>>> upstream/master
 )
 
 var (
@@ -40,13 +52,21 @@ func TestQueueProtocolAPI(t *testing.T) {
 	option.SendTimeout = 100
 	option.WaitTimeout = 200
 
+<<<<<<< HEAD
 	qc, err := client.New(nil, nil)
+=======
+	_, err := client.New(nil, nil)
+>>>>>>> upstream/master
 	if err == nil {
 		t.Error("client.New(nil, nil) need return error")
 	}
 
 	var q = queue.New("channel")
+<<<<<<< HEAD
 	qc, err = client.New(q.Client(), &option)
+=======
+	qc, err := client.New(q.Client(), &option)
+>>>>>>> upstream/master
 	if err != nil {
 		t.Errorf("client.New() cause error %v", err)
 	}
@@ -93,6 +113,10 @@ func TestQueueProtocol(t *testing.T) {
 	testGetLastHeader(t, api)
 	testSignRawTx(t, api)
 	testStoreGetTotalCoins(t, api)
+<<<<<<< HEAD
+=======
+	testStoreList(t, api)
+>>>>>>> upstream/master
 	testBlockChainQuery(t, api)
 }
 
@@ -132,6 +156,21 @@ func testStoreGetTotalCoins(t *testing.T, api client.QueueProtocolAPI) {
 	}
 }
 
+<<<<<<< HEAD
+=======
+func testStoreList(t *testing.T, api client.QueueProtocolAPI) {
+	_, err := api.StoreList(&types.StoreList{})
+	if err == nil {
+		t.Error("Call StoreList Failed.", err)
+	}
+
+	_, err = api.StoreList(nil)
+	if err == nil {
+		t.Error("StoreList(nil) need return error.")
+	}
+}
+
+>>>>>>> upstream/master
 func testSignRawTx(t *testing.T, api client.QueueProtocolAPI) {
 	_, err := api.SignRawTx(&types.ReqSignRawTx{})
 	if err != nil {
@@ -422,7 +461,11 @@ func testWalletSendToAddress(t *testing.T, api client.QueueProtocolAPI) {
 	if err == nil {
 		t.Error("WalletSendToAddress(nil) need return error.")
 	}
+<<<<<<< HEAD
 	_, err = api.WalletSendToAddress(&types.ReqWalletSendToAddress{Note: "case1"})
+=======
+	_, err = api.WalletSendToAddress(&types.ReqWalletSendToAddress{Note: []byte("case1")})
+>>>>>>> upstream/master
 	if err == nil {
 		t.Error("WalletSendToAddress(&types.ReqWalletSendToAddress{Note:\"case1\"}) need return error.")
 	}
@@ -474,7 +517,11 @@ func testNewAccount(t *testing.T, api client.QueueProtocolAPI) {
 }
 
 func testWalletGetAccountList(t *testing.T, api client.QueueProtocolAPI) {
+<<<<<<< HEAD
 	req := types.ReqAccountList{true}
+=======
+	req := types.ReqAccountList{WithoutBalance: true}
+>>>>>>> upstream/master
 	_, err := api.WalletGetAccountList(&req)
 	if err != nil {
 		t.Error("Call WalletGetAccountList Failed.", err)
@@ -792,6 +839,10 @@ func TestGRPC(t *testing.T) {
 	testGetBlockOverviewGRPC(t, &grpcMock)
 	testGetAddrOverviewGRPC(t, &grpcMock)
 	testGetBlockHashGRPC(t, &grpcMock)
+<<<<<<< HEAD
+=======
+	testGetSequenceByHashGRPC(t, &grpcMock)
+>>>>>>> upstream/master
 	testGenSeedGRPC(t, &grpcMock)
 	testGetSeedGRPC(t, &grpcMock)
 	testSaveSeedGRPC(t, &grpcMock)
@@ -830,11 +881,19 @@ func testIsSyncGRPC(t *testing.T, rpc *mockGRPCSystem) {
 }
 
 func testVersionGRPC(t *testing.T, rpc *mockGRPCSystem) {
+<<<<<<< HEAD
 	var res types.Reply
+=======
+	var res types.VersionInfo
+>>>>>>> upstream/master
 	err := rpc.newRpcCtx("Version", &types.ReqNil{}, &res)
 	if err != nil {
 		t.Error("Call Version Failed.", err)
 	}
+<<<<<<< HEAD
+=======
+	assert.Equal(t, version.GetVersion(), res.Chain33)
+>>>>>>> upstream/master
 }
 
 func testDumpPrivkeyGRPC(t *testing.T, rpc *mockGRPCSystem) {
@@ -1116,3 +1175,14 @@ func testSendTxGRPC(t *testing.T, rpc *mockGRPCSystem) {
 		t.Error("Call SendTransaction Failed.", err)
 	}
 }
+<<<<<<< HEAD
+=======
+
+func testGetSequenceByHashGRPC(t *testing.T, rpc *mockGRPCSystem) {
+	var res types.Int64
+	err := rpc.newRpcCtx("GetSequenceByHash", &types.ReqHash{}, &res)
+	if err != nil {
+		t.Error("Call GetSequenceByHash Failed.", err)
+	}
+}
+>>>>>>> upstream/master

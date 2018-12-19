@@ -2,9 +2,15 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
 package main
 
 //这个软件包的主要目的是执行已经同步好的区块链的某个区块
+=======
+// package main 主要是执行已经同步好的区块链的某个区块
+package main
+
+>>>>>>> upstream/master
 import (
 	"flag"
 	"fmt"

@@ -2,7 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
 //转换基于比特币地址规则的币种
+=======
+// Package btcbase 转换基于比特币地址规则的币种
+>>>>>>> upstream/master
 //使用此规则的币种有：BTC、BCH、LTC、ZEC、USDT、 BTY
 package btcbase
 
@@ -16,25 +20,46 @@ import (
 	"fmt"
 )
 
+<<<<<<< HEAD
 type BtcBaseTransformer struct {
 	prefix []byte //版本号前缀
 }
 
 //base58转字节形式
 func (t BtcBaseTransformer) Base58ToByte(str string) (bin []byte, err error) {
+=======
+// btcBaseTransformer 转换基于比特币地址规则的币种实现类
+type btcBaseTransformer struct {
+	prefix []byte //版本号前缀
+}
+
+// Base58ToByte base58转字节形式
+func (t btcBaseTransformer) Base58ToByte(str string) (bin []byte, err error) {
+>>>>>>> upstream/master
 	bin, err = base58.Decode(str)
 	return
 }
 
+<<<<<<< HEAD
 //字节形式转base58编码
 func (t BtcBaseTransformer) ByteToBase58(bin []byte) (str string) {
+=======
+// ByteToBase58 字节形式转base58编码
+func (t btcBaseTransformer) ByteToBase58(bin []byte) (str string) {
+>>>>>>> upstream/master
 	str = base58.Encode(bin)
 	return
 }
 
 //TODO: 根据私钥类型进行判断，选择输出压缩或非压缩公钥
+<<<<<<< HEAD
 //32字节私钥生成压缩格式公钥
 func (t BtcBaseTransformer) PrivKeyToPub(priv []byte) (pub []byte, err error) {
+=======
+
+// PrivKeyToPub 32字节私钥生成压缩格式公钥
+func (t btcBaseTransformer) PrivKeyToPub(priv []byte) (pub []byte, err error) {
+>>>>>>> upstream/master
 	if len(priv) != 32 {
 		return nil, fmt.Errorf("invalid priv key byte")
 	}
@@ -55,9 +80,15 @@ func checksum(input []byte) (cksum [4]byte) {
 	return
 }
 
+<<<<<<< HEAD
 // 传入压缩或非压缩形式的公钥，生成base58编码的地址
 //（压缩和非压缩形式的公钥生成的地址是不同的，但都是合法的）
 func (t BtcBaseTransformer) PubKeyToAddress(pub []byte) (addr string, err error) {
+=======
+// PubKeyToAddress 传入压缩或非压缩形式的公钥，生成base58编码的地址
+//（压缩和非压缩形式的公钥生成的地址是不同的，但都是合法的）
+func (t btcBaseTransformer) PubKeyToAddress(pub []byte) (addr string, err error) {
+>>>>>>> upstream/master
 	if len(pub) != 33 && len(pub) != 65 { //压缩格式 与 非压缩格式
 		return "", fmt.Errorf("invalid public key byte")
 	}

@@ -20,7 +20,11 @@ func TestMakeStringUpper(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "abCDefg", destStr)
 
+<<<<<<< HEAD
 	destStr, err = MakeStringToUpper(originStr, -1, 2)
+=======
+	_, err = MakeStringToUpper(originStr, -1, 2)
+>>>>>>> upstream/master
 	assert.Error(t, err)
 }
 
@@ -34,6 +38,10 @@ func TestMakeStringLower(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, "ABcdEFG", destStr)
 
+<<<<<<< HEAD
 	destStr, err = MakeStringToLower(originStr, -1, 2)
+=======
+	_, err = MakeStringToLower(originStr, -1, 2)
+>>>>>>> upstream/master
 	assert.Error(t, err)
 }

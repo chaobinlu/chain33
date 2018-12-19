@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package secp256k1 secp256k1系统加密包
+>>>>>>> upstream/master
 package secp256k1
 
 import (
@@ -9,6 +13,7 @@ import (
 	"errors"
 	"fmt"
 
+<<<<<<< HEAD
 	secp256k1 "github.com/btcsuite/btcd/btcec"
 	"github.com/33cn/chain33/common/crypto"
 )
@@ -16,6 +21,16 @@ import (
 type Driver struct{}
 
 // Ctypto
+=======
+	"github.com/33cn/chain33/common/crypto"
+	secp256k1 "github.com/btcsuite/btcd/btcec"
+)
+
+//Driver 驱动
+type Driver struct{}
+
+//GenKey 生成私钥
+>>>>>>> upstream/master
 func (d Driver) GenKey() (crypto.PrivKey, error) {
 	privKeyBytes := [32]byte{}
 	copy(privKeyBytes[:], crypto.CRandBytes(32))
@@ -24,6 +39,10 @@ func (d Driver) GenKey() (crypto.PrivKey, error) {
 	return PrivKeySecp256k1(privKeyBytes), nil
 }
 
+<<<<<<< HEAD
+=======
+//PrivKeyFromBytes 字节转为私钥
+>>>>>>> upstream/master
 func (d Driver) PrivKeyFromBytes(b []byte) (privKey crypto.PrivKey, err error) {
 	if len(b) != 32 {
 		return nil, errors.New("invalid priv key byte")
@@ -35,6 +54,10 @@ func (d Driver) PrivKeyFromBytes(b []byte) (privKey crypto.PrivKey, err error) {
 	return PrivKeySecp256k1(*privKeyBytes), nil
 }
 
+<<<<<<< HEAD
+=======
+//PubKeyFromBytes 字节转为公钥
+>>>>>>> upstream/master
 func (d Driver) PubKeyFromBytes(b []byte) (pubKey crypto.PubKey, err error) {
 	if len(b) != 33 {
 		return nil, errors.New("invalid pub key byte")
@@ -44,19 +67,34 @@ func (d Driver) PubKeyFromBytes(b []byte) (pubKey crypto.PubKey, err error) {
 	return PubKeySecp256k1(*pubKeyBytes), nil
 }
 
+<<<<<<< HEAD
+=======
+//SignatureFromBytes 字节转为签名
+>>>>>>> upstream/master
 func (d Driver) SignatureFromBytes(b []byte) (sig crypto.Signature, err error) {
 	return SignatureSecp256k1(b), nil
 }
 
+<<<<<<< HEAD
 // PrivKey
 type PrivKeySecp256k1 [32]byte
 
+=======
+//PrivKeySecp256k1 PrivKey
+type PrivKeySecp256k1 [32]byte
+
+//Bytes 字节格式
+>>>>>>> upstream/master
 func (privKey PrivKeySecp256k1) Bytes() []byte {
 	s := make([]byte, 32)
 	copy(s, privKey[:])
 	return s
 }
 
+<<<<<<< HEAD
+=======
+//Sign 签名
+>>>>>>> upstream/master
 func (privKey PrivKeySecp256k1) Sign(msg []byte) crypto.Signature {
 	priv, _ := secp256k1.PrivKeyFromBytes(secp256k1.S256(), privKey[:])
 	sig, err := priv.Sign(crypto.Sha256(msg))
@@ -66,6 +104,10 @@ func (privKey PrivKeySecp256k1) Sign(msg []byte) crypto.Signature {
 	return SignatureSecp256k1(sig.Serialize())
 }
 
+<<<<<<< HEAD
+=======
+//PubKey 私钥生成公钥
+>>>>>>> upstream/master
 func (privKey PrivKeySecp256k1) PubKey() crypto.PubKey {
 	_, pub := secp256k1.PrivKeyFromBytes(secp256k1.S256(), privKey[:])
 	var pubSecp256k1 PubKeySecp256k1
@@ -73,12 +115,22 @@ func (privKey PrivKeySecp256k1) PubKey() crypto.PubKey {
 	return pubSecp256k1
 }
 
+<<<<<<< HEAD
 func (privKey PrivKeySecp256k1) Equals(other crypto.PrivKey) bool {
 	if otherSecp, ok := other.(PrivKeySecp256k1); ok {
 		return bytes.Equal(privKey[:], otherSecp[:])
 	} else {
 		return false
 	}
+=======
+//Equals 私钥是否相等
+func (privKey PrivKeySecp256k1) Equals(other crypto.PrivKey) bool {
+	if otherSecp, ok := other.(PrivKeySecp256k1); ok {
+		return bytes.Equal(privKey[:], otherSecp[:])
+	}
+	return false
+
+>>>>>>> upstream/master
 }
 
 func (privKey PrivKeySecp256k1) String() string {
@@ -87,16 +139,28 @@ func (privKey PrivKeySecp256k1) String() string {
 
 // PubKey
 
+<<<<<<< HEAD
 // Compressed pubkey (just the x-cord),
 // prefixed with 0x02 or 0x03, depending on the y-cord.
 type PubKeySecp256k1 [33]byte
 
+=======
+//PubKeySecp256k1 Compressed pubkey (just the x-cord),
+// prefixed with 0x02 or 0x03, depending on the y-cord.
+type PubKeySecp256k1 [33]byte
+
+//Bytes 字节格式
+>>>>>>> upstream/master
 func (pubKey PubKeySecp256k1) Bytes() []byte {
 	s := make([]byte, 33)
 	copy(s, pubKey[:])
 	return s
 }
 
+<<<<<<< HEAD
+=======
+//VerifyBytes 验证字节
+>>>>>>> upstream/master
 func (pubKey PubKeySecp256k1) VerifyBytes(msg []byte, sig crypto.Signature) bool {
 	// unwrap if needed
 	if wrap, ok := sig.(SignatureS); ok {
@@ -123,12 +187,17 @@ func (pubKey PubKeySecp256k1) String() string {
 	return fmt.Sprintf("PubKeySecp256k1{%X}", pubKey[:])
 }
 
+<<<<<<< HEAD
 // Must return the full bytes in hex.
+=======
+//KeyString Must return the full bytes in hex.
+>>>>>>> upstream/master
 // Used for map keying, etc.
 func (pubKey PubKeySecp256k1) KeyString() string {
 	return fmt.Sprintf("%X", pubKey[:])
 }
 
+<<<<<<< HEAD
 func (pubKey PubKeySecp256k1) Equals(other crypto.PubKey) bool {
 	if otherSecp, ok := other.(PubKeySecp256k1); ok {
 		return bytes.Equal(pubKey[:], otherSecp[:])
@@ -140,16 +209,39 @@ func (pubKey PubKeySecp256k1) Equals(other crypto.PubKey) bool {
 // Signature
 type SignatureSecp256k1 []byte
 
+=======
+//Equals 公钥相等
+func (pubKey PubKeySecp256k1) Equals(other crypto.PubKey) bool {
+	if otherSecp, ok := other.(PubKeySecp256k1); ok {
+		return bytes.Equal(pubKey[:], otherSecp[:])
+	}
+	return false
+
+}
+
+//SignatureSecp256k1 Signature
+type SignatureSecp256k1 []byte
+
+//SignatureS 签名
+>>>>>>> upstream/master
 type SignatureS struct {
 	crypto.Signature
 }
 
+<<<<<<< HEAD
+=======
+//Bytes 字节格式
+>>>>>>> upstream/master
 func (sig SignatureSecp256k1) Bytes() []byte {
 	s := make([]byte, len(sig))
 	copy(s, sig[:])
 	return s
 }
 
+<<<<<<< HEAD
+=======
+//IsZero 是否是0
+>>>>>>> upstream/master
 func (sig SignatureSecp256k1) IsZero() bool { return len(sig) == 0 }
 
 func (sig SignatureSecp256k1) String() string {
@@ -159,6 +251,7 @@ func (sig SignatureSecp256k1) String() string {
 
 }
 
+<<<<<<< HEAD
 func (sig SignatureSecp256k1) Equals(other crypto.Signature) bool {
 	if otherEd, ok := other.(SignatureSecp256k1); ok {
 		return bytes.Equal(sig[:], otherEd[:])
@@ -169,6 +262,22 @@ func (sig SignatureSecp256k1) Equals(other crypto.Signature) bool {
 
 const Name = "secp256k1"
 const ID = 1
+=======
+//Equals 相等
+func (sig SignatureSecp256k1) Equals(other crypto.Signature) bool {
+	if otherEd, ok := other.(SignatureSecp256k1); ok {
+		return bytes.Equal(sig[:], otherEd[:])
+	}
+	return false
+
+}
+
+//const
+const (
+	Name = "secp256k1"
+	ID   = 1
+)
+>>>>>>> upstream/master
 
 func init() {
 	crypto.Register(Name, &Driver{})

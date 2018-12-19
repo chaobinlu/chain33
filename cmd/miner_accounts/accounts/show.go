@@ -26,11 +26,19 @@ const monitorBtyLowLimit = 3 * 1e7 * types.Coin
 
 var log = l.New("module", "accounts")
 
+<<<<<<< HEAD
+=======
+//ShowMinerAccount 挖矿账户
+>>>>>>> upstream/master
 type ShowMinerAccount struct {
 	DataDir string
 	Addrs   []string
 }
 
+<<<<<<< HEAD
+=======
+//Echo 打印
+>>>>>>> upstream/master
 func (*ShowMinerAccount) Echo(in *string, out *interface{}) error {
 	if in == nil {
 		return types.ErrInvalidParam
@@ -39,12 +47,20 @@ func (*ShowMinerAccount) Echo(in *string, out *interface{}) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//TimeAt time
+>>>>>>> upstream/master
 type TimeAt struct {
 	// YYYY-mm-dd-HH
 	TimeAt string   `json:"timeAt,omitempty"`
 	Addrs  []string `json:"addrs,omitempty"`
 }
 
+<<<<<<< HEAD
+=======
+//Get get
+>>>>>>> upstream/master
 func (show *ShowMinerAccount) Get(in *TimeAt, out *interface{}) error {
 	if in == nil {
 		log.Error("show", "in", "nil")
@@ -98,7 +114,10 @@ func (show *ShowMinerAccount) Get(in *TimeAt, out *interface{}) error {
 	miner = calcIncrease(miner, curAcc, lastAcc, header)
 	*out = &miner
 
+<<<<<<< HEAD
 	seconds = seconds - statInterval
+=======
+>>>>>>> upstream/master
 	//}
 
 	return nil

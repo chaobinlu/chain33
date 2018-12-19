@@ -4,20 +4,33 @@
 
 // +build go1.8
 
+<<<<<<< HEAD
 package cli
 
 //说明：
 //main 函数会加载各个模块，组合成区块链程序
+=======
+// package cli RunChain33函数会加载各个模块，组合成区块链程序
+>>>>>>> upstream/master
 //主循环由消息队列驱动。
 //消息队列本身可插拔，可以支持各种队列
 //同时共识模式也是可以插拔的。
 //rpc 服务也是可以插拔的
 
+<<<<<<< HEAD
+=======
+package cli
+
+>>>>>>> upstream/master
 import (
 	"flag"
 	"fmt"
 	"net/http"
+<<<<<<< HEAD
 	_ "net/http/pprof"
+=======
+	_ "net/http/pprof" //
+>>>>>>> upstream/master
 	"os"
 	"os/user"
 	"path/filepath"
@@ -54,6 +67,10 @@ var (
 	fixtime    = flag.Bool("fixtime", false, "fix time")
 )
 
+<<<<<<< HEAD
+=======
+//RunChain33 : run Chain33
+>>>>>>> upstream/master
 func RunChain33(name string) {
 	flag.Parse()
 	if *versionCmd {
@@ -121,6 +138,7 @@ func RunChain33(name string) {
 	go startTrace()
 	//set maxprocs
 	runtime.GOMAXPROCS(cpuNum)
+<<<<<<< HEAD
 	//check mvcc switch，if use kvmvcc then cfg.Exec.EnableMVCC should be always false.
 	/*todo
 	if cfg.Store.Name == "kvmvcc" {
@@ -133,11 +151,22 @@ func RunChain33(name string) {
 	//开始区块链模块加载
 	//channel, rabitmq 等
 	log.Info(cfg.Title + " " + version.GetVersion())
+=======
+	//开始区块链模块加载
+	//channel, rabitmq 等
+	version.SetLocalDBVersion(cfg.Store.LocalDBVersion)
+	version.SetAppVersion(cfg.Version)
+	log.Info(cfg.Title + "-app:" + version.GetAppVersion() + " chain33:" + version.GetVersion() + " localdb:" + version.GetLocalDBVersion())
+>>>>>>> upstream/master
 	log.Info("loading queue")
 	q := queue.New("channel")
 
 	log.Info("loading mempool module")
+<<<<<<< HEAD
 	mem := mempool.New(cfg.MemPool)
+=======
+	mem := mempool.New(cfg.Mempool, sub.Mempool)
+>>>>>>> upstream/master
 	mem.SetQueueClient(q.Client())
 
 	log.Info("loading execs module")
@@ -151,7 +180,10 @@ func RunChain33(name string) {
 	log.Info("loading blockchain module")
 	chain := blockchain.New(cfg.BlockChain)
 	chain.SetQueueClient(q.Client())
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
 	chain.UpgradeChain()
 
 	log.Info("loading consensus module")
@@ -165,7 +197,11 @@ func RunChain33(name string) {
 		network.SetQueueClient(q.Client())
 	}
 	//jsonrpc, grpc, channel 三种模式
+<<<<<<< HEAD
 	rpcapi := rpc.New(cfg.Rpc)
+=======
+	rpcapi := rpc.New(cfg.RPC)
+>>>>>>> upstream/master
 	rpcapi.SetQueueClient(q.Client())
 
 	log.Info("loading wallet module")

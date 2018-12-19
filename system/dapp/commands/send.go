@@ -13,6 +13,10 @@ import (
 	"github.com/33cn/chain33/common/address"
 )
 
+<<<<<<< HEAD
+=======
+// OneStepSend one step send
+>>>>>>> upstream/master
 func OneStepSend(args []string) {
 	name := args[0]
 	params := args[2:]

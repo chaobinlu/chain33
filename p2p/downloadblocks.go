@@ -16,7 +16,12 @@ import (
 	"google.golang.org/grpc"
 )
 
+<<<<<<< HEAD
 type downloadJob struct {
+=======
+// DownloadJob defines download job type
+type DownloadJob struct {
+>>>>>>> upstream/master
 	wg            sync.WaitGroup
 	retryList     *list.List
 	p2pcli        *Cli
@@ -31,8 +36,14 @@ type peerJob struct {
 	limit  int32
 }
 
+<<<<<<< HEAD
 func NewDownloadJob(p2pcli *Cli, peers []*Peer) *downloadJob {
 	job := new(downloadJob)
+=======
+// NewDownloadJob create a downloadjob object
+func NewDownloadJob(p2pcli *Cli, peers []*Peer) *DownloadJob {
+	job := new(DownloadJob)
+>>>>>>> upstream/master
 	job.retryList = list.New()
 	job.p2pcli = p2pcli
 	job.busyPeer = make(map[string]*peerJob)
@@ -40,7 +51,11 @@ func NewDownloadJob(p2pcli *Cli, peers []*Peer) *downloadJob {
 	return job
 }
 
+<<<<<<< HEAD
 func (d *downloadJob) isBusyPeer(pid string) bool {
+=======
+func (d *DownloadJob) isBusyPeer(pid string) bool {
+>>>>>>> upstream/master
 	d.mtx.Lock()
 	defer d.mtx.Unlock()
 	if pjob, ok := d.busyPeer[pid]; ok {
@@ -49,7 +64,11 @@ func (d *downloadJob) isBusyPeer(pid string) bool {
 	return false
 }
 
+<<<<<<< HEAD
 func (d *downloadJob) setBusyPeer(peer *pb.Peer) {
+=======
+func (d *DownloadJob) setBusyPeer(peer *pb.Peer) {
+>>>>>>> upstream/master
 	d.mtx.Lock()
 	defer d.mtx.Unlock()
 	if pjob, ok := d.busyPeer[peer.GetName()]; ok {
@@ -61,7 +80,11 @@ func (d *downloadJob) setBusyPeer(peer *pb.Peer) {
 	d.busyPeer[peer.GetName()] = &peerJob{peer, 1}
 }
 
+<<<<<<< HEAD
 func (d *downloadJob) setFreePeer(pid string) {
+=======
+func (d *DownloadJob) setFreePeer(pid string) {
+>>>>>>> upstream/master
 	d.mtx.Lock()
 	defer d.mtx.Unlock()
 
@@ -74,7 +97,12 @@ func (d *downloadJob) setFreePeer(pid string) {
 	}
 }
 
+<<<<<<< HEAD
 func (d *downloadJob) GetFreePeer(joblimit int64) *Peer {
+=======
+// GetFreePeer get free peer ,return peer
+func (d *DownloadJob) GetFreePeer(joblimit int64) *Peer {
+>>>>>>> upstream/master
 	_, infos := d.p2pcli.network.node.GetActivePeers()
 	for _, peer := range d.downloadPeers {
 		pbpeer, ok := infos[peer.Addr()]
@@ -96,6 +124,7 @@ func (d *downloadJob) GetFreePeer(joblimit int64) *Peer {
 	return nil
 }
 
+<<<<<<< HEAD
 func (d *downloadJob) CancelJob() {
 	atomic.StoreInt32(&d.canceljob, 1)
 }
@@ -105,6 +134,19 @@ func (d *downloadJob) isCancel() bool {
 }
 
 func (d *downloadJob) DownloadBlock(invs []*pb.Inventory,
+=======
+// CancelJob cancel the downloadjob object
+func (d *DownloadJob) CancelJob() {
+	atomic.StoreInt32(&d.canceljob, 1)
+}
+
+func (d *DownloadJob) isCancel() bool {
+	return atomic.LoadInt32(&d.canceljob) == 1
+}
+
+// DownloadBlock download the block
+func (d *DownloadJob) DownloadBlock(invs []*pb.Inventory,
+>>>>>>> upstream/master
 	bchan chan *pb.BlockPid) []*pb.Inventory {
 	var errinvs []*pb.Inventory
 	if d.isCancel() {
@@ -136,7 +178,11 @@ func (d *downloadJob) DownloadBlock(invs []*pb.Inventory,
 	return d.restOfInvs(bchan)
 }
 
+<<<<<<< HEAD
 func (d *downloadJob) restOfInvs(bchan chan *pb.BlockPid) []*pb.Inventory {
+=======
+func (d *DownloadJob) restOfInvs(bchan chan *pb.BlockPid) []*pb.Inventory {
+>>>>>>> upstream/master
 	var errinvs []*pb.Inventory
 	if d.isCancel() {
 		return errinvs
@@ -162,7 +208,11 @@ func (d *downloadJob) restOfInvs(bchan chan *pb.BlockPid) []*pb.Inventory {
 	return invs
 }
 
+<<<<<<< HEAD
 func (d *downloadJob) syncDownloadBlock(peer *Peer, inv *pb.Inventory, bchan chan *pb.BlockPid) error {
+=======
+func (d *DownloadJob) syncDownloadBlock(peer *Peer, inv *pb.Inventory, bchan chan *pb.BlockPid) error {
+>>>>>>> upstream/master
 	//每次下载一个高度的数据，通过bchan返回上层
 	if peer == nil {
 		return fmt.Errorf("peer is not exist")
@@ -192,7 +242,11 @@ func (d *downloadJob) syncDownloadBlock(peer *Peer, inv *pb.Inventory, bchan cha
 			return err
 		}
 		for _, item := range invdatas.Items {
+<<<<<<< HEAD
 			bchan <- &pb.BlockPid{peer.GetPeerName(), item.GetBlock()} //下载完成后插入bchan
+=======
+			bchan <- &pb.BlockPid{Pid: peer.GetPeerName(), Block: item.GetBlock()} //下载完成后插入bchan
+>>>>>>> upstream/master
 
 		}
 	}

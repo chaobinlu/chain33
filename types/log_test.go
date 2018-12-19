@@ -20,7 +20,11 @@ func TestLogErr(t *testing.T) {
 	assert.Equal(t, LogErr(result.(string)), errlog)
 
 	//json test
+<<<<<<< HEAD
 	data, err := logty.Json([]byte("hello world"))
+=======
+	data, err := logty.JSON([]byte("hello world"))
+>>>>>>> upstream/master
 	assert.Nil(t, err)
 	assert.Equal(t, string(data), `"hello world"`)
 }

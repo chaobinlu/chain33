@@ -17,39 +17,71 @@ const (
 	keyWalletSeed         = "walletseed"
 )
 
+<<<<<<< HEAD
 //用于所有Account账户的输出list，需要安装时间排序
+=======
+// CalcAccountKey 用于所有Account账户的输出list，需要安装时间排序
+>>>>>>> upstream/master
 func CalcAccountKey(timestamp string, addr string) []byte {
 	return []byte(fmt.Sprintf("%s:%s:%s", keyAccount, timestamp, addr))
 }
 
+<<<<<<< HEAD
 //通过addr地址查询Account账户信息
+=======
+// CalcAddrKey 通过addr地址查询Account账户信息
+>>>>>>> upstream/master
 func CalcAddrKey(addr string) []byte {
 	return []byte(fmt.Sprintf("%s:%s", keyAddr, addr))
 }
 
+<<<<<<< HEAD
 //通过label查询Account账户信息
+=======
+// CalcLabelKey 通过label查询Account账户信息
+>>>>>>> upstream/master
 func CalcLabelKey(label string) []byte {
 	return []byte(fmt.Sprintf("%s:%s", keyLabel, label))
 }
 
+<<<<<<< HEAD
 //通过height*100000+index 查询Tx交易信息
+=======
+// CalcTxKey 通过height*100000+index 查询Tx交易信息
+>>>>>>> upstream/master
 //key:Tx:height*100000+index
 func CalcTxKey(key string) []byte {
 	return []byte(fmt.Sprintf("%s:%s", keyTx, key))
 }
 
+<<<<<<< HEAD
+=======
+// CalcEncryptionFlag 加密标志Key
+>>>>>>> upstream/master
 func CalcEncryptionFlag() []byte {
 	return []byte(keyEncryptionFlag)
 }
 
+<<<<<<< HEAD
+=======
+// CalckeyEncryptionCompFlag 加密比较标志Key
+>>>>>>> upstream/master
 func CalckeyEncryptionCompFlag() []byte {
 	return []byte(keyEncryptionCompFlag)
 }
 
+<<<<<<< HEAD
+=======
+// CalcPasswordHash 密码hash的Key
+>>>>>>> upstream/master
 func CalcPasswordHash() []byte {
 	return []byte(keyPasswordHash)
 }
 
+<<<<<<< HEAD
+=======
+// CalcWalletSeed 钱包Seed的Key
+>>>>>>> upstream/master
 func CalcWalletSeed() []byte {
 	return []byte(keyWalletSeed)
 }

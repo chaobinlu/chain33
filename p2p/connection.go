@@ -9,6 +9,10 @@ import (
 	"google.golang.org/grpc"
 )
 
+<<<<<<< HEAD
+=======
+// MConnection  contains node, grpc client, p2pgserviceClient, netaddress, peer
+>>>>>>> upstream/master
 type MConnection struct {
 	node          *Node
 	gconn         *grpc.ClientConn
@@ -28,6 +32,10 @@ func DefaultMConnConfig() *MConnConfig {
 	return &MConnConfig{}
 }
 
+<<<<<<< HEAD
+=======
+// NewTemMConnConfig return the config by grpc.clientconn, gcli
+>>>>>>> upstream/master
 func NewTemMConnConfig(gconn *grpc.ClientConn, gcli pb.P2PgserviceClient) *MConnConfig {
 	return &MConnConfig{
 		gconn: gconn,
@@ -48,6 +56,10 @@ func NewMConnection(conn *grpc.ClientConn, remote *NetAddress, peer *Peer) *MCon
 	return mconn
 }
 
+<<<<<<< HEAD
+=======
+// NewMConnectionWithConfig return mconn by mconnconfig
+>>>>>>> upstream/master
 func NewMConnectionWithConfig(cfg *MConnConfig) *MConnection {
 	mconn := &MConnection{
 		gconn: cfg.gconn,
@@ -56,6 +68,10 @@ func NewMConnectionWithConfig(cfg *MConnConfig) *MConnection {
 	return mconn
 }
 
+<<<<<<< HEAD
+=======
+// Close mconnection
+>>>>>>> upstream/master
 func (c *MConnection) Close() {
 	c.gconn.Close()
 	log.Debug("Mconnection", "Close", "^_^!")

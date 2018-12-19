@@ -10,6 +10,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+// HeightIndexStr height and index format string
+>>>>>>> upstream/master
 func HeightIndexStr(height, index int64) string {
 	v := height*types.MaxTxsPerBlock + index
 	return fmt.Sprintf("%018d", v)

@@ -7,15 +7,25 @@ package store
 import (
 	"crypto/rand"
 	"fmt"
+<<<<<<< HEAD
 	"testing"
 
 	"os"
 
 	"github.com/stretchr/testify/assert"
+=======
+	"os"
+	"testing"
+
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/common"
 	"github.com/33cn/chain33/common/log"
 	"github.com/33cn/chain33/queue"
 	"github.com/33cn/chain33/types"
+<<<<<<< HEAD
+=======
+	"github.com/stretchr/testify/assert"
+>>>>>>> upstream/master
 
 	_ "github.com/33cn/chain33/system"
 )
@@ -33,11 +43,19 @@ func initEnv() (queue.Queue, queue.Module) {
 }
 
 func set(client queue.Client, hash, key, value []byte) ([]byte, error) {
+<<<<<<< HEAD
 	kv := &types.KeyValue{key, value}
 	set := &types.StoreSet{}
 	set.StateHash = hash
 	set.KV = append(set.KV, kv)
 	setwithsync := &types.StoreSetWithSync{set, true}
+=======
+	kv := &types.KeyValue{Key: key, Value: value}
+	set := &types.StoreSet{}
+	set.StateHash = hash
+	set.KV = append(set.KV, kv)
+	setwithsync := &types.StoreSetWithSync{Storeset: set, Sync: true}
+>>>>>>> upstream/master
 
 	msg := client.NewMessage("store", types.EventStoreSet, setwithsync)
 	client.Send(msg, true)
@@ -49,12 +67,21 @@ func set(client queue.Client, hash, key, value []byte) ([]byte, error) {
 }
 
 func setmem(client queue.Client, hash, key, value []byte) ([]byte, error) {
+<<<<<<< HEAD
 	kv := &types.KeyValue{key, value}
 	set := &types.StoreSet{}
 	set.StateHash = hash
 	set.KV = append(set.KV, kv)
 
 	msg := client.NewMessage("store", types.EventStoreMemSet, &types.StoreSetWithSync{set, true})
+=======
+	kv := &types.KeyValue{Key: key, Value: value}
+	set := &types.StoreSet{}
+	set.StateHash = hash
+	set.KV = append(set.KV, kv)
+	storeset := &types.StoreSetWithSync{Storeset: set, Sync: true}
+	msg := client.NewMessage("store", types.EventStoreMemSet, storeset)
+>>>>>>> upstream/master
 	client.Send(msg, true)
 	msg, err := client.Wait(msg)
 	if err != nil {
@@ -64,7 +91,11 @@ func setmem(client queue.Client, hash, key, value []byte) ([]byte, error) {
 }
 
 func get(client queue.Client, hash, key []byte) ([]byte, error) {
+<<<<<<< HEAD
 	query := &types.StoreGet{hash, [][]byte{key}}
+=======
+	query := &types.StoreGet{StateHash: hash, Keys: [][]byte{key}}
+>>>>>>> upstream/master
 	msg := client.NewMessage("store", types.EventStoreGet, query)
 	client.Send(msg, true)
 	msg, err := client.Wait(msg)
@@ -76,7 +107,11 @@ func get(client queue.Client, hash, key []byte) ([]byte, error) {
 }
 
 func commit(client queue.Client, hash []byte) ([]byte, error) {
+<<<<<<< HEAD
 	req := &types.ReqHash{hash}
+=======
+	req := &types.ReqHash{Hash: hash}
+>>>>>>> upstream/master
 	msg := client.NewMessage("store", types.EventStoreCommit, req)
 	client.Send(msg, true)
 	msg, err := client.Wait(msg)
@@ -88,7 +123,11 @@ func commit(client queue.Client, hash []byte) ([]byte, error) {
 }
 
 func rollback(client queue.Client, hash []byte) ([]byte, error) {
+<<<<<<< HEAD
 	req := &types.ReqHash{hash}
+=======
+	req := &types.ReqHash{Hash: hash}
+>>>>>>> upstream/master
 	msg := client.NewMessage("store", types.EventStoreRollback, req)
 	client.Send(msg, true)
 	msg, err := client.Wait(msg)
@@ -250,7 +289,11 @@ func BenchmarkSetKey1000(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		key := []byte(fmt.Sprintf("%020d", i))
 		value := []byte(fmt.Sprintf("%020d", i))
+<<<<<<< HEAD
 		kv := &types.KeyValue{key, value}
+=======
+		kv := &types.KeyValue{Key: key, Value: value}
+>>>>>>> upstream/master
 		if i%1000 == 0 {
 			set = &types.StoreSet{}
 			set.StateHash = hash
@@ -258,7 +301,11 @@ func BenchmarkSetKey1000(b *testing.B) {
 		set.KV = append(set.KV, kv)
 
 		if i > 0 && i%1000 == 0 {
+<<<<<<< HEAD
 			setwithsync := &types.StoreSetWithSync{set, true}
+=======
+			setwithsync := &types.StoreSetWithSync{Storeset: set, Sync: true}
+>>>>>>> upstream/master
 			msg := client.NewMessage("store", types.EventStoreSet, setwithsync)
 			client.Send(msg, true)
 			msg, err := client.Wait(msg)
@@ -272,10 +319,18 @@ func BenchmarkSetKey1000(b *testing.B) {
 	s.Close()
 }
 
+<<<<<<< HEAD
 var store_cfg1 = &types.Store{"mavl", "leveldb", "/tmp/store_test1", 100}
 
 func TestNewMavl(t *testing.T) {
 	os.RemoveAll(store_cfg1.DbPath)
 	store := New(store_cfg1, nil)
+=======
+var storecfg1 = &types.Store{Name: "mavl", Driver: "leveldb", DbPath: "/tmp/store_test1", DbCache: 100}
+
+func TestNewMavl(t *testing.T) {
+	os.RemoveAll(storecfg1.DbPath)
+	store := New(storecfg1, nil)
+>>>>>>> upstream/master
 	assert.NotNil(t, store)
 }

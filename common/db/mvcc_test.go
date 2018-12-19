@@ -10,9 +10,15 @@ import (
 	"math/rand"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
 	"github.com/33cn/chain33/common"
 	"github.com/33cn/chain33/types"
+=======
+	"github.com/33cn/chain33/common"
+	"github.com/33cn/chain33/types"
+	"github.com/stretchr/testify/assert"
+>>>>>>> upstream/master
 )
 
 func TestPrefix(t *testing.T) {
@@ -150,7 +156,11 @@ func TestVersionSetAndGet(t *testing.T) {
 	assert.Equal(t, v, []byte("v03"))
 
 	m.Trash(3)
+<<<<<<< HEAD
 	v, err = m.GetV([]byte("k0"), 0)
+=======
+	_, err = m.GetV([]byte("k0"), 0)
+>>>>>>> upstream/master
 	assert.Equal(t, err, types.ErrNotFound)
 
 	v, err = m.GetV([]byte("k3"), 4)
@@ -192,6 +202,7 @@ func TestAddDelMVCC(t *testing.T) {
 		m.db.Set(v.Key, v.Value)
 	}
 
+<<<<<<< HEAD
 	kvlist, err = m.AddMVCC(genkv(2), hashN(2), hashN(1), 1)
 	assert.Equal(t, err, types.ErrPrevVersion)
 
@@ -199,16 +210,32 @@ func TestAddDelMVCC(t *testing.T) {
 	assert.Equal(t, err, types.ErrPrevVersion)
 
 	kvlist, err = m.AddMVCC(genkv(2), hashN(2), hashN(3), 3)
+=======
+	_, err = m.AddMVCC(genkv(2), hashN(2), hashN(1), 1)
+	assert.Equal(t, err, types.ErrPrevVersion)
+
+	_, err = m.AddMVCC(genkv(2), hashN(2), hashN(0), 3)
+	assert.Equal(t, err, types.ErrPrevVersion)
+
+	_, err = m.AddMVCC(genkv(2), hashN(2), hashN(3), 3)
+>>>>>>> upstream/master
 	assert.Equal(t, err, types.ErrNotFound)
 
 	maxv, err := m.GetMaxVersion()
 	assert.Nil(t, err)
 	assert.Equal(t, int64(1), maxv)
 
+<<<<<<< HEAD
 	kvlist, err = m.DelMVCC(hashN(2), 1, true)
 	assert.Equal(t, err, types.ErrNotFound)
 
 	kvlist, err = m.DelMVCC(hashN(0), 0, true)
+=======
+	_, err = m.DelMVCC(hashN(2), 1, true)
+	assert.Equal(t, err, types.ErrNotFound)
+
+	_, err = m.DelMVCC(hashN(0), 0, true)
+>>>>>>> upstream/master
 	assert.Equal(t, err, types.ErrCanOnlyDelTopVersion)
 
 	kvlist, err = m.DelMVCC(hashN(1), 1, true)

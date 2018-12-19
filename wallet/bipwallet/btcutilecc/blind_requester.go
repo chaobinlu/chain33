@@ -8,6 +8,10 @@ import "crypto/ecdsa"
 import "crypto/rand"
 import "math/big"
 
+<<<<<<< HEAD
+=======
+// BlindRequesterState State
+>>>>>>> upstream/master
 type BlindRequesterState struct {
 	// secret stuff
 	a, b, bInv, c *big.Int
@@ -18,7 +22,11 @@ type BlindRequesterState struct {
 	Mhat *big.Int // called m̂ in the paper
 }
 
+<<<<<<< HEAD
 // Calculates a blinded version of message m
+=======
+// BlindMessage Calculates a blinded version of message m
+>>>>>>> upstream/master
 func BlindMessage(rState *BlindRequesterState, Q, R *ecdsa.PublicKey, m *big.Int) *big.Int {
 	crv := Secp256k1().Params()
 
@@ -57,7 +65,11 @@ func BlindMessage(rState *BlindRequesterState, Q, R *ecdsa.PublicKey, m *big.Int
 	return rState.Mhat
 }
 
+<<<<<<< HEAD
 // Extract true signature from the blind signature
+=======
+// BlindExtract Extract true signature from the blind signature
+>>>>>>> upstream/master
 func BlindExtract(rState *BlindRequesterState, sHat *big.Int) *BlindSignature {
 	crv := Secp256k1().Params()
 

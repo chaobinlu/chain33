@@ -14,16 +14,29 @@ import (
 	"google.golang.org/grpc/keepalive"
 )
 
+<<<<<<< HEAD
+=======
+// Listener the actions
+>>>>>>> upstream/master
 type Listener interface {
 	Close()
 	Start()
 }
 
+<<<<<<< HEAD
+=======
+// Start listener start
+>>>>>>> upstream/master
 func (l *listener) Start() {
 	l.p2pserver.Start()
 	go l.server.Serve(l.netlistener)
 
 }
+<<<<<<< HEAD
+=======
+
+// Close listener close
+>>>>>>> upstream/master
 func (l *listener) Close() {
 	l.netlistener.Close()
 	go l.server.Stop()
@@ -35,11 +48,19 @@ func (l *listener) Close() {
 type listener struct {
 	server      *grpc.Server
 	nodeInfo    *NodeInfo
+<<<<<<< HEAD
 	p2pserver   *P2pServer
+=======
+	p2pserver   *P2pserver
+>>>>>>> upstream/master
 	node        *Node
 	netlistener net.Listener
 }
 
+<<<<<<< HEAD
+=======
+// NewListener produce a listener object
+>>>>>>> upstream/master
 func NewListener(protocol string, node *Node) Listener {
 	log.Debug("NewListener", "localPort", defaultPort)
 	l, err := net.Listen(protocol, fmt.Sprintf(":%v", defaultPort))

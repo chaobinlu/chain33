@@ -14,6 +14,7 @@ type CheckFileExistedTask struct {
 	FileName string
 }
 
+<<<<<<< HEAD
 func (this *CheckFileExistedTask) GetName() string {
 	return "CheckFileExistedTask"
 }
@@ -21,5 +22,16 @@ func (this *CheckFileExistedTask) GetName() string {
 func (this *CheckFileExistedTask) Execute() error {
 	mlog.Info("Execute file existed task.", "file", this.FileName)
 	_, err := util.CheckFileExists(this.FileName)
+=======
+//GetName 获取name
+func (c *CheckFileExistedTask) GetName() string {
+	return "CheckFileExistedTask"
+}
+
+//Execute 执行
+func (c *CheckFileExistedTask) Execute() error {
+	mlog.Info("Execute file existed task.", "file", c.FileName)
+	_, err := util.CheckFileExists(c.FileName)
+>>>>>>> upstream/master
 	return err
 }

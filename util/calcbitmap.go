@@ -11,7 +11,11 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
 //big-end mode,    that is bytes [0]      [1]
+=======
+//CalcBitMap big-end mode,    that is bytes [0]      [1]
+>>>>>>> upstream/master
 // 				   tx index:     fedcba98 76543210
 //cur is subset of ori, receipts are align with cur txs,
 // if the tx ty is OK in cur, find the tx in ori and set the index to 1, this function return ori's bitmap
@@ -32,7 +36,11 @@ func CalcBitMap(ori, cur [][]byte, data []*types.ReceiptData) []byte {
 	return rst.Bytes()
 }
 
+<<<<<<< HEAD
 //cur is subset of ori, data are align with ori, this function return cur's bitmap
+=======
+//CalcSubBitMap : cur is subset of ori, data are align with ori, this function return cur's bitmap
+>>>>>>> upstream/master
 //if all tx failed, the setBit will normalize result and just return nil slice
 func CalcSubBitMap(ori, sub [][]byte, data []*types.ReceiptData) []byte {
 	rst := big.NewInt(0)
@@ -50,7 +58,11 @@ func CalcSubBitMap(ori, sub [][]byte, data []*types.ReceiptData) []byte {
 	return rst.Bytes()
 }
 
+<<<<<<< HEAD
 //index begin from 0, find the index bit, 1 or 0
+=======
+//BitMapBit :index begin from 0, find the index bit, 1 or 0
+>>>>>>> upstream/master
 func BitMapBit(bitmap []byte, index uint32) bool {
 	rst := big.NewInt(0).SetBytes(bitmap)
 	return rst.Bit(int(index)) == uint(0x1)

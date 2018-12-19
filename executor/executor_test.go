@@ -10,17 +10,33 @@ import (
 
 	"encoding/hex"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
+=======
+	"github.com/33cn/chain33/queue"
+>>>>>>> upstream/master
 	_ "github.com/33cn/chain33/system"
 	drivers "github.com/33cn/chain33/system/dapp"
 	"github.com/33cn/chain33/types"
 	"github.com/33cn/chain33/util"
+<<<<<<< HEAD
+=======
+	"github.com/stretchr/testify/assert"
+>>>>>>> upstream/master
 )
 
 func init() {
 	types.Init("local", nil)
 }
 
+<<<<<<< HEAD
+=======
+func TestIsModule(t *testing.T) {
+	var qmodule queue.Module = &Executor{}
+	assert.NotNil(t, qmodule)
+}
+
+>>>>>>> upstream/master
 func TestExecutorGetTxGroup(t *testing.T) {
 	exec := &Executor{}
 	execInit(nil)
@@ -113,6 +129,7 @@ func TestKeyAllow_evm(t *testing.T) {
 	//assert.Nil(t, t)
 }
 
+<<<<<<< HEAD
 /*
 func TestKeyAllow_evmallow(t *testing.T) {
 	execInit(nil)
@@ -173,16 +190,30 @@ func TestKeyAllow_paracross(t *testing.T) {
 }
 */
 
+=======
+>>>>>>> upstream/master
 func TestKeyLocalAllow(t *testing.T) {
 	err := isAllowLocalKey([]byte("token"), []byte("LODB-token-"))
 	assert.Equal(t, err, types.ErrLocalKeyLen)
 	err = isAllowLocalKey([]byte("token"), []byte("LODB-token-a"))
 	assert.Nil(t, err)
 	err = isAllowLocalKey([]byte(""), []byte("LODB--a"))
+<<<<<<< HEAD
 	assert.Nil(t, err)
+=======
+	assert.Equal(t, err, types.ErrLocalPrefix)
+>>>>>>> upstream/master
 	err = isAllowLocalKey([]byte("exec"), []byte("LODB-execaa"))
 	assert.Equal(t, err, types.ErrLocalPrefix)
 	err = isAllowLocalKey([]byte("exec"), []byte("-exec------aa"))
 	assert.Equal(t, err, types.ErrLocalPrefix)
 	err = isAllowLocalKey([]byte("paracross"), []byte("LODB-user.p.para.paracross-xxxx"))
+<<<<<<< HEAD
+=======
+	assert.Equal(t, err, types.ErrLocalPrefix)
+	err = isAllowLocalKey([]byte("user.p.para.paracross"), []byte("LODB-user.p.para.paracross-xxxx"))
+	assert.Nil(t, err)
+	err = isAllowLocalKey([]byte("user.p.para.paracross"), []byte("LODB-paracross-xxxx"))
+	assert.Nil(t, err)
+>>>>>>> upstream/master
 }

@@ -6,15 +6,26 @@ package cli
 
 import (
 	"fmt"
+<<<<<<< HEAD
 	"os"
 
 	"github.com/spf13/cobra"
+=======
+	"net/http"
+	"os"
+	"strings"
+
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/common/log"
 	"github.com/33cn/chain33/pluginmgr"
 	"github.com/33cn/chain33/rpc/jsonclient"
 	rpctypes "github.com/33cn/chain33/rpc/types"
 	"github.com/33cn/chain33/system/dapp/commands"
 	"github.com/33cn/chain33/types"
+<<<<<<< HEAD
+=======
+	"github.com/spf13/cobra"
+>>>>>>> upstream/master
 )
 
 var rootCmd = &cobra.Command{
@@ -24,7 +35,11 @@ var rootCmd = &cobra.Command{
 
 var sendCmd = &cobra.Command{
 	Use:   "send",
+<<<<<<< HEAD
 	Short: "Send transaction in one move",
+=======
+	Short: "Send transaction in one step",
+>>>>>>> upstream/master
 	Run:   func(cmd *cobra.Command, args []string) {},
 }
 
@@ -36,13 +51,21 @@ var closeCmd = &cobra.Command{
 		//		rpc, _ := jsonrpc.NewJSONClient(rpcLaddr)
 		//		rpc.Call("Chain33.CloseQueue", nil, nil)
 		var res rpctypes.Reply
+<<<<<<< HEAD
 		ctx := jsonclient.NewRpcCtx(rpcLaddr, "Chain33.CloseQueue", nil, &res)
+=======
+		ctx := jsonclient.NewRPCCtx(rpcLaddr, "Chain33.CloseQueue", nil, &res)
+>>>>>>> upstream/master
 		ctx.Run()
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(
+<<<<<<< HEAD
+=======
+		commands.CertCmd(),
+>>>>>>> upstream/master
 		commands.AccountCmd(),
 		commands.BlockCmd(),
 		commands.BTYCmd(),
@@ -60,7 +83,38 @@ func init() {
 	)
 }
 
+<<<<<<< HEAD
 func Run(RPCAddr, ParaName string) {
+=======
+func testTLS(RPCAddr string) string {
+	rpcaddr := RPCAddr
+	if strings.HasPrefix(rpcaddr, "https://") {
+		return RPCAddr
+	}
+	if !strings.HasPrefix(rpcaddr, "http://") {
+		return RPCAddr
+	}
+	//test tls ok
+	if rpcaddr[len(rpcaddr)-1] != '/' {
+		rpcaddr += "/"
+	}
+	rpcaddr += "test"
+	resp, err := http.Get(rpcaddr)
+	if err != nil {
+		return "https://" + RPCAddr[7:]
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode == 200 {
+		return RPCAddr
+	}
+	return "https://" + RPCAddr[7:]
+}
+
+//Run :
+func Run(RPCAddr, ParaName string) {
+	//test tls is enable
+	RPCAddr = testTLS(RPCAddr)
+>>>>>>> upstream/master
 	pluginmgr.AddCmd(rootCmd)
 	log.SetLogLevel("error")
 	types.S("RPCAddr", RPCAddr)

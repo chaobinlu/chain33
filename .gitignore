@@ -1,12 +1,27 @@
+<<<<<<< HEAD
+=======
+clean.sh
+rm.sh
+top.txt
+top2.txt
+>>>>>>> upstream/master
 datadir*
 *.log
 *.exe
 *.orig
 *.bak
+<<<<<<< HEAD
 *.log.last
 .idea
 .vscode
 cmd/chain33/chain33
+=======
+.idea
+.vscode
+cmd/chain33/chain33
+build/cert.pem
+build/key.pem
+>>>>>>> upstream/master
 build/chain33*
 build/datadir
 build/bityuan*
@@ -21,6 +36,7 @@ build/main.sh
 build/main*
 build/para.sh
 build/ci
+<<<<<<< HEAD
 cmd/execblock/execblock
 cmd/miner_accounts/miner_accounts
 cmd/write/write
@@ -28,6 +44,17 @@ build/tools/autotest/autotest
 build/tools/autotest/*.toml
 build/tools/autotest/chain33
 build/tools/autotest/chain33-cli
+=======
+nohup.out
+webhook
+cmd/execblock/execblock
+cmd/miner_accounts/miner_accounts
+cmd/write/write
+build/autotest/autotest
+build/autotest/local/*.toml
+build/autotest/local/autotest*
+build/autotest/local/chain33*
+>>>>>>> upstream/master
 plugin/consensus/raft/chain33_raft-1/
 common/mavl/datastore
 .DS_Store

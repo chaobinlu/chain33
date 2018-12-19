@@ -7,14 +7,25 @@ package db
 import (
 	"bytes"
 
+<<<<<<< HEAD
 	"github.com/dgraph-io/badger"
 	"github.com/dgraph-io/badger/options"
 	log "github.com/33cn/chain33/common/log/log15"
 	"github.com/33cn/chain33/types"
+=======
+	log "github.com/33cn/chain33/common/log/log15"
+	"github.com/33cn/chain33/types"
+	"github.com/dgraph-io/badger"
+	"github.com/dgraph-io/badger/options"
+>>>>>>> upstream/master
 )
 
 var blog = log.New("module", "db.gobadgerdb")
 
+<<<<<<< HEAD
+=======
+//GoBadgerDB db
+>>>>>>> upstream/master
 type GoBadgerDB struct {
 	TransactionDB
 	db *badger.DB
@@ -27,6 +38,10 @@ func init() {
 	registerDBCreator(goBadgerDBBackendStr, dbCreator, false)
 }
 
+<<<<<<< HEAD
+=======
+//NewGoBadgerDB new
+>>>>>>> upstream/master
 func NewGoBadgerDB(name string, dir string, cache int) (*GoBadgerDB, error) {
 	opts := badger.DefaultOptions
 	opts.Dir = dir
@@ -51,6 +66,10 @@ func NewGoBadgerDB(name string, dir string, cache int) (*GoBadgerDB, error) {
 	return &GoBadgerDB{db: db}, nil
 }
 
+<<<<<<< HEAD
+=======
+//Get get
+>>>>>>> upstream/master
 func (db *GoBadgerDB) Get(key []byte) ([]byte, error) {
 	var val []byte
 	err := db.db.View(func(txn *badger.Txn) error {
@@ -58,10 +77,17 @@ func (db *GoBadgerDB) Get(key []byte) ([]byte, error) {
 		if err != nil {
 			if err == badger.ErrKeyNotFound {
 				return ErrNotFoundInDb
+<<<<<<< HEAD
 			} else {
 				blog.Error("Get", "txn.Get.error", err)
 				return err
 			}
+=======
+			}
+			blog.Error("Get", "txn.Get.error", err)
+			return err
+
+>>>>>>> upstream/master
 		}
 		val, err = item.Value()
 		if err != nil {
@@ -83,6 +109,10 @@ func (db *GoBadgerDB) Get(key []byte) ([]byte, error) {
 	return val, nil
 }
 
+<<<<<<< HEAD
+=======
+//Set set
+>>>>>>> upstream/master
 func (db *GoBadgerDB) Set(key []byte, value []byte) error {
 	err := db.db.Update(func(txn *badger.Txn) error {
 		err := txn.Set(key, value)
@@ -96,6 +126,10 @@ func (db *GoBadgerDB) Set(key []byte, value []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//SetSync 同步
+>>>>>>> upstream/master
 func (db *GoBadgerDB) SetSync(key []byte, value []byte) error {
 	err := db.db.Update(func(txn *badger.Txn) error {
 		err := txn.Set(key, value)
@@ -109,6 +143,10 @@ func (db *GoBadgerDB) SetSync(key []byte, value []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//Delete 删除
+>>>>>>> upstream/master
 func (db *GoBadgerDB) Delete(key []byte) error {
 	err := db.db.Update(func(txn *badger.Txn) error {
 		err := txn.Delete(key)
@@ -122,6 +160,10 @@ func (db *GoBadgerDB) Delete(key []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//DeleteSync 删除同步
+>>>>>>> upstream/master
 func (db *GoBadgerDB) DeleteSync(key []byte) error {
 	err := db.db.Update(func(txn *badger.Txn) error {
 		err := txn.Delete(key)
@@ -135,14 +177,26 @@ func (db *GoBadgerDB) DeleteSync(key []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//DB db
+>>>>>>> upstream/master
 func (db *GoBadgerDB) DB() *badger.DB {
 	return db.db
 }
 
+<<<<<<< HEAD
+=======
+//Close 关闭
+>>>>>>> upstream/master
 func (db *GoBadgerDB) Close() {
 	db.db.Close()
 }
 
+<<<<<<< HEAD
+=======
+//Print 打印
+>>>>>>> upstream/master
 func (db *GoBadgerDB) Print() {
 	// TODO: Returns statistics of the underlying DB
 	err := db.db.View(func(txn *badger.Txn) error {
@@ -167,11 +221,19 @@ func (db *GoBadgerDB) Print() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+//Stats ...
+>>>>>>> upstream/master
 func (db *GoBadgerDB) Stats() map[string]string {
 	//TODO
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//Iterator 迭代器
+>>>>>>> upstream/master
 func (db *GoBadgerDB) Iterator(start, end []byte, reverse bool) Iterator {
 	txn := db.db.NewTransaction(false)
 	opts := badger.DefaultIteratorOptions
@@ -191,6 +253,10 @@ func (db *GoBadgerDB) Iterator(start, end []byte, reverse bool) Iterator {
 	return &goBadgerDBIt{it, itBase{start, end, reverse}, txn, nil}
 }
 
+<<<<<<< HEAD
+=======
+//BatchGet 批量获取
+>>>>>>> upstream/master
 func (db *GoBadgerDB) BatchGet(keys [][]byte) (value [][]byte, err error) {
 	blog.Error("BatchGet", "Need to implement")
 	return nil, nil
@@ -203,11 +269,19 @@ type goBadgerDBIt struct {
 	err error
 }
 
+<<<<<<< HEAD
+=======
+//Next next
+>>>>>>> upstream/master
 func (it *goBadgerDBIt) Next() bool {
 	it.Iterator.Next()
 	return it.Valid()
 }
 
+<<<<<<< HEAD
+=======
+//Rewind ...
+>>>>>>> upstream/master
 func (it *goBadgerDBIt) Rewind() bool {
 	if it.reverse {
 		it.Seek(it.end)
@@ -217,16 +291,28 @@ func (it *goBadgerDBIt) Rewind() bool {
 	return it.Valid()
 }
 
+<<<<<<< HEAD
+=======
+//Seek 查找
+>>>>>>> upstream/master
 func (it *goBadgerDBIt) Seek(key []byte) bool {
 	it.Iterator.Seek(key)
 	return it.Valid()
 }
 
+<<<<<<< HEAD
+=======
+//Close 关闭
+>>>>>>> upstream/master
 func (it *goBadgerDBIt) Close() {
 	it.Iterator.Close()
 	it.txn.Discard()
 }
 
+<<<<<<< HEAD
+=======
+//Valid 是否合法
+>>>>>>> upstream/master
 func (it *goBadgerDBIt) Valid() bool {
 	return it.Iterator.Valid() && it.checkKey(it.Key())
 }
@@ -255,6 +341,10 @@ func (it *goBadgerDBIt) Error() error {
 	return it.err
 }
 
+<<<<<<< HEAD
+=======
+//GoBadgerDBBatch batch
+>>>>>>> upstream/master
 type GoBadgerDBBatch struct {
 	db    *GoBadgerDB
 	batch *badger.Txn
@@ -262,21 +352,39 @@ type GoBadgerDBBatch struct {
 	size int
 }
 
+<<<<<<< HEAD
+=======
+//NewBatch new
+>>>>>>> upstream/master
 func (db *GoBadgerDB) NewBatch(sync bool) Batch {
 	batch := db.db.NewTransaction(true)
 	return &GoBadgerDBBatch{db, batch, 0}
 }
 
+<<<<<<< HEAD
+=======
+//Set set
+>>>>>>> upstream/master
 func (mBatch *GoBadgerDBBatch) Set(key, value []byte) {
 	mBatch.batch.Set(key, value)
 	mBatch.size += len(value)
 }
 
+<<<<<<< HEAD
 func (mBatch *GoBadgerDBBatch) Delete(key []byte) {
 	mBatch.batch.Delete(key)
 	mBatch.size += 1
 }
 
+=======
+//Delete 设置
+func (mBatch *GoBadgerDBBatch) Delete(key []byte) {
+	mBatch.batch.Delete(key)
+	mBatch.size++
+}
+
+//Write 写入
+>>>>>>> upstream/master
 func (mBatch *GoBadgerDBBatch) Write() error {
 	defer mBatch.batch.Discard()
 
@@ -287,10 +395,18 @@ func (mBatch *GoBadgerDBBatch) Write() error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//ValueSize batch大小
+>>>>>>> upstream/master
 func (mBatch *GoBadgerDBBatch) ValueSize() int {
 	return mBatch.size
 }
 
+<<<<<<< HEAD
+=======
+//Reset 重置
+>>>>>>> upstream/master
 func (mBatch *GoBadgerDBBatch) Reset() {
 	if nil != mBatch.db && nil != mBatch.db.db {
 		mBatch.batch = mBatch.db.db.NewTransaction(true)

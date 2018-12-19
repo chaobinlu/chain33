@@ -5,12 +5,24 @@
 package commands
 
 import (
+<<<<<<< HEAD
 	"github.com/spf13/cobra"
 	"github.com/33cn/chain33/rpc/jsonclient"
 	rpctypes "github.com/33cn/chain33/rpc/types"
 	"github.com/33cn/chain33/types"
 )
 
+=======
+	"fmt"
+
+	"github.com/33cn/chain33/rpc/jsonclient"
+	rpctypes "github.com/33cn/chain33/rpc/types"
+	"github.com/33cn/chain33/types"
+	"github.com/spf13/cobra"
+)
+
+// SeedCmd seed command
+>>>>>>> upstream/master
 func SeedCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "seed",
@@ -27,7 +39,11 @@ func SeedCmd() *cobra.Command {
 	return cmd
 }
 
+<<<<<<< HEAD
 // generate seed
+=======
+// GenSeedCmd generate seed
+>>>>>>> upstream/master
 func GenSeedCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "generate",
@@ -50,11 +66,24 @@ func genSeed(cmd *cobra.Command, args []string) {
 		Lang: lang,
 	}
 	var res types.ReplySeed
+<<<<<<< HEAD
 	ctx := jsonclient.NewRpcCtx(rpcLaddr, "Chain33.GenSeed", params, &res)
 	ctx.Run()
 }
 
 // get seed
+=======
+	ctx := jsonclient.NewRPCCtx(rpcLaddr, "Chain33.GenSeed", params, &res)
+	_, err := ctx.RunResult()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(res.Seed)
+}
+
+// GetSeedCmd get seed
+>>>>>>> upstream/master
 func GetSeedCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "get",
@@ -77,11 +106,19 @@ func getSeed(cmd *cobra.Command, args []string) {
 		Passwd: pwd,
 	}
 	var res types.ReplySeed
+<<<<<<< HEAD
 	ctx := jsonclient.NewRpcCtx(rpcLaddr, "Chain33.GetSeed", params, &res)
 	ctx.Run()
 }
 
 // save seed
+=======
+	ctx := jsonclient.NewRPCCtx(rpcLaddr, "Chain33.GetSeed", params, &res)
+	ctx.Run()
+}
+
+// SaveSeedCmd save seed
+>>>>>>> upstream/master
 func SaveSeedCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "save",
@@ -93,7 +130,11 @@ func SaveSeedCmd() *cobra.Command {
 }
 
 func addSaveSeedFlags(cmd *cobra.Command) {
+<<<<<<< HEAD
 	cmd.Flags().StringP("seed", "s", "", "15 seed characters seperated by space")
+=======
+	cmd.Flags().StringP("seed", "s", "", "15 seed characters separated by space")
+>>>>>>> upstream/master
 	cmd.MarkFlagRequired("seed")
 
 	cmd.Flags().StringP("pwd", "p", "", "password used to encrypt seed")
@@ -109,6 +150,10 @@ func saveSeed(cmd *cobra.Command, args []string) {
 		Passwd: pwd,
 	}
 	var res rpctypes.Reply
+<<<<<<< HEAD
 	ctx := jsonclient.NewRpcCtx(rpcLaddr, "Chain33.SaveSeed", params, &res)
+=======
+	ctx := jsonclient.NewRPCCtx(rpcLaddr, "Chain33.SaveSeed", params, &res)
+>>>>>>> upstream/master
 	ctx.Run()
 }

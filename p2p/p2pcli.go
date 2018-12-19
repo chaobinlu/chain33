@@ -21,7 +21,11 @@ import (
 	"google.golang.org/grpc"
 )
 
+<<<<<<< HEAD
 //p2p 订阅的事件处理函数接口
+=======
+// EventInterface p2p subscribe to the event hander interface
+>>>>>>> upstream/master
 type EventInterface interface {
 	BroadCastTx(msg queue.Message, taskindex int64)
 	GetMemPool(msg queue.Message, taskindex int64)
@@ -32,7 +36,11 @@ type EventInterface interface {
 	GetNetInfo(msg queue.Message, taskindex int64)
 }
 
+<<<<<<< HEAD
 //非p2p 订阅的事件处理函数接口
+=======
+// NormalInterface subscribe to the event hander interface
+>>>>>>> upstream/master
 type NormalInterface interface {
 	GetAddr(peer *Peer) ([]string, error)
 	SendVersion(peer *Peer, nodeinfo *NodeInfo) (string, error)
@@ -44,10 +52,18 @@ type NormalInterface interface {
 	CheckSelf(addr string, nodeinfo *NodeInfo) bool
 }
 
+<<<<<<< HEAD
+=======
+// Cli p2p client
+>>>>>>> upstream/master
 type Cli struct {
 	network *P2p
 }
 
+<<<<<<< HEAD
+=======
+// NewP2PCli produce a p2p client
+>>>>>>> upstream/master
 func NewP2PCli(network *P2p) EventInterface {
 	if network == nil {
 		return nil
@@ -59,10 +75,18 @@ func NewP2PCli(network *P2p) EventInterface {
 	return pcli
 }
 
+<<<<<<< HEAD
+=======
+// NewNormalP2PCli produce a normal client
+>>>>>>> upstream/master
 func NewNormalP2PCli() NormalInterface {
 	return &Cli{}
 }
 
+<<<<<<< HEAD
+=======
+// BroadCastTx broadcast transactions
+>>>>>>> upstream/master
 func (m *Cli) BroadCastTx(msg queue.Message, taskindex int64) {
 	defer func() {
 		<-m.network.txFactory
@@ -70,10 +94,17 @@ func (m *Cli) BroadCastTx(msg queue.Message, taskindex int64) {
 		log.Debug("BroadCastTx", "task complete:", taskindex)
 	}()
 	m.network.node.pubsub.FIFOPub(&pb.P2PTx{Tx: msg.GetData().(*pb.Transaction)}, "tx")
+<<<<<<< HEAD
 	msg.Reply(m.network.client.NewMessage("mempool", pb.EventReply, pb.Reply{true, []byte("ok")}))
 
 }
 
+=======
+	msg.Reply(m.network.client.NewMessage("mempool", pb.EventReply, pb.Reply{IsOk: true, Msg: []byte("ok")}))
+}
+
+// GetMemPool get mempool contents
+>>>>>>> upstream/master
 func (m *Cli) GetMemPool(msg queue.Message, taskindex int64) {
 	defer func() {
 		<-m.network.otherFactory
@@ -140,6 +171,10 @@ func (m *Cli) GetMemPool(msg queue.Message, taskindex int64) {
 	msg.Reply(m.network.client.NewMessage("mempool", pb.EventReplyTxList, &pb.ReplyTxList{Txs: Txs}))
 }
 
+<<<<<<< HEAD
+=======
+// GetAddr get address list
+>>>>>>> upstream/master
 func (m *Cli) GetAddr(peer *Peer) ([]string, error) {
 
 	resp, err := peer.mconn.gcli.GetAddr(context.Background(), &pb.P2PGetAddr{Nonce: int64(rand.Int31n(102040))},
@@ -152,6 +187,11 @@ func (m *Cli) GetAddr(peer *Peer) ([]string, error) {
 	log.Debug("GetAddr Resp", "Resp", resp, "addrlist", resp.Addrlist)
 	return resp.Addrlist, nil
 }
+<<<<<<< HEAD
+=======
+
+// GetInPeersNum return normal number of peers
+>>>>>>> upstream/master
 func (m *Cli) GetInPeersNum(peer *Peer) (int, error) {
 	ping, err := P2pComm.NewPingData(peer.node.nodeInfo)
 	if err != nil {
@@ -168,6 +208,11 @@ func (m *Cli) GetInPeersNum(peer *Peer) (int, error) {
 
 	return len(resp.GetPeers()), nil
 }
+<<<<<<< HEAD
+=======
+
+// GetAddrList return a map for address-prot
+>>>>>>> upstream/master
 func (m *Cli) GetAddrList(peer *Peer) (map[string]int64, error) {
 
 	var addrlist = make(map[string]int64)
@@ -207,6 +252,10 @@ func (m *Cli) GetAddrList(peer *Peer) (map[string]int64, error) {
 	return addrlist, nil
 }
 
+<<<<<<< HEAD
+=======
+// SendVersion send version
+>>>>>>> upstream/master
 func (m *Cli) SendVersion(peer *Peer, nodeinfo *NodeInfo) (string, error) {
 	client := nodeinfo.client
 	msg := client.NewMessage("blockchain", pb.EventGetBlockHeight, nil)
@@ -268,6 +317,10 @@ func (m *Cli) SendVersion(peer *Peer, nodeinfo *NodeInfo) (string, error) {
 	return resp.GetUserAgent(), nil
 }
 
+<<<<<<< HEAD
+=======
+// SendPing send ping
+>>>>>>> upstream/master
 func (m *Cli) SendPing(peer *Peer, nodeinfo *NodeInfo) error {
 	randNonce := rand.Int31n(102040)
 	ping := &pb.P2PPing{Nonce: int64(randNonce), Addr: nodeinfo.GetExternalAddr().IP.String(), Port: int32(nodeinfo.GetExternalAddr().Port)}
@@ -288,6 +341,10 @@ func (m *Cli) SendPing(peer *Peer, nodeinfo *NodeInfo) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// GetBlockHeight return block height
+>>>>>>> upstream/master
 func (m *Cli) GetBlockHeight(nodeinfo *NodeInfo) (int64, error) {
 	client := nodeinfo.client
 	msg := client.NewMessage("blockchain", pb.EventGetLastHeader, nil)
@@ -305,6 +362,10 @@ func (m *Cli) GetBlockHeight(nodeinfo *NodeInfo) (int64, error) {
 	return header.GetHeight(), nil
 }
 
+<<<<<<< HEAD
+=======
+// GetPeerInfo return peer information
+>>>>>>> upstream/master
 func (m *Cli) GetPeerInfo(msg queue.Message, taskindex int64) {
 	defer func() {
 		log.Debug("GetPeerInfo", "task complete:", taskindex)
@@ -329,6 +390,10 @@ func (m *Cli) GetPeerInfo(msg queue.Message, taskindex int64) {
 	msg.Reply(m.network.client.NewMessage("blockchain", pb.EventPeerList, &pb.PeerList{Peers: peers}))
 }
 
+<<<<<<< HEAD
+=======
+// GetHeaders get headers information
+>>>>>>> upstream/master
 func (m *Cli) GetHeaders(msg queue.Message, taskindex int64) {
 	defer func() {
 		<-m.network.otherFactory
@@ -336,16 +401,27 @@ func (m *Cli) GetHeaders(msg queue.Message, taskindex int64) {
 	}()
 	if m.network.node.Size() == 0 {
 		log.Debug("GetHeaders", "boundNum", 0)
+<<<<<<< HEAD
 		msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{false, []byte("no peers")}))
+=======
+		msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{Msg: []byte("no peers")}))
+>>>>>>> upstream/master
 		return
 	}
 	req := msg.GetData().(*pb.ReqBlocks)
 	pid := req.GetPid()
 	if len(pid) == 0 {
+<<<<<<< HEAD
 		msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{false, []byte("no pid")}))
 		return
 	}
 	msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{true, []byte("ok")}))
+=======
+		msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{Msg: []byte("no pid")}))
+		return
+	}
+	msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{IsOk: true, Msg: []byte("ok")}))
+>>>>>>> upstream/master
 	peers, infos := m.network.node.GetActivePeers()
 	for paddr, info := range infos {
 		if info.GetName() == pid[0] { //匹配成功
@@ -366,13 +442,21 @@ func (m *Cli) GetHeaders(msg queue.Message, taskindex int64) {
 				}
 
 				client := m.network.node.nodeInfo.client
+<<<<<<< HEAD
 				msg := client.NewMessage("blockchain", pb.EventAddBlockHeaders, &pb.HeadersPid{pid[0], &pb.Headers{headers.GetHeaders()}})
+=======
+				msg := client.NewMessage("blockchain", pb.EventAddBlockHeaders, &pb.HeadersPid{Pid: pid[0], Headers: &pb.Headers{Items: headers.GetHeaders()}})
+>>>>>>> upstream/master
 				client.Send(msg, false)
 			}
 		}
 	}
 }
 
+<<<<<<< HEAD
+=======
+// GetBlocks get blocks information
+>>>>>>> upstream/master
 func (m *Cli) GetBlocks(msg queue.Message, taskindex int64) {
 	defer func() {
 		<-m.network.otherFactory
@@ -381,10 +465,17 @@ func (m *Cli) GetBlocks(msg queue.Message, taskindex int64) {
 	}()
 	if m.network.node.Size() == 0 {
 		log.Debug("GetBlocks", "boundNum", 0)
+<<<<<<< HEAD
 		msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{false, []byte("no peers")}))
 		return
 	}
 	msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{true, []byte("downloading...")}))
+=======
+		msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{Msg: []byte("no peers")}))
+		return
+	}
+	msg.Reply(m.network.client.NewMessage("blockchain", pb.EventReply, pb.Reply{IsOk: true, Msg: []byte("downloading...")}))
+>>>>>>> upstream/master
 
 	req := msg.GetData().(*pb.ReqBlocks)
 	log.Info("GetBlocks", "start", req.GetStart(), "end", req.GetEnd())
@@ -530,6 +621,10 @@ func (m *Cli) GetBlocks(msg queue.Message, taskindex int64) {
 
 }
 
+<<<<<<< HEAD
+=======
+// BlockBroadcast block broadcast
+>>>>>>> upstream/master
 func (m *Cli) BlockBroadcast(msg queue.Message, taskindex int64) {
 	defer func() {
 		<-m.network.otherFactory
@@ -538,6 +633,10 @@ func (m *Cli) BlockBroadcast(msg queue.Message, taskindex int64) {
 	m.network.node.pubsub.FIFOPub(&pb.P2PBlock{Block: msg.GetData().(*pb.Block)}, "block")
 }
 
+<<<<<<< HEAD
+=======
+// GetNetInfo get network information
+>>>>>>> upstream/master
 func (m *Cli) GetNetInfo(msg queue.Message, taskindex int64) {
 	defer func() {
 		<-m.network.otherFactory
@@ -554,11 +653,20 @@ func (m *Cli) GetNetInfo(msg queue.Message, taskindex int64) {
 
 }
 
+<<<<<<< HEAD
+=======
+// CheckPeerNatOk check peer is ok or not
+>>>>>>> upstream/master
 func (m *Cli) CheckPeerNatOk(addr string) bool {
 	//连接自己的地址信息做测试
 	return !(len(P2pComm.AddrRouteble([]string{addr})) == 0)
 
 }
+<<<<<<< HEAD
+=======
+
+// CheckSelf check addrbook privPubKey
+>>>>>>> upstream/master
 func (m *Cli) CheckSelf(addr string, nodeinfo *NodeInfo) bool {
 	netaddr, err := NewNetAddressString(addr)
 	if err != nil {
@@ -633,7 +741,11 @@ func (m *Cli) getLocalPeerInfo() (*pb.P2PPeerInfo, error) {
 	localpeerinfo.MempoolSize = int32(meminfo.GetSize())
 	if m.network.node.nodeInfo.GetExternalAddr().IP == nil {
 		localpeerinfo.Addr = LocalAddr
+<<<<<<< HEAD
 		localpeerinfo.Port = defaultPort
+=======
+		localpeerinfo.Port = int32(defaultPort)
+>>>>>>> upstream/master
 	} else {
 		localpeerinfo.Addr = m.network.node.nodeInfo.GetExternalAddr().IP.String()
 		localpeerinfo.Port = int32(m.network.node.nodeInfo.GetExternalAddr().Port)

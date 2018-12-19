@@ -14,14 +14,26 @@ import (
 
 var elog = log.New("module", "execs")
 
+<<<<<<< HEAD
+=======
+// SetLogLevel set log level
+>>>>>>> upstream/master
 func SetLogLevel(level string) {
 	clog.SetLogLevel(level)
 }
 
+<<<<<<< HEAD
+=======
+// DisableLog disable log
+>>>>>>> upstream/master
 func DisableLog() {
 	elog.SetHandler(log.DiscardHandler())
 }
 
+<<<<<<< HEAD
+=======
+// DriverCreate defines a drivercreate function
+>>>>>>> upstream/master
 type DriverCreate func() Driver
 
 type driverWithHeight struct {
@@ -35,6 +47,10 @@ var (
 	registedExecDriver = make(map[string]*driverWithHeight)
 )
 
+<<<<<<< HEAD
+=======
+// Register register dcriver height in name
+>>>>>>> upstream/master
 func Register(name string, create DriverCreate, height int64) {
 	if create == nil {
 		panic("Execute: Register driver is nil")
@@ -51,6 +67,10 @@ func Register(name string, create DriverCreate, height int64) {
 	execDrivers[ExecAddress(name)] = driverWithHeight
 }
 
+<<<<<<< HEAD
+=======
+// LoadDriver load driver
+>>>>>>> upstream/master
 func LoadDriver(name string, height int64) (driver Driver, err error) {
 	// user.evm.xxxx 的交易，使用evm执行器
 	//   user.p.evm
@@ -66,6 +86,10 @@ func LoadDriver(name string, height int64) (driver Driver, err error) {
 	return nil, types.ErrUnknowDriver
 }
 
+<<<<<<< HEAD
+=======
+// LoadDriverAllow load driver allow
+>>>>>>> upstream/master
 func LoadDriverAllow(tx *types.Transaction, index int, height int64) (driver Driver) {
 	exec, err := LoadDriver(string(tx.Execer), height)
 	if err == nil {
@@ -83,6 +107,10 @@ func LoadDriverAllow(tx *types.Transaction, index int, height int64) (driver Dri
 	return exec
 }
 
+<<<<<<< HEAD
+=======
+// IsDriverAddress whether or not execdrivers by address
+>>>>>>> upstream/master
 func IsDriverAddress(addr string, height int64) bool {
 	c, ok := execDrivers[addr]
 	if !ok {
@@ -102,6 +130,10 @@ func registerAddress(name string) {
 	execAddressNameMap[name] = addr
 }
 
+<<<<<<< HEAD
+=======
+// ExecAddress return exec address
+>>>>>>> upstream/master
 func ExecAddress(name string) string {
 	if addr, ok := execAddressNameMap[name]; ok {
 		return addr

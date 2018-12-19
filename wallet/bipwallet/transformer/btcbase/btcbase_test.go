@@ -9,8 +9,13 @@ import (
 	"fmt"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/mr-tron/base58/base58"
 	"github.com/33cn/chain33/wallet/bipwallet/transformer"
+=======
+	"github.com/33cn/chain33/wallet/bipwallet/transformer"
+	"github.com/mr-tron/base58/base58"
+>>>>>>> upstream/master
 )
 
 //TODO: 更新USDT的测试数据

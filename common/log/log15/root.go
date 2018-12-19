@@ -7,8 +7,13 @@ package log15
 import (
 	"os"
 
+<<<<<<< HEAD
 	"github.com/mattn/go-colorable"
 	"github.com/33cn/chain33/common/log/log15/term"
+=======
+	"github.com/33cn/chain33/common/log/log15/term"
+	"github.com/mattn/go-colorable"
+>>>>>>> upstream/master
 )
 
 // Predefined handlers

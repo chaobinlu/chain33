@@ -7,8 +7,13 @@ package util
 import (
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
 	"github.com/33cn/chain33/types"
+=======
+	"github.com/33cn/chain33/types"
+	"github.com/stretchr/testify/assert"
+>>>>>>> upstream/master
 )
 
 func TestCalcByteBitMap(t *testing.T) {

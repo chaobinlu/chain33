@@ -26,12 +26,20 @@ func init() {
 	registerDBCreator(memDBBackendStr, dbCreator, false)
 }
 
+<<<<<<< HEAD
+=======
+//GoMemDB db
+>>>>>>> upstream/master
 type GoMemDB struct {
 	TransactionDB
 	db   map[string][]byte
 	lock sync.RWMutex
 }
 
+<<<<<<< HEAD
+=======
+//NewGoMemDB new
+>>>>>>> upstream/master
 func NewGoMemDB(name string, dir string, cache int) (*GoMemDB, error) {
 	// memdb 不需要创建文件，后续考虑增加缓存数目
 	return &GoMemDB{
@@ -39,6 +47,10 @@ func NewGoMemDB(name string, dir string, cache int) (*GoMemDB, error) {
 	}, nil
 }
 
+<<<<<<< HEAD
+=======
+//CopyBytes 复制字节
+>>>>>>> upstream/master
 func CopyBytes(b []byte) (copiedBytes []byte) {
 	/* 兼容leveldb
 	if b == nil {
@@ -51,6 +63,10 @@ func CopyBytes(b []byte) (copiedBytes []byte) {
 	return copiedBytes
 }
 
+<<<<<<< HEAD
+=======
+//Get get
+>>>>>>> upstream/master
 func (db *GoMemDB) Get(key []byte) ([]byte, error) {
 	db.lock.RLock()
 	defer db.lock.RUnlock()
@@ -61,6 +77,10 @@ func (db *GoMemDB) Get(key []byte) ([]byte, error) {
 	return nil, ErrNotFoundInDb
 }
 
+<<<<<<< HEAD
+=======
+//Set set
+>>>>>>> upstream/master
 func (db *GoMemDB) Set(key []byte, value []byte) error {
 	db.lock.Lock()
 	defer db.lock.Unlock()
@@ -73,6 +93,10 @@ func (db *GoMemDB) Set(key []byte, value []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//SetSync 设置同步
+>>>>>>> upstream/master
 func (db *GoMemDB) SetSync(key []byte, value []byte) error {
 	db.lock.Lock()
 	defer db.lock.Unlock()
@@ -85,6 +109,10 @@ func (db *GoMemDB) SetSync(key []byte, value []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//Delete 删除
+>>>>>>> upstream/master
 func (db *GoMemDB) Delete(key []byte) error {
 	db.lock.Lock()
 	defer db.lock.Unlock()
@@ -93,6 +121,10 @@ func (db *GoMemDB) Delete(key []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//DeleteSync 删除同步
+>>>>>>> upstream/master
 func (db *GoMemDB) DeleteSync(key []byte) error {
 	db.lock.Lock()
 	defer db.lock.Unlock()
@@ -101,25 +133,45 @@ func (db *GoMemDB) DeleteSync(key []byte) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//DB db
+>>>>>>> upstream/master
 func (db *GoMemDB) DB() map[string][]byte {
 	return db.db
 }
 
+<<<<<<< HEAD
+=======
+//Close 关闭
+>>>>>>> upstream/master
 func (db *GoMemDB) Close() {
 
 }
 
+<<<<<<< HEAD
+=======
+//Print 打印
+>>>>>>> upstream/master
 func (db *GoMemDB) Print() {
 	for key, value := range db.db {
 		mlog.Info("Print", "key", key, "value", string(value))
 	}
 }
 
+<<<<<<< HEAD
+=======
+//Stats ...
+>>>>>>> upstream/master
 func (db *GoMemDB) Stats() map[string]string {
 	//TODO
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//Iterator 迭代器
+>>>>>>> upstream/master
 func (db *GoMemDB) Iterator(start []byte, end []byte, reverse bool) Iterator {
 	db.lock.RLock()
 	defer db.lock.RUnlock()
@@ -142,6 +194,10 @@ func (db *GoMemDB) Iterator(start []byte, end []byte, reverse bool) Iterator {
 	return &goMemDBIt{base, index, keys, db}
 }
 
+<<<<<<< HEAD
+=======
+//BatchGet 批量获取
+>>>>>>> upstream/master
 func (db *GoMemDB) BatchGet(keys [][]byte) (value [][]byte, err error) {
 	mlog.Error("BatchGet", "Need to implement")
 	return nil, nil
@@ -154,6 +210,10 @@ type goMemDBIt struct {
 	goMemDb *GoMemDB
 }
 
+<<<<<<< HEAD
+=======
+//Seek 查找
+>>>>>>> upstream/master
 func (dbit *goMemDBIt) Seek(key []byte) bool { //指向当前的index值
 	for i, k := range dbit.keys {
 		if 0 == strings.Compare(k, string(key)) {
@@ -164,25 +224,45 @@ func (dbit *goMemDBIt) Seek(key []byte) bool { //指向当前的index值
 	return false
 }
 
+<<<<<<< HEAD
+=======
+//Close 关闭
+>>>>>>> upstream/master
 func (dbit *goMemDBIt) Close() {
 	dbit.goMemDb.Close()
 }
 
+<<<<<<< HEAD
+=======
+//Next next
+>>>>>>> upstream/master
 func (dbit *goMemDBIt) Next() bool {
 	if dbit.reverse { // 反向
 		dbit.index-- //将当前key值指向前一个
 		return dbit.Valid()
+<<<<<<< HEAD
 	} else { // 正向
 		dbit.index++ //将当前key值指向后一个
 		return dbit.Valid()
 	}
 }
 
+=======
+	}
+	// 正向
+	dbit.index++ //将当前key值指向后一个
+	return dbit.Valid()
+
+}
+
+//Rewind ...
+>>>>>>> upstream/master
 func (dbit *goMemDBIt) Rewind() bool {
 	if dbit.reverse { // 反向
 		if (len(dbit.keys) > 0) && dbit.Valid() {
 			dbit.index = len(dbit.keys) - 1 // 将当前key值指向最后一个
 			return true
+<<<<<<< HEAD
 		} else {
 			return false
 		}
@@ -196,10 +276,28 @@ func (dbit *goMemDBIt) Rewind() bool {
 	}
 }
 
+=======
+		}
+		return false
+	}
+	// 正向
+	if dbit.Valid() {
+		dbit.index = 0 // 将当前key值指向第一个
+		return true
+	}
+	return false
+}
+
+//Key key
+>>>>>>> upstream/master
 func (dbit *goMemDBIt) Key() []byte {
 	return []byte(dbit.keys[dbit.index])
 }
 
+<<<<<<< HEAD
+=======
+//Value value
+>>>>>>> upstream/master
 func (dbit *goMemDBIt) Value() []byte {
 	value, _ := dbit.goMemDb.Get([]byte(dbit.keys[dbit.index]))
 	return value
@@ -220,9 +318,15 @@ func (dbit *goMemDBIt) Valid() bool {
 
 	if len(dbit.keys) > dbit.index && dbit.index >= 0 {
 		return true
+<<<<<<< HEAD
 	} else {
 		return false
 	}
+=======
+	}
+	return false
+
+>>>>>>> upstream/master
 }
 
 func (dbit *goMemDBIt) Error() error {
@@ -236,6 +340,10 @@ type memBatch struct {
 	size   int
 }
 
+<<<<<<< HEAD
+=======
+//NewBatch new
+>>>>>>> upstream/master
 func (db *GoMemDB) NewBatch(sync bool) Batch {
 	return &memBatch{db: db}
 }
@@ -248,7 +356,11 @@ func (b *memBatch) Set(key, value []byte) {
 
 func (b *memBatch) Delete(key []byte) {
 	b.writes = append(b.writes, kv{CopyBytes(key), CopyBytes(nil)})
+<<<<<<< HEAD
 	b.size += 1
+=======
+	b.size++
+>>>>>>> upstream/master
 }
 
 func (b *memBatch) Write() error {

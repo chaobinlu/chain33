@@ -12,6 +12,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+//Task 任务
+>>>>>>> upstream/master
 type Task struct {
 	sync.Mutex
 	cond     *sync.Cond
@@ -53,17 +57,29 @@ func (t *Task) tick() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+//InProgress 是否在执行
+>>>>>>> upstream/master
 func (t *Task) InProgress() bool {
 	t.Lock()
 	defer t.Unlock()
 	return t.isruning
 }
 
+<<<<<<< HEAD
+=======
+//TimerReset 计时器重置
+>>>>>>> upstream/master
 func (t *Task) TimerReset(timeout time.Duration) {
 	t.TimerStop()
 	t.ticker.Reset(timeout)
 }
 
+<<<<<<< HEAD
+=======
+//TimerStop 计时器停止
+>>>>>>> upstream/master
 func (t *Task) TimerStop() {
 	if !t.ticker.Stop() {
 		select {
@@ -73,11 +89,19 @@ func (t *Task) TimerStop() {
 	}
 }
 
+<<<<<<< HEAD
+=======
+//Start 计时器启动
+>>>>>>> upstream/master
 func (t *Task) Start(start, end int64, cb func()) error {
 	t.Lock()
 	defer t.Unlock()
 	if t.isruning {
+<<<<<<< HEAD
 		return errors.New("task is runing")
+=======
+		return errors.New("task is running")
+>>>>>>> upstream/master
 	}
 	if start > end {
 		return types.ErrStartBigThanEnd
@@ -93,6 +117,10 @@ func (t *Task) Start(start, end int64, cb func()) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//Done 任务完成
+>>>>>>> upstream/master
 func (t *Task) Done(height int64) {
 	t.Lock()
 	defer t.Unlock()
@@ -108,7 +136,11 @@ func (t *Task) Done(height int64) {
 
 func (t *Task) stop(runcb bool) error {
 	if !t.isruning {
+<<<<<<< HEAD
 		return errors.New("not runing")
+=======
+		return errors.New("not running")
+>>>>>>> upstream/master
 	}
 	t.isruning = false
 	if t.cb != nil && runcb {
@@ -118,6 +150,10 @@ func (t *Task) stop(runcb bool) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+//Cancel 任务取消
+>>>>>>> upstream/master
 func (t *Task) Cancel() error {
 	t.Lock()
 	defer t.Unlock()

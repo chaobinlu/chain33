@@ -11,16 +11,28 @@ import (
 	log "github.com/33cn/chain33/common/log/log15"
 )
 
+<<<<<<< HEAD
+=======
+//ListHelper ...
+>>>>>>> upstream/master
 type ListHelper struct {
 	db IteratorDB
 }
 
 var listlog = log.New("module", "db.ListHelper")
 
+<<<<<<< HEAD
+=======
+//NewListHelper new
+>>>>>>> upstream/master
 func NewListHelper(db IteratorDB) *ListHelper {
 	return &ListHelper{db}
 }
 
+<<<<<<< HEAD
+=======
+//PrefixScan 前缀
+>>>>>>> upstream/master
 func (db *ListHelper) PrefixScan(prefix []byte) (values [][]byte) {
 	it := db.db.Iterator(prefix, nil, false)
 	defer it.Close()
@@ -38,19 +50,32 @@ func (db *ListHelper) PrefixScan(prefix []byte) (values [][]byte) {
 	return
 }
 
+<<<<<<< HEAD
+=======
+//const
+>>>>>>> upstream/master
 const (
 	ListDESC = int32(0)
 	ListASC  = int32(1)
 	ListSeek = int32(2)
 )
 
+<<<<<<< HEAD
+=======
+//List 列表
+>>>>>>> upstream/master
 func (db *ListHelper) List(prefix, key []byte, count, direction int32) (values [][]byte) {
 	if len(key) == 0 {
 		if direction == ListASC {
 			return db.IteratorScanFromFirst(prefix, count)
+<<<<<<< HEAD
 		} else {
 			return db.IteratorScanFromLast(prefix, count)
 		}
+=======
+		}
+		return db.IteratorScanFromLast(prefix, count)
+>>>>>>> upstream/master
 	}
 	if count == 1 && direction == ListSeek {
 		it := db.db.Iterator(prefix, nil, true)
@@ -68,6 +93,10 @@ func (db *ListHelper) List(prefix, key []byte, count, direction int32) (values [
 	return db.IteratorScan(prefix, key, count, direction)
 }
 
+<<<<<<< HEAD
+=======
+//IteratorScan 迭代
+>>>>>>> upstream/master
 func (db *ListHelper) IteratorScan(prefix []byte, key []byte, count int32, direction int32) (values [][]byte) {
 	var reserse = false
 	if direction == 0 {
@@ -100,6 +129,10 @@ func (db *ListHelper) IteratorScan(prefix []byte, key []byte, count int32, direc
 	return
 }
 
+<<<<<<< HEAD
+=======
+//IteratorScanFromFirst 从头迭代
+>>>>>>> upstream/master
 func (db *ListHelper) IteratorScanFromFirst(prefix []byte, count int32) (values [][]byte) {
 	it := db.db.Iterator(prefix, nil, false)
 	defer it.Close()
@@ -121,6 +154,10 @@ func (db *ListHelper) IteratorScanFromFirst(prefix []byte, count int32) (values 
 	return
 }
 
+<<<<<<< HEAD
+=======
+//IteratorScanFromLast 从尾迭代
+>>>>>>> upstream/master
 func (db *ListHelper) IteratorScanFromLast(prefix []byte, count int32) (values [][]byte) {
 	it := db.db.Iterator(prefix, nil, true)
 	defer it.Close()
@@ -143,6 +180,10 @@ func (db *ListHelper) IteratorScanFromLast(prefix []byte, count int32) (values [
 	return
 }
 
+<<<<<<< HEAD
+=======
+//PrefixCount 前缀数量
+>>>>>>> upstream/master
 func (db *ListHelper) PrefixCount(prefix []byte) (count int64) {
 	it := db.db.Iterator(prefix, nil, true)
 	defer it.Close()
@@ -157,6 +198,10 @@ func (db *ListHelper) PrefixCount(prefix []byte) (count int64) {
 	return
 }
 
+<<<<<<< HEAD
+=======
+//IteratorCallback 迭代回滚
+>>>>>>> upstream/master
 func (db *ListHelper) IteratorCallback(start []byte, end []byte, count int32, direction int32, fn func(key, value []byte) bool) {
 	reserse := direction == 0
 	it := db.db.Iterator(start, end, reserse)

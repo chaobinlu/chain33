@@ -13,6 +13,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+// NodeInfo is interface object of the node
+>>>>>>> upstream/master
 type NodeInfo struct {
 	mtx            sync.Mutex
 	externalAddr   *NetAddress
@@ -30,6 +34,10 @@ type NodeInfo struct {
 	ServiceType    int32
 }
 
+<<<<<<< HEAD
+=======
+// NewNodeInfo new a node object
+>>>>>>> upstream/master
 func NewNodeInfo(cfg *types.P2P) *NodeInfo {
 	nodeInfo := new(NodeInfo)
 	nodeInfo.monitorChan = make(chan *Peer, 1024)
@@ -45,17 +53,29 @@ func NewNodeInfo(cfg *types.P2P) *NodeInfo {
 	return nodeInfo
 }
 
+<<<<<<< HEAD
+=======
+// PeerInfos encapsulation peer information
+>>>>>>> upstream/master
 type PeerInfos struct {
 	mtx   sync.Mutex
 	infos map[string]*types.Peer
 }
 
+<<<<<<< HEAD
+=======
+// PeerSize return a size of peer information
+>>>>>>> upstream/master
 func (p *PeerInfos) PeerSize() int {
 	p.mtx.Lock()
 	defer p.mtx.Unlock()
 	return len(p.infos)
 }
 
+<<<<<<< HEAD
+=======
+// FlushPeerInfos flush peer information
+>>>>>>> upstream/master
 func (p *PeerInfos) FlushPeerInfos(in []*types.Peer) {
 	p.mtx.Lock()
 	defer p.mtx.Unlock()
@@ -69,6 +89,10 @@ func (p *PeerInfos) FlushPeerInfos(in []*types.Peer) {
 	}
 }
 
+<<<<<<< HEAD
+=======
+// GetPeerInfos return a map for peerinfos
+>>>>>>> upstream/master
 func (p *PeerInfos) GetPeerInfos() map[string]*types.Peer {
 	p.mtx.Lock()
 	defer p.mtx.Unlock()
@@ -79,6 +103,10 @@ func (p *PeerInfos) GetPeerInfos() map[string]*types.Peer {
 	return pinfos
 }
 
+<<<<<<< HEAD
+=======
+// SetPeerInfo modify peer infos
+>>>>>>> upstream/master
 func (p *PeerInfos) SetPeerInfo(peer *types.Peer) {
 	p.mtx.Lock()
 	defer p.mtx.Unlock()
@@ -86,6 +114,10 @@ func (p *PeerInfos) SetPeerInfo(peer *types.Peer) {
 	p.infos[key] = peer
 }
 
+<<<<<<< HEAD
+=======
+// GetPeerInfo return a infos by key
+>>>>>>> upstream/master
 func (p *PeerInfos) GetPeerInfo(key string) *types.Peer {
 	p.mtx.Lock()
 	defer p.mtx.Unlock()
@@ -95,11 +127,19 @@ func (p *PeerInfos) GetPeerInfo(key string) *types.Peer {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+// BlackList badpeers list
+>>>>>>> upstream/master
 type BlackList struct {
 	mtx      sync.Mutex
 	badPeers map[string]int64
 }
 
+<<<<<<< HEAD
+=======
+// FetchPeerInfo get peerinfo by node
+>>>>>>> upstream/master
 func (nf *NodeInfo) FetchPeerInfo(n *Node) {
 	var peerlist []*types.Peer
 	peerInfos := nf.latestPeerInfo(n)
@@ -142,49 +182,87 @@ func (nf *NodeInfo) latestPeerInfo(n *Node) map[string]*types.Peer {
 	}
 	return peerlist
 }
+<<<<<<< HEAD
+=======
+
+// Set modidy nodeinfo by nodeinfo
+>>>>>>> upstream/master
 func (nf *NodeInfo) Set(n *NodeInfo) {
 	nf.mtx.Lock()
 	defer nf.mtx.Unlock()
 	nf = n
 }
 
+<<<<<<< HEAD
+=======
+// Get return nodeinfo
+>>>>>>> upstream/master
 func (nf *NodeInfo) Get() *NodeInfo {
 	nf.mtx.Lock()
 	defer nf.mtx.Unlock()
 	return nf
 }
+<<<<<<< HEAD
+=======
+
+// SetExternalAddr modidy address of the nodeinfo
+>>>>>>> upstream/master
 func (nf *NodeInfo) SetExternalAddr(addr *NetAddress) {
 	nf.mtx.Lock()
 	defer nf.mtx.Unlock()
 	nf.externalAddr = addr
 }
 
+<<<<<<< HEAD
+=======
+// GetExternalAddr return external address
+>>>>>>> upstream/master
 func (nf *NodeInfo) GetExternalAddr() *NetAddress {
 	nf.mtx.Lock()
 	defer nf.mtx.Unlock()
 	return nf.externalAddr
 }
 
+<<<<<<< HEAD
+=======
+// SetListenAddr modify listen address
+>>>>>>> upstream/master
 func (nf *NodeInfo) SetListenAddr(addr *NetAddress) {
 	nf.mtx.Lock()
 	defer nf.mtx.Unlock()
 	nf.listenAddr = addr
 }
 
+<<<<<<< HEAD
+=======
+// GetListenAddr return listen address
+>>>>>>> upstream/master
 func (nf *NodeInfo) GetListenAddr() *NetAddress {
 	nf.mtx.Lock()
 	defer nf.mtx.Unlock()
 	return nf.listenAddr
 }
 
+<<<<<<< HEAD
+=======
+// SetNatDone modify natdone
+>>>>>>> upstream/master
 func (nf *NodeInfo) SetNatDone() {
 	atomic.StoreInt32(&nf.natDone, 1)
 }
 
+<<<<<<< HEAD
+=======
+// IsNatDone return ture and false
+>>>>>>> upstream/master
 func (nf *NodeInfo) IsNatDone() bool {
 	return atomic.LoadInt32(&nf.natDone) == 1
 }
 
+<<<<<<< HEAD
+=======
+// IsOutService return true and false for out service
+>>>>>>> upstream/master
 func (nf *NodeInfo) IsOutService() bool {
 
 	if !nf.cfg.ServerStart {
@@ -197,16 +275,30 @@ func (nf *NodeInfo) IsOutService() bool {
 	return false
 }
 
+<<<<<<< HEAD
+=======
+// SetServiceTy set service type
+>>>>>>> upstream/master
 func (nf *NodeInfo) SetServiceTy(ty int32) {
 	atomic.StoreInt32(&nf.ServiceType, ty)
 }
 
+<<<<<<< HEAD
+=======
+// ServiceTy return serveice type
+>>>>>>> upstream/master
 func (nf *NodeInfo) ServiceTy() int32 {
 	return atomic.LoadInt32(&nf.ServiceType)
 }
 
+<<<<<<< HEAD
 func (nf *NodeInfo) SetNetSide(ok bool) {
 	var isoutside int32 = 0
+=======
+// SetNetSide set net side
+func (nf *NodeInfo) SetNetSide(ok bool) {
+	var isoutside int32
+>>>>>>> upstream/master
 	if ok {
 		isoutside = 1
 	}
@@ -214,10 +306,18 @@ func (nf *NodeInfo) SetNetSide(ok bool) {
 
 }
 
+<<<<<<< HEAD
+=======
+// OutSide return true and false for outside
+>>>>>>> upstream/master
 func (nf *NodeInfo) OutSide() bool {
 	return atomic.LoadInt32(&nf.outSide) == 1
 }
 
+<<<<<<< HEAD
+=======
+// Add add badpeer
+>>>>>>> upstream/master
 func (bl *BlackList) Add(addr string, deadline int64) {
 	bl.mtx.Lock()
 	defer bl.mtx.Unlock()
@@ -225,12 +325,20 @@ func (bl *BlackList) Add(addr string, deadline int64) {
 
 }
 
+<<<<<<< HEAD
+=======
+// Delete delete badpeer
+>>>>>>> upstream/master
 func (bl *BlackList) Delete(addr string) {
 	bl.mtx.Lock()
 	defer bl.mtx.Unlock()
 	delete(bl.badPeers, addr)
 }
 
+<<<<<<< HEAD
+=======
+// Has the badpeer true and false
+>>>>>>> upstream/master
 func (bl *BlackList) Has(addr string) bool {
 	bl.mtx.Lock()
 	defer bl.mtx.Unlock()
@@ -241,6 +349,10 @@ func (bl *BlackList) Has(addr string) bool {
 	return false
 }
 
+<<<<<<< HEAD
+=======
+// GetBadPeers reurn black list peers
+>>>>>>> upstream/master
 func (bl *BlackList) GetBadPeers() map[string]int64 {
 	bl.mtx.Lock()
 	defer bl.mtx.Unlock()

@@ -8,7 +8,14 @@ import (
 	"errors"
 )
 
+<<<<<<< HEAD
 var (
+=======
+// chain33定义的错误类型
+var (
+	ErrTooManySeqCB            = errors.New("ErrTooManySeqCB")
+	ErrPushSeqPostData         = errors.New("ErrPushSeqPostData")
+>>>>>>> upstream/master
 	ErrMethodReturnType        = errors.New("ErrMethodReturnType")
 	ErrMethodNotFound          = errors.New("ErrMethodNotFound")
 	ErrExecBlockNil            = errors.New("ErrExecBlockNil")
@@ -48,6 +55,10 @@ var (
 	ErrLogType                 = errors.New("ErrLogType")
 	ErrInvalidParam            = errors.New("ErrInvalidParam")
 	ErrInvalidAddress          = errors.New("ErrInvalidAddress")
+<<<<<<< HEAD
+=======
+	ErrNotInited               = errors.New("ErrNotInited")
+>>>>>>> upstream/master
 
 	ErrStartBigThanEnd            = errors.New("ErrStartBigThanEnd")
 	ErrToAddrNotSameToExecAddr    = errors.New("ErrToAddrNotSameToExecAddr")
@@ -55,6 +66,10 @@ var (
 	ErrEmpty                      = errors.New("ErrEmpty")
 	ErrSendSameToRecv             = errors.New("ErrSendSameToRecv")
 	ErrExecNameNotAllow           = errors.New("ErrExecNameNotAllow")
+<<<<<<< HEAD
+=======
+	ErrExecNotFound               = errors.New("ErrExecNotFound")
+>>>>>>> upstream/master
 	ErrLocalDBPerfix              = errors.New("ErrLocalDBPerfix")
 	ErrTimeout                    = errors.New("ErrTimeout")
 	ErrBlockHeaderDifficulty      = errors.New("ErrBlockHeaderDifficulty")
@@ -78,7 +93,11 @@ var (
 	ErrNotSync                    = errors.New("ErrNotSync")
 	ErrSize                       = errors.New("ErrSize")
 
+<<<<<<< HEAD
 	// BlockChain Error Types
+=======
+	// ErrHashNotExist BlockChain Error Types
+>>>>>>> upstream/master
 	ErrHashNotExist           = errors.New("ErrHashNotExist")
 	ErrHeightNotExist         = errors.New("ErrHeightNotExist")
 	ErrTxNotExist             = errors.New("ErrTxNotExist")
@@ -98,7 +117,11 @@ var (
 	ErrDecode                 = errors.New("ErrDecode")
 	ErrNotRollBack            = errors.New("ErrNotRollBack")
 	ErrPeerInfoIsNil          = errors.New("ErrPeerInfoIsNil")
+<<<<<<< HEAD
 	//wallet
+=======
+	//ErrWalletIsLocked wallet
+>>>>>>> upstream/master
 	ErrWalletIsLocked       = errors.New("ErrWalletIsLocked")
 	ErrSaveSeedFirst        = errors.New("ErrSaveSeedFirst")
 	ErrUnLockFirst          = errors.New("ErrUnLockFirst")
@@ -132,7 +155,11 @@ var (
 	ErrPrivKeyFromBytes   = errors.New("ErrFromHex")
 	ErrParentHash         = errors.New("ErrParentHash")
 
+<<<<<<< HEAD
 	//p2p
+=======
+	//ErrPing p2p模块错误类型
+>>>>>>> upstream/master
 	ErrPing       = errors.New("ErrPingSignature")
 	ErrVersion    = errors.New("ErrVersionNoSupport")
 	ErrStreamPing = errors.New("ErrStreamPing")
@@ -159,8 +186,13 @@ var (
 	ErrIndex                      = errors.New("ErrIndex")
 	ErrTxGroupParaCount           = errors.New("ErrTxGroupParaCount")
 
+<<<<<<< HEAD
 	//rpc
 	ErrInvalidMainnetRpcAddr = errors.New("ErrInvalidMainnetRpcAddr")
+=======
+	//ErrInvalidMainnetRPCAddr rpc模块的错误类型
+	ErrInvalidMainnetRPCAddr = errors.New("ErrInvalidMainnetRPCAddr")
+>>>>>>> upstream/master
 
 	ErrDBFlag      = errors.New("ErrDBFlag")
 	ErrLocalPrefix = errors.New("ErrLocalPrefix")

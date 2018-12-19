@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
+=======
+// Package accounts 实现了挖矿监控账户相关的功能
+>>>>>>> upstream/master
 package accounts
 
 import (
@@ -136,6 +140,10 @@ func syncHeaders(host string) {
 	fmt.Fprintln(os.Stderr, err, cache.lastHeader.Height)
 }
 
+<<<<<<< HEAD
+=======
+//SyncBlock 同步区块
+>>>>>>> upstream/master
 func SyncBlock(host string) {
 	cache.Host = host
 	syncHeaders(host)

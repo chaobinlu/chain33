@@ -3,9 +3,12 @@
 # 2. make dep
 # 3. make build
 # ...
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> upstream/master
 SRC := github.com/33cn/chain33/cmd/chain33
 SRC_CLI := github.com/33cn/chain33/cmd/cli
 SRC_SIGNATORY := github.com/33cn/chain33/cmd/signatory-server
@@ -14,11 +17,21 @@ APP := build/chain33
 CLI := build/chain33-cli
 SIGNATORY := build/signatory-server
 MINER := build/miner_accounts
+<<<<<<< HEAD
 AUTO_TEST := build/tools/autotest/autotest
 SRC_AUTO_TEST := github.com/33cn/chain33/cmd/autotest
 LDFLAGS := -ldflags "-w -s"
 PKG_LIST := `go list ./... | grep -v "vendor" | grep -v "chain33/test" | grep -v "mocks" | grep -v "pbft"`
 PKG_LIST_Q := `go list ./... | grep -v "vendor" | grep -v "chain33/test" | grep -v "mocks" | grep -v "blockchain" | grep -v "pbft"`
+=======
+AUTOTEST := build/autotest/autotest
+SRC_AUTOTEST := github.com/33cn/chain33/cmd/autotest
+LDFLAGS := -ldflags "-w -s"
+PKG_LIST := `go list ./... | grep -v "vendor" | grep -v "mocks"`
+PKG_LIST_VET := `go list ./... | grep -v "vendor" | grep -v "common/crypto/sha3" | grep -v "common/log/log15"`
+PKG_LIST_INEFFASSIGN= `go list -f {{.Dir}} ./... | grep -v "vendor" | grep -v "common/crypto/sha3" | grep -v "common/log/log15" | grep -v "common/ed25519"`
+PKG_LIST_Q := `go list ./... | grep -v "vendor" | grep -v "mocks"`
+>>>>>>> upstream/master
 BUILD_FLAGS = -ldflags "-X github.com/33cn/chain33/common/version.GitCommit=`git rev-parse --short=8 HEAD`"
 MKPATH=$(abspath $(lastword $(MAKEFILE_LIST)))
 MKDIR=$(dir $(MKPATH))
@@ -67,11 +80,20 @@ para:
 
 
 autotest:## build autotest binary
+<<<<<<< HEAD
 	@go build -v -i -o $(AUTO_TEST) $(SRC_AUTO_TEST)
 	@cp cmd/autotest/*.toml build/tools/autotest/
 	@if [ -n "$(dapp)" ]; then \
 		cd build/tools/autotest && bash ./local-autotest.sh $(dapp) && cd ../../../; \
 	fi
+=======
+	@go build -v -i -o $(AUTOTEST) $(SRC_AUTOTEST)
+	@if [ -n "$(dapp)" ]; then \
+		cd build/autotest && bash ./copy-autotest.sh local && cd local && bash ./local-autotest.sh $(dapp) && cd ../../../; \
+	fi
+autotest_ci: autotest ## autotest jerkins ci
+	@cd build/autotest && bash ./copy-autotest.sh jerkinsci/temp$(proj) && cd jerkinsci && bash ./jerkins-ci-autotest.sh $(proj) && cd ../../../
+>>>>>>> upstream/master
 
 signatory:
 	@cd cmd/signatory-server/signatory && bash ./create_protobuf.sh && cd ../.../..
@@ -88,6 +110,7 @@ build_ci: depends ## Build the binary file for CI
 	@go build  $(BUILD_FLAGS) -v -o $(APP) $(SRC)
 	@cp cmd/chain33/chain33.toml build/
 
+<<<<<<< HEAD
 
 linter: ## Use gometalinter check code, ignore some unserious warning
 	@res=$$(gometalinter.v2 -t --sort=linter --enable-gc --deadline=2m --disable-all \
@@ -112,11 +135,28 @@ linter: ## Use gometalinter check code, ignore some unserious warning
 		echo "$${res}"; \
 		exit 1; \
 		fi;
+=======
+linter: vet ineffassign ## Use gometalinter check code, ignore some unserious warning
+	@./golinter.sh "filter"
+	@find . -name '*.sh' -not -path "./vendor/*" | xargs shellcheck
+
+linter_test: ## Use gometalinter check code, for local test
+	@./golinter.sh "test" "${p}"
+>>>>>>> upstream/master
 	@find . -name '*.sh' -not -path "./vendor/*" | xargs shellcheck
 
 race: ## Run data race detector
 	@go test -race -short $(PKG_LIST)
 
+<<<<<<< HEAD
+=======
+vet:
+	@go vet ${PKG_LIST_VET}
+
+ineffassign:
+	@ineffassign -n ${PKG_LIST_INEFFASSIGN}
+
+>>>>>>> upstream/master
 test: ## Run unittests
 	@go test -race $(PKG_LIST)
 
@@ -124,6 +164,7 @@ testq: ## Run unittests
 	@go test $(PKG_LIST_Q)
 
 fmt: fmt_proto fmt_shell ## go fmt
+<<<<<<< HEAD
 	@go fmt ./...
 	@find . -name '*.go' -not -path "./vendor/*" | xargs goimports -l -w
 
@@ -136,6 +177,17 @@ fmt_shell: ## check shell file
 
 vet: ## go vet
 	@go vet ./...
+=======
+	go fmt ./...
+	find . -name '*.go' -not -path "./vendor/*" | xargs goimports -l -w
+
+.PHONY: fmt_proto fmt_shell
+fmt_proto: ## go fmt protobuf file
+	#@find . -name '*.proto' -not -path "./vendor/*" | xargs clang-format -i
+
+fmt_shell: ## check shell file
+	find . -name '*.sh' -not -path "./vendor/*" | xargs shfmt -w -s -i 4 -ci -bn
+>>>>>>> upstream/master
 
 bench: ## Run benchmark of all
 	@go test ./... -v -bench=.
@@ -144,10 +196,17 @@ msan: ## Run memory sanitizer
 	@go test -msan -short $(PKG_LIST)
 
 coverage: ## Generate global code coverage report
+<<<<<<< HEAD
 	@./build/tools/coverage.sh;
 
 coverhtml: ## Generate global code coverage report in HTML
 	@./build/tools/coverage.sh html;
+=======
+	@./build/tools/coverage.sh
+
+coverhtml: ## Generate global code coverage report in HTML
+	@./build/tools/coverage.sh html
+>>>>>>> upstream/master
 
 docker: ## build docker image for chain33 run
 	@sudo docker build . -f ./build/Dockerfile-run -t chain33:latest
@@ -174,7 +233,11 @@ clean: ## Remove previous build
 	@rm -rf build/relayd*
 	@rm -rf build/*.log
 	@rm -rf build/logs
+<<<<<<< HEAD
 	@rm -rf build/tools/autotest/autotest
+=======
+	@rm -rf build/autotest/autotest
+>>>>>>> upstream/master
 	@rm -rf build/ci
 	@go clean
 
@@ -198,16 +261,32 @@ cleandata:
 	rm -rf build/datadir/mavltree
 	rm -rf build/chain33.log
 
+<<<<<<< HEAD
+=======
+fmt_go: fmt_shell ## go fmt
+	@go fmt ./...
+	@find . -name '*.go' -not -path "./vendor/*" | xargs goimports -l -w
+
+
+>>>>>>> upstream/master
 .PHONY: checkgofmt
 checkgofmt: ## get all go files and run go fmt on them
 	@files=$$(find . -name '*.go' -not -path "./vendor/*" | xargs gofmt -l -s); if [ -n "$$files" ]; then \
 		  echo "Error: 'make fmt' needs to be run on:"; \
+<<<<<<< HEAD
 		  echo "${files}"; \
+=======
+		  find . -name '*.go' -not -path "./vendor/*" | xargs gofmt -l -s ;\
+>>>>>>> upstream/master
 		  exit 1; \
 		  fi;
 	@files=$$(find . -name '*.go' -not -path "./vendor/*" | xargs goimports -l -w); if [ -n "$$files" ]; then \
 		  echo "Error: 'make fmt' needs to be run on:"; \
+<<<<<<< HEAD
 		  echo "${files}"; \
+=======
+		  find . -name '*.go' -not -path "./vendor/*" | xargs goimports -l -w ;\
+>>>>>>> upstream/master
 		  exit 1; \
 		  fi;
 
@@ -249,14 +328,82 @@ auto_ci: clean fmt_proto fmt_shell protobuf mock
 	@-${auto_fmt}
 	@-find . -name '*.go' -not -path './vendor/*' | xargs gofmt -l -w -s
 	@${auto_fmt}
+<<<<<<< HEAD
 	@git add *.go *.sh *.proto
+=======
+>>>>>>> upstream/master
 	@git status
 	@files=$$(git status -suno);if [ -n "$$files" ]; then \
 		  git add *.go *.sh *.proto; \
 		  git status; \
+<<<<<<< HEAD
 		  git commit -m "auto ci"; \
+=======
+		  git commit -a -m "auto ci"; \
+>>>>>>> upstream/master
 		  git push origin HEAD:$(branch); \
 		  exit 1; \
 		  fi;
 
+<<<<<<< HEAD
 
+=======
+webhook_auto_ci: clean fmt_proto fmt_shell protobuf mock
+	@-find . -name '*.go' -not -path './vendor/*' | xargs gofmt -l -w -s
+	@-${auto_fmt}
+	@-find . -name '*.go' -not -path './vendor/*' | xargs gofmt -l -w -s
+	@${auto_fmt}
+	@git status
+	@files=$$(git status -suno);if [ -n "$$files" ]; then \
+		  git status; \
+		  git commit -a -m "auto ci"; \
+		  git push origin ${b}; \
+		  exit 0; \
+		  fi;
+
+addupstream:
+	git remote add upstream https://github.com/33cn/chain33.git
+	git remote -v
+
+sync:
+	git fetch upstream
+	git checkout master
+	git merge upstream/master
+	git push origin master
+
+branch:
+	make sync
+	git checkout -b ${b}
+
+push:
+	@if [ -n "$$m" ]; then \
+	git commit -a -m "${m}" ; \
+	fi;
+	make sync
+	git checkout ${b}
+	git merge master
+	git push origin ${b}
+
+pull:
+	@remotelist=$$(git remote | grep ${name});if [ -z $$remotelist ]; then \
+		echo ${remotelist}; \
+		git remote add ${name} https://github.com/${name}/chain33.git ; \
+	fi;
+	git fetch ${name}
+	git checkout ${name}/${b}
+	git checkout -b ${name}-${b}
+pullsync:
+	git fetch ${name}
+	git checkout ${name}-${b}
+	git merge ${name}/${b}
+pullpush:
+	@if [ -n "$$m" ]; then \
+	git commit -a -m "${m}" ; \
+	fi;
+	make pullsync
+	git push ${name} ${name}-${b}:${b}
+
+webhook:
+	git checkout ${b}
+	make webhook_auto_ci name=${name} b=${b}
+>>>>>>> upstream/master

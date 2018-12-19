@@ -12,8 +12,11 @@ import (
 	"testing"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+=======
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/blockchain"
 	"github.com/33cn/chain33/client"
 	"github.com/33cn/chain33/common"
@@ -25,6 +28,11 @@ import (
 	"github.com/33cn/chain33/types"
 	"github.com/33cn/chain33/util"
 	"github.com/33cn/chain33/util/testnode"
+<<<<<<< HEAD
+=======
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+>>>>>>> upstream/master
 )
 
 func init() {
@@ -69,7 +77,11 @@ func TestBlockChain(t *testing.T) {
 	//等待共识模块增长10个区块
 	testProcAddBlockMsg(t, mock33, blockchain)
 
+<<<<<<< HEAD
 	testGetBlock(t, blockchain)
+=======
+	curBlock := testGetBlock(t, blockchain)
+>>>>>>> upstream/master
 
 	testGetTx(t, blockchain)
 
@@ -111,14 +123,24 @@ func TestBlockChain(t *testing.T) {
 
 	testRemoveOrphanBlock(t, blockchain)
 
+<<<<<<< HEAD
 	testDelBlock(t, blockchain)
 
 	testLoadBlockBySequence(t, blockchain)
 
+=======
+	testLoadBlockBySequence(t, blockchain)
+	testAddBlockSeqCB(t, blockchain)
+>>>>>>> upstream/master
 	testProcDelParaChainBlockMsg(t, mock33, blockchain)
 
 	testProcAddParaChainBlockMsg(t, mock33, blockchain)
 	testProcBlockChainFork(t, blockchain)
+<<<<<<< HEAD
+=======
+	testDelBlock(t, blockchain, curBlock)
+
+>>>>>>> upstream/master
 }
 
 func testProcAddBlockMsg(t *testing.T, mock33 *testnode.Chain33Mock, blockchain *blockchain.BlockChain) {
@@ -147,7 +169,11 @@ func testProcAddBlockMsg(t *testing.T, mock33 *testnode.Chain33Mock, blockchain 
 	chainlog.Info("testProcAddBlockMsg end --------------------")
 }
 
+<<<<<<< HEAD
 func testGetBlock(t *testing.T, blockchain *blockchain.BlockChain) {
+=======
+func testGetBlock(t *testing.T, blockchain *blockchain.BlockChain) *types.Block {
+>>>>>>> upstream/master
 	chainlog.Info("testGetBlock begin --------------------")
 	curheight := blockchain.GetBlockHeight()
 	block, err := blockchain.GetBlock(curheight)
@@ -156,6 +182,11 @@ func testGetBlock(t *testing.T, blockchain *blockchain.BlockChain) {
 		t.Error("get block height error")
 	}
 	chainlog.Info("testGetBlock end --------------------")
+<<<<<<< HEAD
+=======
+	return block.Block
+
+>>>>>>> upstream/master
 }
 
 func testGetTx(t *testing.T, blockchain *blockchain.BlockChain) {
@@ -632,15 +663,25 @@ func testGetSeqByHash(t *testing.T, blockchain *blockchain.BlockChain) {
 	reqBlock.IsDetail = true
 	hashes := make([][]byte, 1)
 	Sequences, err := blockchain.GetBlockSequences(&reqBlock)
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 	if err == nil && Sequences != nil {
 		for index, sequence := range Sequences.Items {
 			hashes[index] = sequence.Hash
 		}
 	}
 
+<<<<<<< HEAD
 	seq, err := blockchain.ProcGetSeqByHash(hashes[0])
 	if seq != -1 {
 		t.Error("testGetSeqByHash only para chain GetSeqByHash ")
+=======
+	seq, _ := blockchain.ProcGetSeqByHash(hashes[0])
+	if seq == -1 {
+		t.Error(" GetSeqByHash err")
+>>>>>>> upstream/master
 	}
 
 	chainlog.Info("testGetSeqByHash end --------------------")
@@ -781,7 +822,11 @@ func testProcGetBlockHash(t *testing.T, blockchain *blockchain.BlockChain) {
 	curheight := blockchain.GetBlockHeight()
 	block, err := blockchain.GetBlock(curheight - 5)
 	require.NoError(t, err)
+<<<<<<< HEAD
 	height := &types.ReqInt{curheight - 5}
+=======
+	height := &types.ReqInt{Height: curheight - 5}
+>>>>>>> upstream/master
 	hash, err := blockchain.ProcGetBlockHash(height)
 	require.NoError(t, err)
 
@@ -819,16 +864,30 @@ func testRemoveOrphanBlock(t *testing.T, blockchain *blockchain.BlockChain) {
 	chainlog.Info("testRemoveOrphanBlock end --------------------")
 }
 
+<<<<<<< HEAD
 func testDelBlock(t *testing.T, blockchain *blockchain.BlockChain) {
+=======
+func testDelBlock(t *testing.T, blockchain *blockchain.BlockChain, curBlock *types.Block) {
+>>>>>>> upstream/master
 	chainlog.Info("testDelBlock begin --------------------")
 	curheight := blockchain.GetBlockHeight()
 	block, err := blockchain.GetBlock(curheight)
 	require.NoError(t, err)
+<<<<<<< HEAD
 	//copy block, or may be data race
 	tmp := *block.Block
 	tmp.Difficulty = block.Block.Difficulty - 100
 	newblock := *block
 	newblock.Block = &tmp
+=======
+	if curBlock == nil {
+		t.Error("testDelBlock curBlock is nil")
+	}
+
+	curBlock.Difficulty = block.Block.Difficulty - 100
+	newblock := types.BlockDetail{}
+	newblock.Block = curBlock
+>>>>>>> upstream/master
 
 	blockchain.ProcessBlock(true, &newblock, "1", true, 0)
 	chainlog.Info("testDelBlock end --------------------")
@@ -838,11 +897,20 @@ func testLoadBlockBySequence(t *testing.T, blockchain *blockchain.BlockChain) {
 	chainlog.Info("testLoadBlockBySequence begin ---------------------")
 
 	curheight := blockchain.GetBlockHeight()
+<<<<<<< HEAD
 	block, err := blockchain.GetStore().LoadBlockBySequence(curheight)
 	require.NoError(t, err)
 
 	if block.Block.Height != curheight {
 		t.Error("testLoadBlockBySequence  block height check error")
+=======
+	lastseq, _ := blockchain.GetStore().LoadBlockLastSequence()
+	block, err := blockchain.GetStore().LoadBlockBySequence(lastseq)
+	require.NoError(t, err)
+
+	if block.Block.Height != curheight {
+		t.Error("testLoadBlockBySequence", "curheight", curheight, "lastseq", lastseq, "Block.Height", block.Block.Height)
+>>>>>>> upstream/master
 	}
 	chainlog.Info("testLoadBlockBySequence end -------------------------")
 }
@@ -896,3 +964,36 @@ func testProcBlockChainFork(t *testing.T, blockchain *blockchain.BlockChain) {
 	blockchain.ProcBlockChainFork(curheight-1, curheight+256, "self")
 	chainlog.Info("testProcBlockChainFork end --------------------")
 }
+<<<<<<< HEAD
+=======
+
+func testAddBlockSeqCB(t *testing.T, blockchain *blockchain.BlockChain) {
+	chainlog.Info("testAddBlockSeqCB begin ---------------------")
+
+	cb := &types.BlockSeqCB{
+		Name:   "test",
+		URL:    "http://192.168.1.107:15760",
+		Encode: "json",
+	}
+
+	err := blockchain.ProcAddBlockSeqCB(cb)
+	require.NoError(t, err)
+
+	cbs, err := blockchain.ProcListBlockSeqCB()
+	require.NoError(t, err)
+	exist := false
+	for _, temcb := range cbs.Items {
+		if temcb.Name == cb.Name {
+			exist = true
+		}
+	}
+	if !exist {
+		t.Error("testAddBlockSeqCB  listSeqCB fail", "cb", cb, "cbs", cbs)
+	}
+	num := blockchain.ProcGetSeqCBLastNum(cb.Name)
+	if num != -1 {
+		t.Error("testAddBlockSeqCB  getSeqCBLastNum", "num", num, "name", cb.Name)
+	}
+	chainlog.Info("testAddBlockSeqCB end -------------------------")
+}
+>>>>>>> upstream/master

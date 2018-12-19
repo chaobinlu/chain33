@@ -11,6 +11,10 @@ import (
 	"github.com/33cn/chain33/types"
 )
 
+<<<<<<< HEAD
+=======
+//UpgradeChain 升级localdb
+>>>>>>> upstream/master
 func (chain *BlockChain) UpgradeChain() {
 	meta, err := chain.blockStore.GetUpgradeMeta()
 	if err != nil {
@@ -72,7 +76,11 @@ func (chain *BlockChain) needReIndex(meta *types.UpgradeMeta) bool {
 }
 
 func (chain *BlockChain) reIndexOne(height int64) error {
+<<<<<<< HEAD
 	newbatch := chain.blockStore.NewBatch(true)
+=======
+	newbatch := chain.blockStore.NewBatch(false)
+>>>>>>> upstream/master
 	blockdetail, err := chain.GetBlock(height)
 	if err != nil {
 		chainlog.Error("reindexone.GetBlock", "err", err)
@@ -81,7 +89,11 @@ func (chain *BlockChain) reIndexOne(height int64) error {
 	if height%1000 == 0 {
 		chainlog.Info("reindex -> ", "height", height)
 	}
+<<<<<<< HEAD
 	//保存tx信息到db中 (newbatch, blockdetail)
+=======
+	//保存tx信息到db中(newbatch, blockdetail)
+>>>>>>> upstream/master
 	err = chain.blockStore.AddTxs(newbatch, blockdetail)
 	if err != nil {
 		chainlog.Error("reIndexOne indexTxs:", "height", blockdetail.Block.Height, "err", err)

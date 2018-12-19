@@ -294,7 +294,11 @@ func (c *GrpcCtx) Run() (err error) {
 	case "Version":
 		reply, err := rpc.Version(context.Background(), c.Params.(*types.ReqNil))
 		if err == nil {
+<<<<<<< HEAD
 			*c.Res.(*types.Reply) = *reply
+=======
+			*c.Res.(*types.VersionInfo) = *reply
+>>>>>>> upstream/master
 		}
 		errRet = err
 	case "IsSync":
@@ -315,6 +319,15 @@ func (c *GrpcCtx) Run() (err error) {
 			*c.Res.(*types.NodeNetInfo) = *reply
 		}
 		errRet = err
+<<<<<<< HEAD
+=======
+	case "GetSequenceByHash":
+		reply, err := rpc.GetSequenceByHash(context.Background(), c.Params.(*types.ReqHash))
+		if err == nil {
+			*c.Res.(*types.Int64) = *reply
+		}
+		errRet = err
+>>>>>>> upstream/master
 	default:
 		errRet = errors.New(fmt.Sprintf("Unsupport method %v", c.Method))
 	}

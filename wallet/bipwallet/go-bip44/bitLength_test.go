@@ -7,13 +7,21 @@ package bip44_test
 import (
 	"testing"
 
+<<<<<<< HEAD
+=======
+	"github.com/33cn/chain33/wallet/bipwallet"
+>>>>>>> upstream/master
 	. "github.com/33cn/chain33/wallet/bipwallet/go-bip44"
 )
 
 func TestBitLength(t *testing.T) {
 	child, err := NewKeyFromMnemonic(
 		"element fence situate special wrap snack method volcano busy ribbon neck sphere",
+<<<<<<< HEAD
 		TypeFactomFactoids,
+=======
+		bipwallet.TypeFactomFactoids,
+>>>>>>> upstream/master
 		2147483648,
 		0,
 		19,
@@ -29,7 +37,11 @@ func TestBitLength(t *testing.T) {
 
 	child, err = NewKeyFromMnemonic(
 		"element fence situate special wrap snack method volcano busy ribbon neck sphere",
+<<<<<<< HEAD
 		TypeFactomFactoids,
+=======
+		bipwallet.TypeFactomFactoids,
+>>>>>>> upstream/master
 		2147483648,
 		1,
 		19,

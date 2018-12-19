@@ -98,11 +98,19 @@ func (s *Suite) TestUnsubAll(c *check.C) {
 
 	ps.Unsub(ch1)
 
+<<<<<<< HEAD
 	m, ok := <-ch1
 	c.Check(ok, check.Equals, false)
 
 	ps.Pub("hi", "t1")
 	m, ok = <-ch2
+=======
+	_, ok := <-ch1
+	c.Check(ok, check.Equals, false)
+
+	ps.Pub("hi", "t1")
+	m := <-ch2
+>>>>>>> upstream/master
 	c.Check(m, check.Equals, "hi")
 
 	ps.Shutdown()

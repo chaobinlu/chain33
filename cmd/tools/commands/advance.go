@@ -7,11 +7,20 @@ package commands
 import (
 	"fmt"
 
+<<<<<<< HEAD
 	"github.com/spf13/cobra"
 	"github.com/33cn/chain33/cmd/tools/strategy"
 	"github.com/33cn/chain33/cmd/tools/types"
 )
 
+=======
+	"github.com/33cn/chain33/cmd/tools/strategy"
+	"github.com/33cn/chain33/cmd/tools/types"
+	"github.com/spf13/cobra"
+)
+
+//AdvanceCmd advance cmd
+>>>>>>> upstream/master
 func AdvanceCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "advance",

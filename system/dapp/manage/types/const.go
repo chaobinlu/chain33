@@ -4,16 +4,28 @@
 
 package types
 
+<<<<<<< HEAD
 // manager action
+=======
+// ManageActionModifyConfig manager action
+>>>>>>> upstream/master
 const (
 	ManageActionModifyConfig = iota
 )
 
+<<<<<<< HEAD
 // log
+=======
+// TyLogModifyConfig log
+>>>>>>> upstream/master
 const (
 	TyLogModifyConfig = 410
 )
 
+<<<<<<< HEAD
+=======
+// ConfigItemArrayConfig config Item
+>>>>>>> upstream/master
 const (
 	ConfigItemArrayConfig = iota
 )

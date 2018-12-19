@@ -6,6 +6,7 @@ package wallet
 
 import (
 	"fmt"
+<<<<<<< HEAD
 	//	"strings"
 	"testing"
 	"time"
@@ -18,10 +19,23 @@ import (
 
 	// "github.com/33cn/chain33/common/log"
 
+=======
+	"testing"
+	"time"
+
+	"github.com/33cn/chain33/common"
+	"github.com/33cn/chain33/common/address"
+	"github.com/33cn/chain33/common/crypto"
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/queue"
 	"github.com/33cn/chain33/store"
 	"github.com/33cn/chain33/types"
 	"github.com/33cn/chain33/util"
+<<<<<<< HEAD
+=======
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+>>>>>>> upstream/master
 
 	_ "github.com/33cn/chain33/system"
 )
@@ -59,7 +73,11 @@ func blockchainModProc(q queue.Queue) {
 		client := q.Client()
 		client.Sub("blockchain")
 		for msg := range client.Recv() {
+<<<<<<< HEAD
 			//walletlog.Info("blockchain", "msg.Ty", msg.Ty)
+=======
+			walletlog.Error("blockchain", "msg.Ty", msg.Ty, "name", types.GetEventName(int(msg.Ty)))
+>>>>>>> upstream/master
 			if msg.Ty == types.EventGetLastHeader {
 				header := &types.Header{StateHash: Statehash}
 				msg.Reply(client.NewMessage("account", types.EventHeader, header))
@@ -69,7 +87,10 @@ func blockchainModProc(q queue.Queue) {
 				var replyTxInfos types.ReplyTxInfos
 				total := 10
 				replyTxInfos.TxInfos = make([]*types.ReplyTxInfo, total)
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
 				for index := 0; index < total; index++ {
 					var replyTxInfo types.ReplyTxInfo
 					hashstr := fmt.Sprintf("hash:%s:%d", addr.Addr, index)
@@ -131,7 +152,11 @@ func mempoolModProc(q queue.Queue) {
 		for msg := range client.Recv() {
 			//walletlog.Info("mempool", "msg.Ty", msg.Ty)
 			if msg.Ty == types.EventTx {
+<<<<<<< HEAD
 				msg.Reply(client.NewMessage("wallet", types.EventReply, &types.Reply{true, nil}))
+=======
+				msg.Reply(client.NewMessage("wallet", types.EventReply, &types.Reply{IsOk: true}))
+>>>>>>> upstream/master
 			}
 		}
 	}()
@@ -160,11 +185,19 @@ func TestWallet(t *testing.T) {
 	mempoolModProc(q)
 
 	testSeed(t, wallet)
+<<<<<<< HEAD
 	return
 	testProcCreateNewAccount(t, wallet)
 
 	testProcImportPrivKey(t, wallet)
 
+=======
+
+	testProcCreateNewAccount(t, wallet)
+
+	testProcImportPrivKey(t, wallet)
+	//wait data sync
+>>>>>>> upstream/master
 	testProcWalletTxList(t, wallet)
 
 	testProcSendToAddress(t, wallet)
@@ -318,7 +351,11 @@ func testProcCreateNewAccount(t *testing.T, wallet *Wallet) {
 	for _, acc1 := range accountlist.Wallets {
 		exist := false
 		for _, acc2 := range accs[:10] {
+<<<<<<< HEAD
 			if *acc1.Acc == *acc2 {
+=======
+			if equal(*acc1.Acc, *acc2) {
+>>>>>>> upstream/master
 				exist = true
 				break
 			}
@@ -332,6 +369,25 @@ func testProcCreateNewAccount(t *testing.T, wallet *Wallet) {
 	println("--------------------------")
 }
 
+<<<<<<< HEAD
+=======
+func equal(acc1 types.Account, acc2 types.Account) bool {
+	if acc1.Currency != acc2.Currency {
+		return false
+	}
+	if acc1.Balance != acc2.Balance {
+		return false
+	}
+	if acc1.Frozen != acc2.Frozen {
+		return false
+	}
+	if acc1.Addr != acc2.Addr {
+		return false
+	}
+	return true
+}
+
+>>>>>>> upstream/master
 func testProcImportPrivKey(t *testing.T, wallet *Wallet) {
 	println("TestProcImportPrivKey begin")
 
@@ -450,7 +506,11 @@ func testProcSendToAddress(t *testing.T, wallet *Wallet) {
 	transfer := &types.ReqWalletSendToAddress{
 		Amount: 1000,
 		From:   FromAddr,
+<<<<<<< HEAD
 		Note:   "test",
+=======
+		Note:   []byte("test"),
+>>>>>>> upstream/master
 		To:     "1L1zEgVcjqdM2KkQixENd7SZTaudKkcyDu",
 	}
 	msg := wallet.client.NewMessage("wallet", types.EventWalletSendToAddress, transfer)
@@ -462,15 +522,27 @@ func testProcSendToAddress(t *testing.T, wallet *Wallet) {
 	withdraw := &types.ReqWalletSendToAddress{
 		Amount: -1000,
 		From:   FromAddr,
+<<<<<<< HEAD
 		Note:   "test",
+=======
+		Note:   []byte("test"),
+>>>>>>> upstream/master
 		To:     "16htvcBNSEA7fZhAdLJphDwQRQJaHpyHTp",
 	}
 	msg = wallet.client.NewMessage("wallet", types.EventWalletSendToAddress, withdraw)
 	wallet.client.Send(msg, true)
 	resp, err = wallet.client.Wait(msg)
+<<<<<<< HEAD
 	require.NoError(t, err)
 	replyHash = resp.GetData().(*types.ReplyHash)
 	println("withdraw tx", "ReplyHash", common.ToHex(replyHash.Hash))
+=======
+	//返回ErrAmount错误
+	assert.Equal(t, string(err.Error()), types.ErrAmount.Error())
+	require.Error(t, err)
+	//replyHash = resp.GetData().(*types.ReplyHash)
+	//println("withdraw tx", "ReplyHash", common.ToHex(replyHash.Hash))
+>>>>>>> upstream/master
 	println("TestProcSendToAddress end")
 	println("--------------------------")
 }
@@ -581,7 +653,11 @@ func testProcWalletLock(t *testing.T, wallet *Wallet) {
 	transfer := &types.ReqWalletSendToAddress{
 		Amount: 1000,
 		From:   FromAddr,
+<<<<<<< HEAD
 		Note:   "test",
+=======
+		Note:   []byte("test"),
+>>>>>>> upstream/master
 		To:     "1L1zEgVcjqdM2KkQixENd7SZTaudKkcyDu",
 	}
 	msg = wallet.client.NewMessage("wallet", types.EventWalletSendToAddress, transfer)
@@ -625,7 +701,11 @@ func testProcWalletLock(t *testing.T, wallet *Wallet) {
 	wallet.client.Send(msg, true)
 	resp, _ = wallet.client.Wait(msg)
 	status := resp.GetData().(*types.WalletStatus)
+<<<<<<< HEAD
 	if !status.IsHasSeed || status.IsAutoMining || !status.IsWalletLock {
+=======
+	if !status.IsHasSeed || status.IsAutoMining || !status.IsWalletLock || (walletUnLock.GetWalletOrTicket() && status.IsTicketLock) {
+>>>>>>> upstream/master
 		t.Error("testGetWalletStatus failed")
 	}
 
@@ -636,7 +716,11 @@ func testProcWalletLock(t *testing.T, wallet *Wallet) {
 	wallet.client.Send(msg, true)
 	resp, _ = wallet.client.Wait(msg)
 	status = resp.GetData().(*types.WalletStatus)
+<<<<<<< HEAD
 	if !status.IsHasSeed || status.IsAutoMining || !status.IsWalletLock || status.IsTicketLock {
+=======
+	if !status.IsHasSeed || status.IsAutoMining || !status.IsWalletLock {
+>>>>>>> upstream/master
 		t.Error("testGetWalletStatus failed")
 	}
 

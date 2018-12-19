@@ -9,8 +9,11 @@ import (
 
 	"fmt"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+=======
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/account"
 	"github.com/33cn/chain33/client/mocks"
 	"github.com/33cn/chain33/common/address"
@@ -19,6 +22,11 @@ import (
 	qmock "github.com/33cn/chain33/queue/mocks"
 	cty "github.com/33cn/chain33/system/dapp/coins/types"
 	"github.com/33cn/chain33/types"
+<<<<<<< HEAD
+=======
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+>>>>>>> upstream/master
 )
 
 func init() {
@@ -67,6 +75,10 @@ func testCreateRawTransactionTo(t *testing.T) {
 
 	client := newTestChannelClient()
 	rawtx, err := client.CreateRawTransaction(&tx)
+<<<<<<< HEAD
+=======
+	assert.Nil(t, err)
+>>>>>>> upstream/master
 	var mytx types.Transaction
 	err = types.Decode(rawtx, &mytx)
 	assert.Nil(t, err)
@@ -84,6 +96,7 @@ func testCreateRawTransactionCoinTransfer(t *testing.T) {
 		IsToken:    false,
 		IsWithdraw: false,
 		To:         "to",
+<<<<<<< HEAD
 		Note:       "note",
 	}
 
@@ -104,6 +117,11 @@ func testCreateRawTransactionCoinTransfer(t *testing.T) {
 	//	To:ctx.To,
 	//}
 
+=======
+		Note:       []byte("note"),
+	}
+
+>>>>>>> upstream/master
 	client := newTestChannelClient()
 	txHex, err := client.CreateRawTransaction(&ctx)
 	assert.Nil(t, err)
@@ -124,7 +142,11 @@ func testCreateRawTransactionCoinTransferExec(t *testing.T) {
 		IsToken:    false,
 		IsWithdraw: false,
 		To:         "to",
+<<<<<<< HEAD
 		Note:       "note",
+=======
+		Note:       []byte("note"),
+>>>>>>> upstream/master
 	}
 
 	client := newTestChannelClient()
@@ -151,7 +173,11 @@ func testCreateRawTransactionCoinWithdraw(t *testing.T) {
 		IsToken:    false,
 		IsWithdraw: true,
 		To:         "to",
+<<<<<<< HEAD
 		Note:       "note",
+=======
+		Note:       []byte("note"),
+>>>>>>> upstream/master
 	}
 
 	client := newTestChannelClient()

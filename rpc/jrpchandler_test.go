@@ -10,8 +10,11 @@ import (
 
 	"encoding/hex"
 
+<<<<<<< HEAD
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+=======
+>>>>>>> upstream/master
 	"github.com/33cn/chain33/client/mocks"
 	"github.com/33cn/chain33/common"
 	rpctypes "github.com/33cn/chain33/rpc/types"
@@ -19,6 +22,11 @@ import (
 	cty "github.com/33cn/chain33/system/dapp/coins/types"
 	mty "github.com/33cn/chain33/system/dapp/manage/types"
 	"github.com/33cn/chain33/types"
+<<<<<<< HEAD
+=======
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+>>>>>>> upstream/master
 )
 
 func TestDecodeLogErr(t *testing.T) {
@@ -387,8 +395,13 @@ func TestChain33_CreateRawTransaction(t *testing.T) {
 	assert.Nil(t, testResult)
 	assert.NotNil(t, err)
 
+<<<<<<< HEAD
 	tx := &types.CreateTx{
 		To:          "qew",
+=======
+	tx := &rpctypes.CreateTx{
+		To:          "184wj4nsgVxKyz2NhM3Yb5RK5Ap6AFRFq2",
+>>>>>>> upstream/master
 		Amount:      10,
 		Fee:         1,
 		Note:        "12312",
@@ -616,7 +629,11 @@ func TestChain33_QueryTransactionOk(t *testing.T) {
 	}
 
 	api := new(mocks.QueueProtocolAPI)
+<<<<<<< HEAD
 	api.On("QueryTx", &types.ReqHash{[]byte("")}).Return(&reply, nil)
+=======
+	api.On("QueryTx", &types.ReqHash{Hash: []byte("")}).Return(&reply, nil)
+>>>>>>> upstream/master
 	testChain33 := newTestChain33(api)
 	var testResult interface{}
 
@@ -1147,8 +1164,16 @@ func TestChain33_Version(t *testing.T) {
 	testChain33 := newTestChain33(api)
 	var testResult interface{}
 	in := &types.ReqNil{}
+<<<<<<< HEAD
 	err := testChain33.Version(in, &testResult)
 	t.Log(err)
+=======
+	ver := &types.VersionInfo{Chain33: "6.0.2"}
+	api.On("Version", mock.Anything).Return(ver, nil)
+	err := testChain33.Version(in, &testResult)
+	t.Log(err)
+	t.Log(testResult)
+>>>>>>> upstream/master
 	assert.Equal(t, nil, err)
 	assert.NotNil(t, testResult)
 }
@@ -1172,7 +1197,11 @@ func TestChain33_GetLastBlockSequence(t *testing.T) {
 	api = new(mocks.QueueProtocolAPI)
 	client = newTestChain33(api)
 	var result2 interface{}
+<<<<<<< HEAD
 	lastSeq := types.Int64{1}
+=======
+	lastSeq := types.Int64{Data: 1}
+>>>>>>> upstream/master
 	api.On("GetLastBlockSequence", mock.Anything).Return(&lastSeq, nil)
 	err = client.GetLastBlockSequence(&types.ReqNil{}, &result2)
 	assert.Nil(t, err)
@@ -1192,7 +1221,11 @@ func TestChain33_GetBlockSequences(t *testing.T) {
 	var result2 interface{}
 	blocks := types.BlockSequences{}
 	blocks.Items = make([]*types.BlockSequence, 0)
+<<<<<<< HEAD
 	blocks.Items = append(blocks.Items, &types.BlockSequence{[]byte("h1"), 1})
+=======
+	blocks.Items = append(blocks.Items, &types.BlockSequence{Hash: []byte("h1"), Type: 1})
+>>>>>>> upstream/master
 	api.On("GetBlockSequences", mock.Anything).Return(&blocks, nil)
 	err = client.GetBlockSequences(rpctypes.BlockParam{}, &result2)
 	assert.Nil(t, err)
@@ -1203,7 +1236,11 @@ func TestChain33_GetBlockByHashes(t *testing.T) {
 	api := new(mocks.QueueProtocolAPI)
 	client := newTestChain33(api)
 	var testResult interface{}
+<<<<<<< HEAD
 	in := rpctypes.ReqHashes{[]string{}, false}
+=======
+	in := rpctypes.ReqHashes{Hashes: []string{}}
+>>>>>>> upstream/master
 	in.Hashes = append(in.Hashes, common.ToHex([]byte("h1")))
 	api.On("GetBlockByHashes", mock.Anything).Return(&types.BlockDetails{}, nil)
 	err := client.GetBlockByHashes(in, &testResult)
@@ -1226,7 +1263,11 @@ func TestChain33_CreateTransaction(t *testing.T) {
 
 	in := &rpctypes.CreateTxIn{Execer: "notExist", ActionName: "x", Payload: []byte("x")}
 	err = client.CreateTransaction(in, &result)
+<<<<<<< HEAD
 	assert.Equal(t, types.ErrExecNameNotAllow, err)
+=======
+	assert.Equal(t, types.ErrExecNotFound, err)
+>>>>>>> upstream/master
 
 	in = &rpctypes.CreateTxIn{Execer: types.ExecName("coins"), ActionName: "notExist", Payload: []byte("x")}
 	err = client.CreateTransaction(in, &result)
@@ -1240,3 +1281,23 @@ func TestChain33_CreateTransaction(t *testing.T) {
 	err = client.CreateTransaction(in, &result)
 	assert.Nil(t, err)
 }
+<<<<<<< HEAD
+=======
+
+func TestChain33_GetExecBalance(t *testing.T) {
+	api := new(mocks.QueueProtocolAPI)
+	client := newTestChain33(api)
+	var testResult interface{}
+	in := &types.ReqGetExecBalance{}
+	api.On("StoreList", mock.Anything).Return(&types.StoreListReply{}, nil)
+	err := client.GetExecBalance(in, &testResult)
+	assert.Nil(t, err)
+
+	api = new(mocks.QueueProtocolAPI)
+	client = newTestChain33(api)
+	var testResult2 interface{}
+	api.On("StoreList", mock.Anything).Return(nil, types.ErrInvalidParam)
+	err = client.GetExecBalance(in, &testResult2)
+	assert.NotNil(t, err)
+}
+>>>>>>> upstream/master
